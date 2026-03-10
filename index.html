@@ -1380,6 +1380,10 @@ button {
         justify-content: center;
     }
 
+    .hero-badge {
+        margin: 0 auto 1.5rem;
+    }
+
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -1407,72 +1411,255 @@ button {
     }
 
     .hero {
-        padding: 100px 1.5rem 60px;
+        padding: 100px 1rem 60px;
+        text-align: center;
+    }
+
+    .hero-inner {
+        text-align: center;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        margin: 0 auto 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .hero-description {
+        text-align: center;
+        margin: 0 auto 2rem;
+        font-size: 1rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .hero-buttons .btn-primary,
+    .hero-buttons .btn-secondary {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
     }
 
     .hero-stats {
         flex-direction: column;
         gap: 1.5rem;
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-stat {
+        text-align: center;
+    }
+
+    .hero-visual {
+        display: none; /* Hide tiles on mobile for cleaner look */
     }
 
     .hero-tiles-container {
         max-width: 100%;
-        height: 250px;
+        height: 220px;
     }
 
     .hero-mini-tile {
-        width: 120px;
-        height: 150px;
+        width: 110px;
+        height: 140px;
+    }
+
+    .hero-mini-tile .icon {
+        font-size: 1.5rem;
+    }
+
+    .hero-mini-tile h4 {
+        font-size: 0.75rem;
+    }
+
+    .hero-mini-tile p {
+        font-size: 0.65rem;
     }
 
     .products-grid {
         grid-template-columns: 1fr;
-        max-width: 400px;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+
+    .product-card {
+        padding: 1.25rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
     }
 
     .steps {
         flex-direction: column;
-        gap: 3rem;
+        gap: 2.5rem;
     }
 
     .steps::before {
         display: none;
     }
 
+    .step-number {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tool-card {
+        padding: 1rem;
+    }
+
+    .pricing-box {
+        padding: 2rem 1.5rem;
+    }
+
+    .pricing-amount {
+        font-size: 2.5rem;
+    }
+
+    .pricing-features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .modal {
+        padding: 1.5rem;
+        margin: 1rem;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
     .modal-products {
         grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .modal-product {
+        padding: 1rem;
+    }
+
+    .modal-product .icon {
+        font-size: 1.5rem;
+    }
+
+    .modal-product h4 {
+        font-size: 0.85rem;
     }
 
     .footer-grid {
         grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-brand p {
+        text-align: center;
+    }
+
+    .footer-col {
+        text-align: center;
+    }
+
+    .footer-contact p {
+        justify-content: center;
     }
 
     .footer-bottom {
         flex-direction: column;
         text-align: center;
+        gap: 1rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.75rem;
+    }
+
+    .section-header p {
+        font-size: 1rem;
+        padding: 0 1rem;
     }
 }
 
 @media (max-width: 480px) {
+    .hero {
+        padding: 90px 1rem 50px;
+    }
+
     .hero h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 
-    .hero-buttons {
-        flex-direction: column;
+    .hero-description {
+        font-size: 0.95rem;
     }
 
-    .hero-buttons .btn-primary,
-    .hero-buttons .btn-secondary {
-        width: 100%;
+    .hero-stats {
+        gap: 1.25rem;
+    }
+
+    .hero-stat h3 {
+        font-size: 1.5rem;
+    }
+
+    .hero-stat p {
+        font-size: 0.8rem;
+    }
+
+    .navbar {
+        padding: 0.75rem 1rem;
+    }
+
+    .logo-text {
+        font-size: 1.2rem;
+    }
+
+    .logo-img {
+        height: 32px;
     }
 
     .modal-products {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .pricing-amount {
-        font-size: 2.5rem;
+        font-size: 2rem;
+    }
+
+    .final-cta h2 {
+        font-size: 1.5rem;
+    }
+
+    .final-cta p {
+        font-size: 1rem;
+    }
+
+    .final-cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .final-cta-buttons .btn-primary,
+    .final-cta-buttons .btn-whatsapp {
+        width: 100%;
+        max-width: 280px;
     }
 }
 
@@ -1506,9 +1693,9 @@ button {
     <nav class="navbar" id="navbar">
         <div class="navbar-inner">
             <a href="#" class="logo">
-                <img src="logo.png" alt="Arwa Enterprises" class="logo-img" onerror="this.style.display='none'">
-                <span class="logo-text">ARWA</span>
-            </a>
+    <img src="logo.png" alt="Arwa Enterprises" class="logo-img" onerror="this.style.display='none'">
+    <span class="logo-text">ARWA <span class="logo-sub">Enterprises</span></span>
+</a>
             
             <div class="nav-links">
                 <a href="#products" data-en="Products" data-ar="المنتجات">Products</a>
@@ -1932,9 +2119,9 @@ button {
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="#" class="logo">
-                        <img src="logo.png" alt="Arwa Enterprises" class="logo-img" onerror="this.style.display='none'">
-                        <span class="logo-text">ARWA</span>
-                    </a>
+    <img src="logo.png" alt="Arwa Enterprises" class="logo-img" onerror="this.style.display='none'">
+    <span class="logo-text">ARWA <span class="logo-sub">Enterprises</span></span>
+</a>
                     <p data-en="Simple software solutions for small businesses in Saudi Arabia." data-ar="حلول برمجية بسيطة للمشاريع الصغيرة في السعودية.">Simple software solutions for small businesses in Saudi Arabia.</p>
                 </div>
                 <div class="footer-col">
