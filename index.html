@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arwa Enterprises | Your Business, Digitized</title>
+    <meta name="description" content="Simple software solutions for small businesses. Inventory, Billing, Attendance, and more.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================
+   SECTION: CSS VARIABLES
+   Update colors, fonts, spacing here
+============================================ */
+:root {
+    /* Colors */
+    --bg-dark: #0a0a0f;
+    --bg-dark-2: #12121a;
+    --bg-light: #f8f9fc;
+    --bg-light-2: #ffffff;
+    --text-light: #ffffff;
+    --text-dark: #1a1a2e;
+    --text-muted: #6b7280;
+    --accent-cyan: #00d4ff;
+    --accent-purple: #a855f7;
+    --accent-gradient: linear-gradient(135deg, #00d4ff 0%, #a855f7 100%);
+    --card-dark: rgba(255,255,255,0.05);
+    --card-light: #ffffff;
+    --border-dark: rgba(255,255,255,0.1);
+    --border-light: rgba(0,0,0,0.08);
+    
+    /* Typography */
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-arabic: 'Cairo', sans-serif;
+    
+    /* Spacing */
+    --section-padding: 100px;
+    --container-max: 1400px;
+}
+
+[dir="rtl"] {
+    --font-display: 'Cairo', sans-serif;
+    --font-body: 'Cairo', sans-serif;
+}
+
+/* ============================================
+   SECTION: BASE STYLES
+   Reset, typography, common elements
+============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background: var(--bg-dark);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   SECTION: BUTTONS
+   All button styles
+============================================ */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.8rem 1.8rem;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.8rem 1.8rem;
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--border-dark);
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+}
+/* Button variant for light backgrounds */
+.btn-secondary-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.8rem 1.8rem;
+    background: transparent;
+    color: var(--text-dark);
+    border: 2px solid var(--text-dark);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary-dark:hover {
+    background: var(--text-dark);
+    color: var(--text-light);
+}
+.btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.8rem 2rem;
+    background: #25D366;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-whatsapp:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+}
+
+/* ============================================
+   SECTION: NAVBAR STYLES
+============================================ */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(10, 10, 15, 0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-dark);
+    padding: 1rem 2rem;
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(10, 10, 15, 0.98);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    height: 40px;
+    width: auto;
+}
+
+.logo-text {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+    color: var(--accent-cyan);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.lang-toggle {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.lang-btn {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border-dark);
+    background: transparent;
+    color: var(--text-light);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.lang-btn.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    padding: 0.5rem;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--bg-dark-2);
+    border-bottom: 1px solid var(--border-dark);
+    padding: 1.5rem;
+    z-index: 999;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+.mobile-menu a {
+    display: block;
+    color: var(--text-light);
+    padding: 1rem 0;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--border-dark);
+}
+
+.mobile-menu a:last-child {
+    border-bottom: none;
+}
+
+/* ============================================
+   SECTION: HERO STYLES
+============================================ */
+.hero {
+    min-height: 100vh;
+    background: var(--bg-dark);
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 120px 2rem 80px;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(ellipse at 20% 20%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.hero-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+.hero-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+.hero-content {
+    animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.5rem 1rem;
+    background: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 50px;
+    color: var(--accent-cyan);
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--text-light);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.hero h1 span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 500px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-dark);
+}
+
+.hero-stat h3 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-stat p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Hero Mini Tiles (Horizontal Scroll in Dashboard Area) */
+.hero-visual {
+    position: relative;
+    animation: fadeInUp 1s ease 0.3s both;
+}
+
+.hero-tiles-container {
+    width: 100%;
+    max-width: 550px;
+    height: 320px;
+    background: var(--bg-dark-2);
+    border-radius: 20px;
+    border: 1px solid var(--border-dark);
+    padding: 1.5rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.hero-tiles-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: var(--bg-dark);
+    border-bottom: 1px solid var(--border-dark);
+    border-radius: 20px 20px 0 0;
+}
+
+.hero-tiles-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+}
+
+.hero-tiles-header span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.hero-tiles-header span:nth-child(1) { background: #ff5f56; }
+.hero-tiles-header span:nth-child(2) { background: #ffbd2e; }
+.hero-tiles-header span:nth-child(3) { background: #27ca40; }
+
+.hero-tiles-track {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-top: 1rem;
+}
+
+.hero-tiles-track::-webkit-scrollbar {
+    display: none;
+}
+
+.hero-mini-tile {
+    flex-shrink: 0;
+    width: 140px;
+    height: 180px;
+    background: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.hero-mini-tile:hover {
+    border-color: var(--accent-cyan);
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+}
+
+.hero-mini-tile .icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.hero-mini-tile h4 {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 0.25rem;
+}
+
+.hero-mini-tile p {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   SECTION: PRODUCTS GRID (3x3)
+============================================ */
+.products {
+    background: var(--bg-dark-2);
+    padding: var(--section-padding) 2rem;
+    position: relative;
+}
+
+.products::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.products .section-header h2 {
+    color: var(--text-light);
+}
+
+.products-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.product-card {
+    background: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--accent-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.product-card:hover {
+    transform: scale(1.08) translateY(-10px);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 25px 50px rgba(0, 212, 255, 0.3);
+}
+
+.product-card:hover::before {
+    opacity: 0.1;
+}
+
+.product-card-content {
+    position: relative;
+    z-index: 1;
+}
+
+.product-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.product-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.product-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* ============================================
+   SECTION: FEATURES STYLES
+============================================ */
+.features {
+    background: var(--bg-light);
+    padding: var(--section-padding) 2rem;
+}
+
+.features .section-header h2 {
+    color: var(--text-dark);
+}
+
+.features-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background: var(--card-light);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--accent-gradient);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.feature-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   SECTION: HOW IT WORKS STYLES
+============================================ */
+.how-it-works {
+    background: var(--bg-light-2);
+    padding: var(--section-padding) 2rem;
+}
+
+.how-it-works .section-header h2 {
+    color: var(--text-dark);
+}
+
+.steps {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+}
+
+.steps::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 15%;
+    right: 15%;
+    height: 3px;
+    background: var(--accent-gradient);
+    z-index: 0;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    padding: 0 1rem;
+}
+
+.step-number {
+    width: 80px;
+    height: 80px;
+    background: var(--accent-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+}
+
+.step h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.step p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   SECTION: FREE TOOLS STYLES
+============================================ */
+.free-tools {
+    background: var(--bg-dark);
+    padding: var(--section-padding) 2rem;
+    position: relative;
+}
+
+.free-tools::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.free-tools .section-header h2 {
+    color: var(--text-light);
+}
+
+.tools-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.tool-card {
+    background: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tool-card:hover {
+    border-color: var(--accent-cyan);
+    transform: translateX(10px);
+}
+
+[dir="rtl"] .tool-card:hover {
+    transform: translateX(-10px);
+}
+
+.tool-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--accent-gradient);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.tool-info h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 0.25rem;
+}
+
+.tool-info p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.tool-badge {
+    margin-left: auto;
+    padding: 0.3rem 0.8rem;
+    background: rgba(0, 212, 255, 0.2);
+    color: var(--accent-cyan);
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+[dir="rtl"] .tool-badge {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* ============================================
+   SECTION: PRICING STYLES (Simplified)
+============================================ */
+.pricing {
+    background: var(--bg-light);
+    padding: var(--section-padding) 2rem;
+}
+
+.pricing .section-header h2 {
+    color: var(--text-dark);
+}
+
+.pricing-simple {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.pricing-box {
+    background: var(--card-light);
+    border: 2px solid var(--border-light);
+    border-radius: 24px;
+    padding: 3rem;
+    margin-bottom: 2rem;
+}
+
+.pricing-box h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.pricing-amount {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.pricing-amount span {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    -webkit-text-fill-color: var(--text-muted);
+}
+
+.pricing-note {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.pricing-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.pricing-feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.5rem 1rem;
+    background: var(--bg-light);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+
+.pricing-feature::before {
+    content: '✓';
+    color: var(--accent-cyan);
+    font-weight: bold;
+}
+
+.pricing-custom {
+    background: var(--bg-light-2);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.pricing-custom h4 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.pricing-custom p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   SECTION: FAQ STYLES
+============================================ */
+.faq {
+    background: var(--bg-light-2);
+    padding: var(--section-padding) 2rem;
+}
+
+.faq .section-header h2 {
+    color: var(--text-dark);
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: var(--card-light);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+[dir="rtl"] .faq-question {
+    text-align: right;
+}
+
+.faq-question:hover {
+    color: var(--accent-purple);
+}
+
+.faq-question svg {
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.faq-item.active .faq-question svg {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+}
+
+.faq-answer p {
+    padding: 0 1.5rem 1.25rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   SECTION: FINAL CTA STYLES
+============================================ */
+.final-cta {
+    background: var(--bg-dark);
+    padding: var(--section-padding) 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.final-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(ellipse at 30% 50%, rgba(0, 212, 255, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 50%, rgba(168, 85, 247, 0.2) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.final-cta-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.final-cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+.final-cta p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.final-cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   SECTION: FOOTER STYLES
+============================================ */
+.footer {
+    background: var(--bg-dark-2);
+    padding: 60px 2rem 30px;
+    border-top: 1px solid var(--border-dark);
+}
+
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-brand p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    max-width: 300px;
+    margin-top: 1rem;
+}
+
+.footer-col h4 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+.footer-col a {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding: 0.3rem 0;
+    transition: all 0.3s ease;
+}
+
+.footer-col a:hover {
+    color: var(--accent-cyan);
+}
+
+.footer-contact p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-bottom p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    background: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    transform: translateY(-3px);
+}
+
+/* ============================================
+   SECTION: PRODUCT SELECTION MODAL
+============================================ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: var(--bg-dark-2);
+    border: 1px solid var(--border-dark);
+    border-radius: 24px;
+    padding: 2.5rem;
+    max-width: 700px;
+    width: 100%;
+    position: relative;
+    animation: modalIn 0.3s ease;
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+[dir="rtl"] .modal-close {
+    right: auto;
+    left: 1.5rem;
+}
+
+.modal-close:hover {
+    color: var(--text-light);
+}
+
+.modal h2 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.modal > p {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.modal-products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.modal-product {
+    background: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-product:hover {
+    border-color: var(--accent-cyan);
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+}
+
+.modal-product .icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.modal-product h4 {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+/* ============================================
+   SECTION: CONTACT FORM MODAL
+============================================ */
+.contact-form {
+    max-width: 500px;
+}
+
+.contact-form h2 {
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    background: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 8px;
+    color: var(--text-light);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group select option {
+    background: var(--bg-dark-2);
+}
+
+/* ============================================
+   SECTION: RESPONSIVE STYLES
+============================================ */
+@media (max-width: 1024px) {
+    .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-content {
+        order: 1;
+    }
+
+    .hero-visual {
+        order: 2;
+        display: flex;
+        justify-content: center;
+    }
+
+    .hero-description {
+        margin: 0 auto 2rem;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --section-padding: 60px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .nav-right .btn-primary {
+        display: none;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .hero {
+        padding: 100px 1.5rem 60px;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .hero-tiles-container {
+        max-width: 100%;
+        height: 250px;
+    }
+
+    .hero-mini-tile {
+        width: 120px;
+        height: 150px;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+
+    .steps {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .steps::before {
+        display: none;
+    }
+
+    .modal-products {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .hero-buttons .btn-primary,
+    .hero-buttons .btn-secondary {
+        width: 100%;
+    }
+
+    .modal-products {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .pricing-amount {
+        font-size: 2.5rem;
+    }
+}
+
+/* ============================================
+   SECTION: RTL SPECIFIC STYLES
+============================================ */
+[dir="rtl"] .hero-stats {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hero-tiles-track {
+    direction: rtl;
+}
+
+[dir="rtl"] .steps {
+    flex-direction: row-reverse;
+}
+
+@media (max-width: 768px) {
+    [dir="rtl"] .steps {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+    <!-- ============================================
+         SECTION: NAVBAR HTML
+    ============================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <a href="#" class="logo">
+                <img src="logo.png" alt="Arwa Enterprises" class="logo-img" onerror="this.style.display='none'">
+                <span class="logo-text">ARWA</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="#products" data-en="Products" data-ar="المنتجات">Products</a>
+                <a href="#features" data-en="Features" data-ar="المميزات">Features</a>
+                <a href="#free-tools" data-en="Free Tools" data-ar="أدوات مجانية">Free Tools</a>
+                <a href="#pricing" data-en="Pricing" data-ar="الأسعار">Pricing</a>
+                <a href="#faq" data-en="FAQ" data-ar="الأسئلة">FAQ</a>
+            </div>
+
+            <div class="nav-right">
+                <div class="lang-toggle">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                </div>
+                <button class="btn-primary" id="navTrialBtn" data-en="Start Free Trial" data-ar="ابدأ مجاناً">Start Free Trial</button>
+            </div>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#products" data-en="Products" data-ar="المنتجات">Products</a>
+        <a href="#features" data-en="Features" data-ar="المميزات">Features</a>
+        <a href="#free-tools" data-en="Free Tools" data-ar="أدوات مجانية">Free Tools</a>
+        <a href="#pricing" data-en="Pricing" data-ar="الأسعار">Pricing</a>
+        <a href="#faq" data-en="FAQ" data-ar="الأسئلة">FAQ</a>
+    </div>
+
+    <!-- ============================================
+         SECTION: HERO HTML
+    ============================================ -->
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>✨</span>
+                    <span data-en="Simple software for small businesses" data-ar="برامج بسيطة للمشاريع الصغيرة">Simple software for small businesses</span>
+                </div>
+                <h1 data-en="Your Business, <span>Digitized.</span>" data-ar="أعمالك، <span>رقمية.</span>">
+                    Your Business, <span>Digitized.</span>
+                </h1>
+                <p class="hero-description" data-en="Inventory. Billing. Attendance. Property. All in one place. Run your shop from your phone." data-ar="المخزون. الفواتير. الحضور. العقارات. كل شيء في مكان واحد. أدر متجرك من هاتفك.">
+                    Inventory. Billing. Attendance. Property. All in one place. Run your shop from your phone.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn-primary open-trial-modal" data-en="Start 14-Day Free Trial" data-ar="ابدأ 14 يوم مجاناً">Start 14-Day Free Trial</button>
+                    <a href="#free-tools" class="btn-secondary" data-en="Try Free Tools" data-ar="جرب الأدوات المجانية">Try Free Tools</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <h3>50+</h3>
+                        <p data-en="Businesses Served" data-ar="عميل نخدمهم">Businesses Served</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>6+</h3>
+                        <p data-en="Apps Available" data-ar="تطبيقات متاحة">Apps Available</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>24/7</h3>
+                        <p data-en="WhatsApp Support" data-ar="دعم واتساب">WhatsApp Support</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-tiles-container">
+                    <div class="hero-tiles-header">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="hero-tiles-track" id="heroTilesTrack">
+                        <div class="hero-mini-tile">
+                            <div class="icon">💊</div>
+                            <h4 data-en="Pharmacy" data-ar="الصيدلية">Pharmacy</h4>
+                            <p data-en="Medicine tracking" data-ar="تتبع الأدوية">Medicine tracking</p>
+                        </div>
+                        <div class="hero-mini-tile">
+                            <div class="icon">📦</div>
+                            <h4 data-en="Inventory" data-ar="المخزون">Inventory</h4>
+                            <p data-en="Stock management" data-ar="إدارة المخزون">Stock management</p>
+                        </div>
+                        <div class="hero-mini-tile">
+                            <div class="icon">👥</div>
+                            <h4 data-en="Attendance" data-ar="الحضور">Attendance</h4>
+                            <p data-en="Staff tracking" data-ar="تتبع الموظفين">Staff tracking</p>
+                        </div>
+                        <div class="hero-mini-tile">
+                            <div class="icon">🏠</div>
+                            <h4 data-en="Property" data-ar="العقارات">Property</h4>
+                            <p data-en="Rent management" data-ar="إدارة الإيجار">Rent management</p>
+                        </div>
+                        <div class="hero-mini-tile">
+                            <div class="icon">🧾</div>
+                            <h4 data-en="Billing" data-ar="الفواتير">Billing</h4>
+                            <p data-en="POS system" data-ar="نقاط البيع">POS system</p>
+                        </div>
+                        <div class="hero-mini-tile">
+                            <div class="icon">📊</div>
+                            <h4 data-en="Sales" data-ar="المبيعات">Sales</h4>
+                            <p data-en="Daily tracking" data-ar="تتبع يومي">Daily tracking</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION: PRODUCTS HTML (3x3 Grid)
+    ============================================ -->
+    <section class="products" id="products">
+        <div class="section-header">
+            <h2 data-en="Our Products" data-ar="منتجاتنا">Our Products</h2>
+            <p data-en="Everything you need to run your business digitally" data-ar="كل ما تحتاجه لإدارة أعمالك رقمياً">Everything you need to run your business digitally</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-card-content">
+                    <div class="icon">💊</div>
+                    <h3 data-en="Pharmacy Management" data-ar="إدارة الصيدلية">Pharmacy Management</h3>
+                    <p data-en="Track medicines, expiry dates, suppliers, and sales" data-ar="تتبع الأدوية، تواريخ الانتهاء، الموردين">Track medicines, expiry dates, suppliers, and sales</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-content">
+                    <div class="icon">📦</div>
+                    <h3 data-en="Inventory Management" data-ar="إدارة المخزون">Inventory Management</h3>
+                    <p data-en="Real-time stock tracking with low-stock alerts" data-ar="تتبع المخزون لحظياً مع تنبيهات النقص">Real-time stock tracking with low-stock alerts</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-content">
+                    <div class="icon">👥</div>
+                    <h3 data-en="Attendance & Payroll" data-ar="الحضور والرواتب">Attendance & Payroll</h3>
+                    <p data-en="Biometric attendance with auto salary calculation" data-ar="حضور بالبصمة مع حساب الراتب تلقائياً">Biometric attendance with auto salary calculation</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-content">
+                    <div class="icon">🏠</div>
+                    <h3 data-en="Property Management" data-ar="إدارة العقارات">Property Management</h3>
+                    <p data-en="Manage properties, tenants, and rent reminders" data-ar="إدارة العقارات، المستأجرين، وتذكيرات الإيجار">Manage properties, tenants, and rent reminders</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-content">
+                    <div class="icon">🧾</div>
+                    <h3 data-en="Billing / POS" data-ar="الفواتير / نقاط البيع">Billing / POS</h3>
+                    <p data-en="Fast billing with barcode and VAT support" data-ar="فوترة سريعة مع دعم الباركود والضريبة">Fast billing with barcode and VAT support</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-content">
+                    <div class="icon">📊</div>
+                    <h3 data-en="Daily Sales Tracker" data-ar="متتبع المبيعات">Daily Sales Tracker</h3>
+                    <p data-en="Monitor all your sales from your phone" data-ar="تابع كل مبيعاتك من هاتفك">Monitor all your sales from your phone</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-content">
+                    <div class="icon">👤</div>
+                    <h3 data-en="Customer Database" data-ar="قاعدة بيانات العملاء">Customer Database</h3>
+                    <p data-en="Store customer details and purchase history" data-ar="احفظ بيانات العملاء وسجل المشتريات">Store customer details and purchase history</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-content">
+                    <div class="icon">💳</div>
+                    <h3 data-en="Credit Tracker" data-ar="متتبع الآجل">Credit Tracker</h3>
+                    <p data-en="Track credit sales and pending payments" data-ar="تتبع مبيعات الآجل والمدفوعات المعلقة">Track credit sales and pending payments</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-content">
+                    <div class="icon">📅</div>
+                    <h3 data-en="Expiry Alert System" data-ar="نظام تنبيه الانتهاء">Expiry Alert System</h3>
+                    <p data-en="Auto alerts before products expire" data-ar="تنبيهات تلقائية قبل انتهاء المنتجات">Auto alerts before products expire</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION: FEATURES HTML
+    ============================================ -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2 data-en="Why Choose Us?" data-ar="لماذا تختارنا؟">Why Choose Us?</h2>
+            <p data-en="Simple, affordable, and built for small businesses" data-ar="بسيط، بأسعار معقولة، ومصمم للمشاريع الصغيرة">Simple, affordable, and built for small businesses</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 data-en="Works on Phone" data-ar="يعمل على الجوال">Works on Phone</h3>
+                <p data-en="Run your entire business from your mobile. No computer needed." data-ar="أدر أعمالك كلها من جوالك. لا تحتاج كمبيوتر.">Run your entire business from your mobile. No computer needed.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3 data-en="Works Offline" data-ar="يعمل بدون إنترنت">Works Offline</h3>
+                <p data-en="No internet? No problem. Sync when you're back online." data-ar="بدون إنترنت؟ لا مشكلة. مزامنة تلقائية عند الاتصال.">No internet? No problem. Sync when you're back online.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🇸🇦</div>
+                <h3 data-en="Arabic + English" data-ar="عربي + إنجليزي">Arabic + English</h3>
+                <p data-en="Full bilingual support. Use in your preferred language." data-ar="دعم كامل للغتين. استخدم بلغتك المفضلة.">Full bilingual support. Use in your preferred language.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3 data-en="Affordable Pricing" data-ar="أسعار معقولة">Affordable Pricing</h3>
+                <p data-en="Starting at just 500 SAR/year. Pay only for what you need." data-ar="تبدأ من 500 ريال سنوياً فقط. ادفع فقط لما تحتاجه.">Starting at just 500 SAR/year. Pay only for what you need.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 data-en="Your Data is Safe" data-ar="بياناتك آمنة">Your Data is Safe</h3>
+                <p data-en="Secure cloud storage. Your data belongs to you." data-ar="تخزين سحابي آمن. بياناتك ملك لك.">Secure cloud storage. Your data belongs to you.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3 data-en="WhatsApp Support" data-ar="دعم واتساب">WhatsApp Support</h3>
+                <p data-en="Need help? Just WhatsApp us. We speak your language." data-ar="تحتاج مساعدة؟ راسلنا واتساب. نتكلم لغتك.">Need help? Just WhatsApp us. We speak your language.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION: HOW IT WORKS HTML
+    ============================================ -->
+    <section class="how-it-works">
+        <div class="section-header">
+            <h2 data-en="How It Works" data-ar="كيف يعمل">How It Works</h2>
+        </div>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3 data-en="Sign Up" data-ar="سجل">Sign Up</h3>
+                <p data-en="Create your account in 2 minutes. No credit card needed." data-ar="أنشئ حسابك في دقيقتين. بدون بطاقة ائتمان.">Create your account in 2 minutes. No credit card needed.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3 data-en="Choose Your App" data-ar="اختر تطبيقك">Choose Your App</h3>
+                <p data-en="Pick the app that fits your business. Try free for 14 days." data-ar="اختر التطبيق المناسب لعملك. جربه 14 يوم مجاناً.">Pick the app that fits your business. Try free for 14 days.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3 data-en="Run Your Business" data-ar="أدر أعمالك">Run Your Business</h3>
+                <p data-en="That's it! Start billing, tracking, and growing." data-ar="هذا كل شيء! ابدأ الفوترة والتتبع والنمو.">That's it! Start billing, tracking, and growing.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION: FREE TOOLS HTML
+    ============================================ -->
+    <section class="free-tools" id="free-tools">
+        <div class="section-header">
+            <h2 data-en="Free Tools" data-ar="أدوات مجانية">Free Tools</h2>
+            <p data-en="Use these tools FREE forever. Just verify your email." data-ar="استخدم هذه الأدوات مجاناً للأبد. فقط أكد بريدك.">Use these tools FREE forever. Just verify your email.</p>
+        </div>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <div class="tool-icon">🧾</div>
+                <div class="tool-info">
+                    <h3 data-en="Invoice Generator" data-ar="مولد الفواتير">Invoice Generator</h3>
+                    <p data-en="VAT-ready professional invoices" data-ar="فواتير احترافية جاهزة للضريبة">VAT-ready professional invoices</p>
+                </div>
+                <span class="tool-badge" data-en="FREE" data-ar="مجاني">FREE</span>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">📱</div>
+                <div class="tool-info">
+                    <h3 data-en="QR Code Generator" data-ar="مولد رمز QR">QR Code Generator</h3>
+                    <p data-en="For menus, links, WhatsApp" data-ar="للقوائم، الروابط، واتساب">For menus, links, WhatsApp</p>
+                </div>
+                <span class="tool-badge" data-en="FREE" data-ar="مجاني">FREE</span>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">🔢</div>
+                <div class="tool-info">
+                    <h3 data-en="VAT Calculator" data-ar="حاسبة الضريبة">VAT Calculator</h3>
+                    <p data-en="Quick 15% VAT calculations" data-ar="حسابات ضريبة 15% سريعة">Quick 15% VAT calculations</p>
+                </div>
+                <span class="tool-badge" data-en="FREE" data-ar="مجاني">FREE</span>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">🏠</div>
+                <div class="tool-info">
+                    <h3 data-en="Rent Calculator" data-ar="حاسبة الإيجار">Rent Calculator</h3>
+                    <p data-en="Monthly/yearly rent breakdown" data-ar="تفصيل الإيجار شهري/سنوي">Monthly/yearly rent breakdown</p>
+                </div>
+                <span class="tool-badge" data-en="FREE" data-ar="مجاني">FREE</span>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">💰</div>
+                <div class="tool-info">
+                    <h3 data-en="Gold Price Calculator" data-ar="حاسبة سعر الذهب">Gold Price Calculator</h3>
+                    <p data-en="Live gold rates for expats" data-ar="أسعار الذهب الحية للمغتربين">Live gold rates for expats</p>
+                </div>
+                <span class="tool-badge" data-en="FREE" data-ar="مجاني">FREE</span>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">📅</div>
+                <div class="tool-info">
+                    <h3 data-en="Expiry Tracker" data-ar="متتبع الانتهاء">Expiry Tracker</h3>
+                    <p data-en="Track product expiry dates" data-ar="تتبع تواريخ انتهاء المنتجات">Track product expiry dates</p>
+                </div>
+                <span class="tool-badge" data-en="FREE" data-ar="مجاني">FREE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION: PRICING HTML (Simplified)
+    ============================================ -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <h2 data-en="Simple, Transparent Pricing" data-ar="أسعار بسيطة وشفافة">Simple, Transparent Pricing</h2>
+            <p data-en="Try any app free for 14 days. Pay only for what you need." data-ar="جرب أي تطبيق مجاناً لمدة 14 يوم. ادفع فقط لما تحتاجه.">Try any app free for 14 days. Pay only for what you need.</p>
+        </div>
+        <div class="pricing-simple">
+            <div class="pricing-box">
+                <h3 data-en="Starting From" data-ar="تبدأ من">Starting From</h3>
+                <div class="pricing-amount">500 <span data-en="SAR/year" data-ar="ريال/سنة">SAR/year</span></div>
+                <p class="pricing-note" data-en="per app • No bundles • Pay for what you use" data-ar="لكل تطبيق • بدون باقات • ادفع فقط لما تستخدمه">per app • No bundles • Pay for what you use</p>
+                <div class="pricing-features">
+                    <span class="pricing-feature" data-en="14-Day Free Trial" data-ar="14 يوم مجاناً">14-Day Free Trial</span>
+                    <span class="pricing-feature" data-en="No Credit Card Required" data-ar="بدون بطاقة ائتمان">No Credit Card Required</span>
+                    <span class="pricing-feature" data-en="WhatsApp Support" data-ar="دعم واتساب">WhatsApp Support</span>
+                    <span class="pricing-feature" data-en="Cloud Backup" data-ar="نسخ احتياطي سحابي">Cloud Backup</span>
+                </div>
+                <button class="btn-primary open-trial-modal" data-en="Start Free Trial" data-ar="ابدأ مجاناً">Start Free Trial</button>
+            </div>
+            <div class="pricing-custom">
+                <h4 data-en="Need a Custom Solution?" data-ar="تحتاج حل مخصص؟">Need a Custom Solution?</h4>
+                <p data-en="Tell us about your business and we'll create a tailored package for you." data-ar="أخبرنا عن عملك وسنقوم بإنشاء حزمة مخصصة لك.">Tell us about your business and we'll create a tailored package for you.</p>
+                <button class="btn-secondary-dark" id="openContactForm" data-en="Contact Us" data-ar="تواصل معنا">Contact Us</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION: FAQ HTML
+    ============================================ -->
+    <section class="faq" id="faq">
+        <div class="section-header">
+            <h2 data-en="Frequently Asked Questions" data-ar="الأسئلة الشائعة">Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-en="Is there really a free trial?" data-ar="هل هناك فترة تجريبية مجانية فعلاً؟">Is there really a free trial?</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Yes! 14 days completely free. No credit card required. Just sign up and start using." data-ar="نعم! 14 يوم مجاناً بالكامل. بدون بطاقة ائتمان. فقط سجل وابدأ الاستخدام.">Yes! 14 days completely free. No credit card required. Just sign up and start using.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-en="Can I use it on my phone?" data-ar="هل يمكنني استخدامه على جوالي؟">Can I use it on my phone?</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Absolutely! Our apps are mobile-first. Works on any phone browser. You can even install it like an app." data-ar="بالتأكيد! تطبيقاتنا مصممة للجوال أولاً. تعمل على أي متصفح جوال. يمكنك تثبيتها كتطبيق.">Absolutely! Our apps are mobile-first. Works on any phone browser. You can even install it like an app.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-en="Do you support Arabic?" data-ar="هل تدعمون العربية؟">Do you support Arabic?</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Yes! Full Arabic support. Switch between Arabic and English anytime." data-ar="نعم! دعم عربي كامل. بدّل بين العربية والإنجليزية في أي وقت.">Yes! Full Arabic support. Switch between Arabic and English anytime.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-en="What if I need help setting up?" data-ar="ماذا لو احتجت مساعدة في الإعداد؟">What if I need help setting up?</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Just WhatsApp us! We offer setup assistance and can even enter your data for you (small fee applies)." data-ar="فقط راسلنا واتساب! نقدم مساعدة الإعداد ويمكننا إدخال بياناتك (رسوم بسيطة).">Just WhatsApp us! We offer setup assistance and can even enter your data for you (small fee applies).</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-en="Is my data safe?" data-ar="هل بياناتي آمنة؟">Is my data safe?</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="100% safe. Your data is stored securely in the cloud with automatic backups. You own your data completely." data-ar="آمنة 100%. بياناتك مخزنة بأمان في السحابة مع نسخ احتياطي تلقائي. أنت تملك بياناتك بالكامل.">100% safe. Your data is stored securely in the cloud with automatic backups. You own your data completely.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION: FINAL CTA HTML
+    ============================================ -->
+    <section class="final-cta">
+        <div class="final-cta-inner">
+            <h2 data-en="Ready to Digitize Your Business?" data-ar="مستعد لرقمنة أعمالك؟">Ready to Digitize Your Business?</h2>
+            <p data-en="Start your 14-day free trial today. No credit card required." data-ar="ابدأ فترتك التجريبية 14 يوم اليوم. بدون بطاقة ائتمان.">Start your 14-day free trial today. No credit card required.</p>
+            <div class="final-cta-buttons">
+                <button class="btn-primary open-trial-modal" data-en="Start Free Trial" data-ar="ابدأ مجاناً">Start Free Trial</button>
+                <a href="https://wa.me/917021229209?text=Hi%20Mohammad%2C%20I%27m%20interested%20in%20Arwa%20Enterprises%20software." class="btn-whatsapp" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    <span data-en="WhatsApp Us" data-ar="راسلنا واتساب">WhatsApp Us</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION: FOOTER HTML
+    ============================================ -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <img src="logo.png" alt="Arwa Enterprises" class="logo-img" onerror="this.style.display='none'">
+                        <span class="logo-text">ARWA</span>
+                    </a>
+                    <p data-en="Simple software solutions for small businesses in Saudi Arabia." data-ar="حلول برمجية بسيطة للمشاريع الصغيرة في السعودية.">Simple software solutions for small businesses in Saudi Arabia.</p>
+                </div>
+                <div class="footer-col">
+                    <h4 data-en="Products" data-ar="المنتجات">Products</h4>
+                    <a href="#products" data-en="Pharmacy Management" data-ar="إدارة الصيدلية">Pharmacy Management</a>
+                    <a href="#products" data-en="Inventory Management" data-ar="إدارة المخزون">Inventory Management</a>
+                    <a href="#products" data-en="Attendance System" data-ar="نظام الحضور">Attendance System</a>
+                    <a href="#products" data-en="Property Management" data-ar="إدارة العقارات">Property Management</a>
+                </div>
+                <div class="footer-col">
+                    <h4 data-en="Free Tools" data-ar="أدوات مجانية">Free Tools</h4>
+                    <a href="#free-tools" data-en="Invoice Generator" data-ar="مولد الفواتير">Invoice Generator</a>
+                    <a href="#free-tools" data-en="QR Code Generator" data-ar="مولد QR">QR Code Generator</a>
+                    <a href="#free-tools" data-en="VAT Calculator" data-ar="حاسبة الضريبة">VAT Calculator</a>
+                    <a href="https://goldforexpats.netlify.app/" target="_blank" data-en="Gold Calculator" data-ar="حاسبة الذهب">Gold Calculator</a>
+                </div>
+                <div class="footer-col footer-contact">
+                    <h4 data-en="Contact" data-ar="تواصل">Contact</h4>
+                    <p>📱 +91 7021229209</p>
+                    <p>📧 connect.arwaenterprises@gmail.com</p>
+                    <p>📍 Riyadh, Saudi Arabia</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Arwa Enterprises. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="https://wa.me/917021229209" target="_blank" title="WhatsApp">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </a>
+                    <a href="mailto:connect.arwaenterprises@gmail.com" title="Email">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         SECTION: PRODUCT SELECTION MODAL HTML
+    ============================================ -->
+    <div class="modal-overlay" id="trialModal">
+        <div class="modal">
+            <button class="modal-close" id="closeTrialModal">✕</button>
+            <h2 data-en="Choose Your App" data-ar="اختر تطبيقك">Choose Your App</h2>
+            <p data-en="Select an app to start your 14-day free trial" data-ar="اختر تطبيق لبدء فترة الـ 14 يوم المجانية">Select an app to start your 14-day free trial</p>
+            <div class="modal-products">
+                <div class="modal-product">
+                    <div class="icon">💊</div>
+                    <h4 data-en="Pharmacy" data-ar="الصيدلية">Pharmacy</h4>
+                </div>
+                <div class="modal-product">
+                    <div class="icon">📦</div>
+                    <h4 data-en="Inventory" data-ar="المخزون">Inventory</h4>
+                </div>
+                <div class="modal-product">
+                    <div class="icon">👥</div>
+                    <h4 data-en="Attendance" data-ar="الحضور">Attendance</h4>
+                </div>
+                <div class="modal-product">
+                    <div class="icon">🏠</div>
+                    <h4 data-en="Property" data-ar="العقارات">Property</h4>
+                </div>
+                <div class="modal-product">
+                    <div class="icon">🧾</div>
+                    <h4 data-en="Billing" data-ar="الفواتير">Billing</h4>
+                </div>
+                <div class="modal-product">
+                    <div class="icon">📊</div>
+                    <h4 data-en="Sales" data-ar="المبيعات">Sales</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SECTION: CONTACT FORM MODAL HTML
+    ============================================ -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal contact-form">
+            <button class="modal-close" id="closeContactModal">✕</button>
+            <h2 data-en="Contact Us" data-ar="تواصل معنا">Contact Us</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label data-en="Your Name" data-ar="اسمك">Your Name</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label data-en="Phone / WhatsApp" data-ar="الجوال / واتساب">Phone / WhatsApp</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label data-en="Business Type" data-ar="نوع العمل">Business Type</label>
+                    <select name="business_type">
+                        <option value="" data-en="Select..." data-ar="اختر...">Select...</option>
+                        <option value="pharmacy" data-en="Pharmacy" data-ar="صيدلية">Pharmacy</option>
+                        <option value="grocery" data-en="Grocery Store" data-ar="بقالة">Grocery Store</option>
+                        <option value="restaurant" data-en="Restaurant/Cafe" data-ar="مطعم/كافيه">Restaurant/Cafe</option>
+                        <option value="retail" data-en="Retail Shop" data-ar="متجر تجزئة">Retail Shop</option>
+                        <option value="property" data-en="Property/Real Estate" data-ar="عقارات">Property/Real Estate</option>
+                        <option value="other" data-en="Other" data-ar="أخرى">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-en="Your Requirements" data-ar="متطلباتك">Your Requirements</label>
+                    <textarea name="requirements" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;" data-en="Send Message" data-ar="إرسال">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+<!-- ============================================
+     SECTION: JAVASCRIPT
+============================================ -->
+<script>
+/* ============================================
+   JS: LANGUAGE TOGGLE
+============================================ */
+const langBtns = document.querySelectorAll('.lang-btn');
+let currentLang = 'en';
+
+function switchLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+    
+    langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    
+    document.querySelectorAll('[data-en]').forEach(el => {
+        const text = el.dataset[lang];
+        if (text) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = text;
+            } else {
+                el.innerHTML = text;
+            }
+        }
+    });
+}
+
+langBtns.forEach(btn => {
+    btn.addEventListener('click', () => switchLanguage(btn.dataset.lang));
+});
+
+/* ============================================
+   JS: MOBILE MENU
+============================================ */
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+
+mobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('active');
+    mobileMenuBtn.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+});
+
+// Close menu when clicking a link
+mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        mobileMenuBtn.textContent = '☰';
+    });
+});
+
+/* ============================================
+   JS: NAVBAR SCROLL EFFECT
+============================================ */
+const navbar = document.getElementById('navbar');
+
+window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+/* ============================================
+   JS: HERO TILES SCROLL (Mouse Position + Touch)
+============================================ */
+const heroTilesTrack = document.getElementById('heroTilesTrack');
+const heroTilesContainer = document.querySelector('.hero-tiles-container');
+
+// Mouse position scroll (moves as mouse moves - no clicking needed)
+heroTilesContainer.addEventListener('mousemove', (e) => {
+    const rect = heroTilesContainer.getBoundingClientRect();
+    const x = e.clientX - rect.left; // Mouse X position within container
+    const percentage = x / rect.width; // 0 to 1 (left to right)
+    
+    const maxScroll = heroTilesTrack.scrollWidth - heroTilesTrack.clientWidth;
+    heroTilesTrack.scrollLeft = percentage * maxScroll;
+});
+
+// Touch swipe support for mobile
+let touchStartX = 0;
+let touchScrollLeft = 0;
+
+heroTilesTrack.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].pageX;
+    touchScrollLeft = heroTilesTrack.scrollLeft;
+}, { passive: true });
+
+heroTilesTrack.addEventListener('touchmove', (e) => {
+    const x = e.touches[0].pageX;
+    const walk = (touchStartX - x) * 1.5;
+    heroTilesTrack.scrollLeft = touchScrollLeft + walk;
+}, { passive: true });
+
+/* ============================================
+   JS: PRODUCT CARDS HOVER EFFECT (Desktop Only)
+============================================ */
+const productCards = document.querySelectorAll('.product-card');
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+if (!isTouchDevice) {
+    productCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'scale(1.08) translateY(-10px)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'scale(1) translateY(0)';
+        });
+    });
+}
+
+/* ============================================
+   JS: FAQ ACCORDION
+============================================ */
+const faqItems = document.querySelectorAll('.faq-item');
+
+faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    question.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        faqItems.forEach(i => i.classList.remove('active'));
+        if (!isActive) item.classList.add('active');
+    });
+});
+
+/* ============================================
+   JS: SMOOTH SCROLL
+============================================ */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+/* ============================================
+   JS: TRIAL MODAL
+============================================ */
+const trialModal = document.getElementById('trialModal');
+const closeTrialModal = document.getElementById('closeTrialModal');
+const openTrialBtns = document.querySelectorAll('.open-trial-modal');
+const navTrialBtn = document.getElementById('navTrialBtn');
+
+function openTrialModalFn() {
+    trialModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeTrialModalFn() {
+    trialModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+openTrialBtns.forEach(btn => btn.addEventListener('click', openTrialModalFn));
+navTrialBtn.addEventListener('click', openTrialModalFn);
+closeTrialModal.addEventListener('click', closeTrialModalFn);
+trialModal.addEventListener('click', (e) => {
+    if (e.target === trialModal) closeTrialModalFn();
+});
+
+// Handle product selection in modal
+document.querySelectorAll('.modal-product').forEach(product => {
+    product.addEventListener('click', () => {
+        const appName = product.querySelector('h4').textContent;
+        const whatsappMsg = encodeURIComponent(`Hi Mohammad, I want to try the ${appName} app for 14 days free trial.`);
+        window.open(`https://wa.me/917021229209?text=${whatsappMsg}`, '_blank');
+        closeTrialModalFn();
+    });
+});
+
+/* ============================================
+   JS: CONTACT MODAL
+============================================ */
+const contactModal = document.getElementById('contactModal');
+const closeContactModal = document.getElementById('closeContactModal');
+const openContactForm = document.getElementById('openContactForm');
+const contactForm = document.getElementById('contactForm');
+
+openContactForm.addEventListener('click', () => {
+    contactModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+closeContactModal.addEventListener('click', () => {
+    contactModal.classList.remove('active');
+    document.body.style.overflow = '';
+});
+
+contactModal.addEventListener('click', (e) => {
+    if (e.target === contactModal) {
+        contactModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+});
+
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(contactForm);
+    const name = formData.get('name');
+    const phone = formData.get('phone');
+    const businessType = formData.get('business_type');
+    const requirements = formData.get('requirements');
+    
+    const whatsappMsg = encodeURIComponent(
+        `Hi Mohammad, I need a custom solution.\n\n` +
+        `Name: ${name}\n` +
+        `Phone: ${phone}\n` +
+        `Business: ${businessType}\n` +
+        `Requirements: ${requirements}`
+    );
+    
+    window.open(`https://wa.me/917021229209?text=${whatsappMsg}`, '_blank');
+    contactModal.classList.remove('active');
+    document.body.style.overflow = '';
+    contactForm.reset();
+});
+
+/* ============================================
+   JS: SCROLL ANIMATIONS
+============================================ */
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.feature-card, .step, .tool-card, .faq-item, .product-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+});
+</script>
+
+</body>
+</html>
