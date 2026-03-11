@@ -108,10 +108,11 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Contact Email</label>
-                        <input type="email" id="contactEmail" class="form-control" 
-                               placeholder="email@company.com">
-                    </div>
+    <label>Contact Email * (Used as Login Username)</label>
+    <input type="email" id="contactEmail" class="form-control" 
+           placeholder="email@company.com" required>
+    <small>This email will be used as the login username</small>
+</div>
                     <div class="form-group">
                         <label>Contact Phone</label>
                         <input type="tel" id="contactPhone" class="form-control" 
@@ -187,12 +188,7 @@
                 <h4>First Admin User (for new clients)</h4>
 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Admin Username</label>
-                        <input type="text" id="adminUsername" class="form-control" 
-                               placeholder="admin">
-                    </div>
-                    <div class="form-group">
+                <div class="form-group">
                         <label>Admin Password</label>
                         <input type="text" id="adminPassword" class="form-control" 
                                placeholder="Initial password">
