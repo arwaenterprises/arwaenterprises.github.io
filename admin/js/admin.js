@@ -177,6 +177,7 @@ async function editClient(clientId) {
         document.getElementById('contactEmail').value = client.contact_email || '';
         document.getElementById('contactPhone').value = client.contact_phone || '';
         document.getElementById('address').value = client.address || '';
+document.getElementById('logoUrl').value = client.logo_url || '';
         document.getElementById('subscriptionStatus').value = client.subscription_status || 'trial';
         document.getElementById('subscriptionEndDate').value = client.subscription_end_date || '';
         
@@ -223,10 +224,10 @@ async function saveClient(event) {
         const clientData = {
             client_code: document.getElementById('clientCode').value.toUpperCase().trim(),
             business_name: document.getElementById('businessName').value.trim(),
-            owner_name: document.getElementById('businessName').value.trim(),
             contact_email: document.getElementById('contactEmail').value.trim() || null,
             contact_phone: document.getElementById('contactPhone').value.trim() || null,
             address: document.getElementById('address').value.trim() || null,
+logo_url: document.getElementById('logoUrl').value.trim() || null,
             subscription_status: document.getElementById('subscriptionStatus').value,
             subscription_end_date: document.getElementById('subscriptionEndDate').value || null,
             subscribed_apps: selectedApps,
