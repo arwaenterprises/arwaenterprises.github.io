@@ -178,6 +178,7 @@ async function editClient(clientId) {
         document.getElementById('contactPhone').value = client.contact_phone || '';
         document.getElementById('address').value = client.address || '';
 document.getElementById('logoUrl').value = client.logo_url || '';
+        document.getElementById('subscriptionTier').value = client.subscription_tier || 'basic';
         document.getElementById('subscriptionStatus').value = client.subscription_status || 'trial';
         document.getElementById('subscriptionEndDate').value = client.subscription_end_date || '';
         
@@ -228,6 +229,7 @@ async function saveClient(event) {
             contact_phone: document.getElementById('contactPhone').value.trim() || null,
             address: document.getElementById('address').value.trim() || null,
 logo_url: document.getElementById('logoUrl').value.trim() || null,
+            subscription_tier: document.getElementById('subscriptionTier').value || 'basic',
             subscription_status: document.getElementById('subscriptionStatus').value,
             subscription_end_date: document.getElementById('subscriptionEndDate').value || null,
             subscribed_apps: selectedApps,
