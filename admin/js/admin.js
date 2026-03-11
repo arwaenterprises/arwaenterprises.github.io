@@ -258,22 +258,27 @@ logo_url: document.getElementById('logoUrl').value.trim() || null,
             
             if (insertError) throw insertError;
             
-            // Create admin user if provided
-            const adminUsername = document.getElementById('adminUsername').value.trim();
-            const adminPassword = document.getElementById('adminPassword').value.trim();
-            const adminName = document.getElementById('adminName').value.trim();
-            
-            if (adminUsername && adminPassword) {
-                const { error: userError } = await supabaseClient
-                    .from('users')
-                    .insert({
-                        username: adminUsername.toLowerCase(),
-                        password_hash: adminPassword,
-                        name: adminName || adminUsername,
-                        role: 'super_admin',
-                        status: 'active',
-                        client_id: newClient.id
-                    });
+            // Create admin user - Email is mandatory as username
+const adminEmail = document.getElementById('contactEmail').value.trim();
+const adminPassword = document.getElementById('adminPassword').value.trim();
+const adminName = document.getElementById('adminName').value.trim();
+
+if (!adminEmail && isNew) {
+    alert('Contact Email is required - it will be used as the login username');
+    return;
+}
+
+if (adminEmail && adminPassword) {
+    const { error: userError } = await supabaseClient
+        .from('users')
+        .insert({
+            username: adminEmail.toLowerCase(),
+            password_hash: adminPassword,
+            name: adminName || adminEmail.split('@')[0],
+            role: 'super_admin',
+            status: 'active',
+            client_id: newClient.id
+        });
                 
                 if (userError) {
                     console.error('User creation error:', userError);
