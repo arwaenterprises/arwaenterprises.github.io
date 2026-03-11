@@ -223,6 +223,7 @@ async function saveClient(event) {
         const clientData = {
             client_code: document.getElementById('clientCode').value.toUpperCase().trim(),
             business_name: document.getElementById('businessName').value.trim(),
+            owner_name: document.getElementById('businessName').value.trim(),
             contact_email: document.getElementById('contactEmail').value.trim() || null,
             contact_phone: document.getElementById('contactPhone').value.trim() || null,
             address: document.getElementById('address').value.trim() || null,
