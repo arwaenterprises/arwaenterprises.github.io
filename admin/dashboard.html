@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arwa Admin - Dashboard</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="header-left">
+            <h1>🏢 Arwa Admin</h1>
+        </div>
+        <div class="header-right">
+            <span id="dbStatus" class="status-badge">Connecting...</span>
+            <button class="btn btn-outline" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Stats Cards -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon">🏢</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="totalClients">-</span>
+                    <span class="stat-label">Total Clients</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="activeClients">-</span>
+                    <span class="stat-label">Active</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="trialClients">-</span>
+                    <span class="stat-label">Trial</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚠️</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="expiredClients">-</span>
+                    <span class="stat-label">Expired</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions Bar -->
+        <div class="actions-bar">
+            <h2>Clients</h2>
+            <button class="btn btn-primary" onclick="showAddClientModal()">+ Add New Client</button>
+        </div>
+
+        <!-- Clients Table -->
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Business Name</th>
+                        <th>Contact</th>
+                        <th>Apps</th>
+                        <th>Status</th>
+                        <th>Expires</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="clientsTableBody">
+                    <tr>
+                        <td colspan="7" class="loading-cell">Loading clients...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Add/Edit Client Modal -->
+    <div id="clientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Client</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="clientForm" onsubmit="saveClient(event)">
+                <input type="hidden" id="clientId">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Client Code *</label>
+                        <input type="text" id="clientCode" class="form-control" 
+                               required maxlength="10" placeholder="AE2"
+                               style="text-transform: uppercase;">
+                        <small>Unique code (e.g., AE2, AE3)</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Business Name *</label>
+                        <input type="text" id="businessName" class="form-control" 
+                               required placeholder="Company Name">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Contact Email</label>
+                        <input type="email" id="contactEmail" class="form-control" 
+                               placeholder="email@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Phone</label>
+                        <input type="tel" id="contactPhone" class="form-control" 
+                               placeholder="+966 5XX XXX XXX">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="address" class="form-control" 
+                           placeholder="City, Country">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Subscription Status *</label>
+                        <select id="subscriptionStatus" class="form-control" required>
+                            <option value="trial">Trial</option>
+                            <option value="active">Active</option>
+                            <option value="premium">Premium (No Expiry)</option>
+                            <option value="expired">Expired</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Subscription End Date</label>
+                        <input type="date" id="subscriptionEndDate" class="form-control">
+                        <small>Leave empty for premium (no expiry)</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Subscribed Apps *</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="apps" value="attendance"> 📋 Attendance
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="apps" value="inventory"> 📦 Inventory
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="apps" value="billing"> 💰 Billing
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="apps" value="property"> 🏠 Property
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="apps" value="sales"> 📊 Sales
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-divider"></div>
+                <h4>First Admin User (for new clients)</h4>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Admin Username</label>
+                        <input type="text" id="adminUsername" class="form-control" 
+                               placeholder="admin">
+                    </div>
+                    <div class="form-group">
+                        <label>Admin Password</label>
+                        <input type="text" id="adminPassword" class="form-control" 
+                               placeholder="Initial password">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Admin Full Name</label>
+                    <input type="text" id="adminName" class="form-control" 
+                           placeholder="Admin User Name">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">Save Client</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Client Modal -->
+    <div id="viewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Client Details</h3>
+                <button class="modal-close" onclick="closeViewModal()">&times;</button>
+            </div>
+            <div id="viewModalContent" class="view-content">
+                <!-- Filled by JS -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeViewModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Admin Scripts -->
+    <script src="js/admin.js"></script>
+
+    <script>
+        // Check admin auth
+        if (sessionStorage.getItem('arwa_admin_auth') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initAdmin);
+    </script>
+</body>
+</html>

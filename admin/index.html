@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arwa Admin - Login</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="logo">
+            <div class="logo-icon">🔐</div>
+            <h1>ARWA ADMIN</h1>
+            <p>Client Management Portal</p>
+        </div>
+
+        <div id="errorMsg" class="error-message"></div>
+
+        <form class="login-form" onsubmit="handleAdminLogin(event)">
+            <div class="form-group">
+                <label>Admin Password</label>
+                <input type="password" 
+                       id="adminPassword" 
+                       class="form-control" 
+                       required 
+                       autofocus 
+                       placeholder="Enter admin password">
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="loginBtn">
+                Access Admin Panel
+            </button>
+        </form>
+
+        <div class="footer-links">
+            <a href="https://arwaenterprises.com">← Back to Website</a>
+        </div>
+    </div>
+
+    <script>
+        // Admin password (change this to your secure password)
+        const ADMIN_PASSWORD = 'Arwa@2026';
+
+        // Check if already logged in
+        if (sessionStorage.getItem('arwa_admin_auth') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
+
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('adminPassword').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const loginBtn = document.getElementById('loginBtn');
+
+            errorMsg.classList.remove('active');
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Verifying...';
+
+            setTimeout(() => {
+                if (password === ADMIN_PASSWORD) {
+                    sessionStorage.setItem('arwa_admin_auth', 'true');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    errorMsg.textContent = '❌ Invalid password';
+                    errorMsg.classList.add('active');
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Access Admin Panel';
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>
