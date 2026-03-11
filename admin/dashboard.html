@@ -133,21 +133,31 @@
 </div>
 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Subscription Status *</label>
-                        <select id="subscriptionStatus" class="form-control" required>
-                            <option value="trial">Trial</option>
-                            <option value="active">Active</option>
-                            <option value="premium">Premium (No Expiry)</option>
-                            <option value="expired">Expired</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Subscription End Date</label>
-                        <input type="date" id="subscriptionEndDate" class="form-control">
-                        <small>Leave empty for premium (no expiry)</small>
-                    </div>
-                </div>
+    <div class="form-group">
+        <label>Subscription Status *</label>
+        <select id="subscriptionStatus" class="form-control" required>
+            <option value="trial">Trial</option>
+            <option value="active">Active</option>
+            <option value="premium">Premium (No Expiry)</option>
+            <option value="expired">Expired</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Subscription End Date</label>
+        <input type="date" id="subscriptionEndDate" class="form-control">
+        <small>Leave empty for premium (no expiry)</small>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Subscription Tier</label>
+    <select id="subscriptionTier" class="form-control">
+        <option value="basic">Basic (Limited Features)</option>
+        <option value="standard">Standard (Most Features)</option>
+        <option value="premium">Premium (All Features)</option>
+    </select>
+    <small>For Pharmacy: Basic (4 modules), Standard (8), Premium (all 12)</small>
+</div>
 
                 <div class="form-group">
                     <label>Subscribed Apps *</label>
