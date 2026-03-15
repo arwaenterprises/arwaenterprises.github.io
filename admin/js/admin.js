@@ -128,12 +128,19 @@ function showAddClientModal() {
     document.getElementById('clientId').value = '';
     document.getElementById('clientCode').disabled = false;
     
+    // Clear all checkboxes
+    document.querySelectorAll('input[name="apps"]').forEach(cb => {
+        cb.checked = false;
+    });
+
+    // Show admin user section
+    const formDivider = document.querySelector('.form-divider');
+    if (formDivider) {
+        formDivider.style.display = 'block';
+    }
+    
     // Generate next client code
     generateNextClientCode();
-    
-    // Show admin user fields
-    document.querySelectorAll('#clientForm h4, #clientForm .form-row:last-of-type, #clientForm .form-group:last-of-type')
-        .forEach(el => el.style.display = '');
     
     document.getElementById('clientModal').classList.add('active');
 }
@@ -172,30 +179,49 @@ async function editClient(clientId) {
         document.getElementById('modalTitle').textContent = 'Edit Client';
         document.getElementById('clientId').value = client.id;
         document.getElementById('clientCode').value = client.client_code || '';
-        document.getElementById('clientCode').disabled = true; // Can't change code
+        document.getElementById('clientCode').disabled = true;
         document.getElementById('businessName').value = client.business_name || '';
         document.getElementById('contactEmail').value = client.contact_email || '';
         document.getElementById('contactPhone').value = client.contact_phone || '';
         document.getElementById('address').value = client.address || '';
-document.getElementById('logoUrl').value = client.logo_url || '';
+        document.getElementById('logoUrl').value = client.logo_url || '';
         document.getElementById('subscriptionTier').value = client.subscription_tier || 'basic';
         document.getElementById('subscriptionStatus').value = client.subscription_status || 'trial';
         document.getElementById('subscriptionEndDate').value = client.subscription_end_date || '';
-        
-        // Set subscribed apps
+
+        // Clear all app checkboxes first
         document.querySelectorAll('input[name="apps"]').forEach(cb => {
-            cb.checked = (client.subscribed_apps || []).includes(cb.value);
+            cb.checked = false;
         });
-        
-        // Hide admin user fields for edit
-        document.getElementById('adminUsername').parentElement.parentElement.style.display = 'none';
-        document.getElementById('adminName').parentElement.style.display = 'none';
-        
-        document.getElementById('clientModal').classList.add('active');
+
+        // Check the subscribed apps
+        if (client.subscribed_apps && Array.isArray(client.subscribed_apps)) {
+            client.subscribed_apps.forEach(app => {
+                const checkbox = document.querySelector(`input[name="apps"][value="${app}"]`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+            });
+        }
+
+        // Hide admin user section for existing clients
+        const adminSection = document.querySelector('.form-divider');
+        if (adminSection) {
+            adminSection.style.display = 'none';
+            adminSection.nextElementSibling.style.display = 'none'; // h4
+            const adminFields = adminSection.parentElement.querySelectorAll('.form-row:last-of-type, .form-group:last-of-type');
+            adminFields.forEach(field => {
+                if (field.querySelector('#adminUsername') || field.querySelector('#adminPassword') || field.querySelector('#adminName')) {
+                    field.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('clientModal').style.display = 'flex';
         
     } catch (error) {
         console.error('Edit client error:', error);
-        alert('Error loading client details');
+        alert('Error loading client: ' + error.message);
     }
 }
 
