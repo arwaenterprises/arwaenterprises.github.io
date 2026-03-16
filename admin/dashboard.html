@@ -56,6 +56,54 @@
             color: #666;
             margin-bottom: 15px;
         }
+        
+        /* App with Tier styling */
+        .app-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .app-row:last-child {
+            border-bottom: none;
+        }
+        .app-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 150px;
+        }
+        .app-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        .app-tier {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .app-tier select {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 13px;
+        }
+        .app-tier select:disabled {
+            background: #f5f5f5;
+            color: #999;
+        }
+        .tier-label {
+            font-size: 12px;
+            color: #666;
+        }
+        .no-tier-badge {
+            font-size: 11px;
+            color: #888;
+            background: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -119,7 +167,6 @@
                         <th>Business Name</th>
                         <th>Contact</th>
                         <th>Apps</th>
-                        <th>Tier</th>
                         <th>Status</th>
                         <th>Expires</th>
                         <th>Actions</th>
@@ -127,7 +174,7 @@
                 </thead>
                 <tbody id="clientsTableBody">
                     <tr>
-                        <td colspan="8" class="loading-cell">Loading clients...</td>
+                        <td colspan="7" class="loading-cell">Loading clients...</td>
                     </tr>
                 </tbody>
             </table>
@@ -197,37 +244,70 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Subscription Tier</label>
-                    <select id="subscriptionTier" class="form-control">
-                        <option value="basic">Basic (Limited Features)</option>
-                        <option value="standard">Standard (Most Features)</option>
-                        <option value="premium">Premium (All Features)</option>
-                    </select>
-                    <small>For Pharmacy: Basic (4 modules), Standard (8), Premium (all 12)</small>
-                </div>
-
+                <!-- Subscribed Apps with Tier -->
                 <div class="form-group">
                     <label>Subscribed Apps *</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="apps" value="attendance"> 📋 Attendance
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="apps" value="pharmacy"> 💊 Pharmacy
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="apps" value="inventory"> 📦 Inventory
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="apps" value="billing"> 💰 Billing
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="apps" value="property"> 🏠 Property
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="apps" value="sales"> 📊 Sales
-                        </label>
+                    <div id="appsContainer">
+                        <!-- Attendance - No Tier -->
+                        <div class="app-row">
+                            <div class="app-checkbox">
+                                <input type="checkbox" id="app_attendance" name="apps" value="attendance">
+                                <label for="app_attendance">📋 Attendance</label>
+                            </div>
+                            <span class="no-tier-badge">All features included</span>
+                        </div>
+                        
+                        <!-- Pharmacy - Has Tier -->
+                        <div class="app-row">
+                            <div class="app-checkbox">
+                                <input type="checkbox" id="app_pharmacy" name="apps" value="pharmacy" onchange="togglePharmacyTier()">
+                                <label for="app_pharmacy">💊 Pharmacy</label>
+                            </div>
+                            <div class="app-tier">
+                                <span class="tier-label">Tier:</span>
+                                <select id="pharmacyTier" disabled>
+                                    <option value="basic">Basic</option>
+                                    <option value="standard">Standard</option>
+                                    <option value="premium">Premium</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Inventory - No Tier (Future) -->
+                        <div class="app-row">
+                            <div class="app-checkbox">
+                                <input type="checkbox" id="app_inventory" name="apps" value="inventory">
+                                <label for="app_inventory">📦 Inventory</label>
+                            </div>
+                            <span class="no-tier-badge">All features included</span>
+                        </div>
+                        
+                        <!-- Billing - No Tier (Future) -->
+                        <div class="app-row">
+                            <div class="app-checkbox">
+                                <input type="checkbox" id="app_billing" name="apps" value="billing">
+                                <label for="app_billing">💰 Billing</label>
+                            </div>
+                            <span class="no-tier-badge">All features included</span>
+                        </div>
+                        
+                        <!-- Property - No Tier (Future) -->
+                        <div class="app-row">
+                            <div class="app-checkbox">
+                                <input type="checkbox" id="app_property" name="apps" value="property">
+                                <label for="app_property">🏠 Property</label>
+                            </div>
+                            <span class="no-tier-badge">All features included</span>
+                        </div>
+                        
+                        <!-- Sales - No Tier (Future) -->
+                        <div class="app-row">
+                            <div class="app-checkbox">
+                                <input type="checkbox" id="app_sales" name="apps" value="sales">
+                                <label for="app_sales">📊 Sales</label>
+                            </div>
+                            <span class="no-tier-badge">All features included</span>
+                        </div>
                     </div>
                 </div>
 
@@ -369,6 +449,19 @@
             }
             document.getElementById('newPassword').value = password;
             document.getElementById('newPassword').type = 'text';
+        }
+
+        // Toggle Pharmacy Tier dropdown
+        function togglePharmacyTier() {
+            const pharmacyCheckbox = document.getElementById('app_pharmacy');
+            const pharmacyTier = document.getElementById('pharmacyTier');
+            
+            if (pharmacyCheckbox.checked) {
+                pharmacyTier.disabled = false;
+            } else {
+                pharmacyTier.disabled = true;
+                pharmacyTier.value = 'basic';
+            }
         }
     </script>
 </body>

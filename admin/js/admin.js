@@ -1,6 +1,6 @@
 // Arwa Enterprises - Admin Panel JavaScript
 // Manages clients, subscriptions, and app access
-// FIXED VERSION - March 2026
+// VERSION: With App-Level Tier Support (Pharmacy)
 
 // ============== SUPABASE CONFIG ==============
 const SUPABASE_URL = 'https://kyktwzwiraipwyglkhva.supabase.co';
@@ -70,24 +70,13 @@ async function loadClients() {
         const tbody = document.getElementById('clientsTableBody');
         
         if (!clients || clients.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" class="empty-cell">No clients found</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-cell">No clients found</td></tr>';
             return;
         }
         
         tbody.innerHTML = clients.map(client => {
             // Parse subscribed_apps - handle both string and array
-            let apps = [];
-            if (client.subscribed_apps) {
-                if (typeof client.subscribed_apps === 'string') {
-                    try {
-                        apps = JSON.parse(client.subscribed_apps);
-                    } catch (e) {
-                        apps = [];
-                    }
-                } else if (Array.isArray(client.subscribed_apps)) {
-                    apps = client.subscribed_apps;
-                }
-            }
+            let apps = parseApps(client.subscribed_apps);
             
             const appIcons = apps.map(app => {
                 const icons = {
@@ -98,11 +87,16 @@ async function loadClients() {
                     property: '🏠',
                     sales: '📊'
                 };
-                return icons[app] || app;
+                // Add tier badge for pharmacy
+                let icon = icons[app] || app;
+                if (app === 'pharmacy' && client.pharmacy_tier) {
+                    const tierBadge = getTierBadgeSmall(client.pharmacy_tier);
+                    icon += tierBadge;
+                }
+                return icon;
             }).join(' ');
             
             const statusClass = getStatusClass(client.subscription_status);
-            const tierBadge = getTierBadge(client.subscription_tier);
             const expiryText = client.subscription_end_date 
                 ? formatDate(client.subscription_end_date)
                 : (client.subscription_status === 'premium' ? 'Never' : '-');
@@ -118,7 +112,6 @@ async function loadClients() {
                         </div>
                     </td>
                     <td>${appIcons || '-'}</td>
-                    <td>${tierBadge}</td>
                     <td><span class="status-badge ${statusClass}">${client.subscription_status || '-'}</span></td>
                     <td>${expiryText}</td>
                     <td class="actions-cell">
@@ -133,8 +126,25 @@ async function loadClients() {
     } catch (error) {
         console.error('Load clients error:', error);
         document.getElementById('clientsTableBody').innerHTML = 
-            '<tr><td colspan="8" class="error-cell">Error loading clients</td></tr>';
+            '<tr><td colspan="7" class="error-cell">Error loading clients</td></tr>';
     }
+}
+
+// ============== PARSE APPS HELPER ==============
+function parseApps(subscribed_apps) {
+    let apps = [];
+    if (subscribed_apps) {
+        if (typeof subscribed_apps === 'string') {
+            try {
+                apps = JSON.parse(subscribed_apps);
+            } catch (e) {
+                apps = [];
+            }
+        } else if (Array.isArray(subscribed_apps)) {
+            apps = subscribed_apps;
+        }
+    }
+    return apps;
 }
 
 // ============== ADD CLIENT MODAL ==============
@@ -147,10 +157,15 @@ function showAddClientModal() {
     document.getElementById('clientId').value = '';
     document.getElementById('clientCode').disabled = false;
     
-    // Clear all checkboxes
+    // Clear all app checkboxes
     document.querySelectorAll('input[name="apps"]').forEach(cb => {
         cb.checked = false;
     });
+    
+    // Reset pharmacy tier
+    const pharmacyTier = document.getElementById('pharmacyTier');
+    pharmacyTier.value = 'basic';
+    pharmacyTier.disabled = true;
     
     // Show password as required for new clients
     const passwordRequired = document.getElementById('passwordRequired');
@@ -187,7 +202,6 @@ async function generateNextClientCode() {
             .limit(10);
         
         if (data && data.length > 0) {
-            // Find highest AE number
             let maxNum = 0;
             data.forEach(row => {
                 const match = row.client_code.match(/^AE(\d+)$/);
@@ -229,7 +243,6 @@ async function editClient(clientId) {
         document.getElementById('contactPhone').value = client.contact_phone || '';
         document.getElementById('address').value = client.address || '';
         document.getElementById('logoUrl').value = client.logo_url || '';
-        document.getElementById('subscriptionTier').value = client.subscription_tier || 'basic';
         document.getElementById('subscriptionStatus').value = client.subscription_status || 'trial';
         document.getElementById('subscriptionEndDate').value = client.subscription_end_date || '';
 
@@ -239,25 +252,26 @@ async function editClient(clientId) {
         });
 
         // Parse and check the subscribed apps
-        let apps = [];
-        if (client.subscribed_apps) {
-            if (typeof client.subscribed_apps === 'string') {
-                try {
-                    apps = JSON.parse(client.subscribed_apps);
-                } catch (e) {
-                    apps = [];
-                }
-            } else if (Array.isArray(client.subscribed_apps)) {
-                apps = client.subscribed_apps;
-            }
-        }
+        let apps = parseApps(client.subscribed_apps);
         
         apps.forEach(app => {
-            const checkbox = document.querySelector(`input[name="apps"][value="${app}"]`);
+            const checkbox = document.getElementById('app_' + app);
             if (checkbox) {
                 checkbox.checked = true;
             }
         });
+        
+        // Set pharmacy tier
+        const pharmacyTier = document.getElementById('pharmacyTier');
+        const pharmacyCheckbox = document.getElementById('app_pharmacy');
+        
+        if (pharmacyCheckbox.checked) {
+            pharmacyTier.disabled = false;
+            pharmacyTier.value = client.pharmacy_tier || 'basic';
+        } else {
+            pharmacyTier.disabled = true;
+            pharmacyTier.value = 'basic';
+        }
 
         // Password is optional for editing
         const passwordRequired = document.getElementById('passwordRequired');
@@ -299,7 +313,7 @@ async function saveClient(event) {
         const clientId = document.getElementById('clientId').value;
         const isNew = !clientId;
         
-        // Get selected apps as ARRAY (not string)
+        // Get selected apps as ARRAY
         const selectedApps = [];
         document.querySelectorAll('input[name="apps"]:checked').forEach(cb => {
             selectedApps.push(cb.value);
@@ -324,18 +338,24 @@ async function saveClient(event) {
         const clientCode = document.getElementById('clientCode').value.toUpperCase().trim();
         const businessName = document.getElementById('businessName').value.trim();
         
+        // Get pharmacy tier (only if pharmacy is selected)
+        const pharmacyCheckbox = document.getElementById('app_pharmacy');
+        const pharmacyTier = pharmacyCheckbox.checked 
+            ? document.getElementById('pharmacyTier').value 
+            : null;
+        
         const clientData = {
             client_code: clientCode,
             business_name: businessName,
-            owner_name: businessName,  // Required field
+            owner_name: businessName,
             contact_email: contactEmail,
             contact_phone: document.getElementById('contactPhone').value.trim() || null,
             address: document.getElementById('address').value.trim() || null,
             logo_url: document.getElementById('logoUrl').value.trim() || null,
-            subscription_tier: document.getElementById('subscriptionTier').value || 'basic',
             subscription_status: document.getElementById('subscriptionStatus').value,
             subscription_end_date: document.getElementById('subscriptionEndDate').value || null,
-            subscribed_apps: selectedApps,  // Array, not string!
+            subscribed_apps: selectedApps,
+            pharmacy_tier: pharmacyTier,
             is_active: true
         };
         
@@ -404,7 +424,13 @@ async function saveClient(event) {
                 alert('Client created but admin user creation failed: ' + userError.message);
             } else {
                 console.log('User created:', newUser);
-                alert('✅ Client created successfully!\n\nLogin credentials:\nClient Code: ' + clientCode + '\nUsername: ' + contactEmail + '\nPassword: ' + adminPassword);
+                
+                let tierInfo = '';
+                if (selectedApps.includes('pharmacy')) {
+                    tierInfo = '\nPharmacy Tier: ' + (pharmacyTier || 'basic');
+                }
+                
+                alert('✅ Client created successfully!\n\nLogin credentials:\nClient Code: ' + clientCode + '\nUsername: ' + contactEmail + '\nPassword: ' + adminPassword + tierInfo);
             }
             
         } else {
@@ -530,18 +556,7 @@ async function viewClient(clientId) {
             .eq('client_id', clientId);
         
         // Parse subscribed_apps
-        let apps = [];
-        if (client.subscribed_apps) {
-            if (typeof client.subscribed_apps === 'string') {
-                try {
-                    apps = JSON.parse(client.subscribed_apps);
-                } catch (e) {
-                    apps = [];
-                }
-            } else if (Array.isArray(client.subscribed_apps)) {
-                apps = client.subscribed_apps;
-            }
-        }
+        let apps = parseApps(client.subscribed_apps);
         
         const appNames = apps.map(app => {
             const names = {
@@ -552,7 +567,11 @@ async function viewClient(clientId) {
                 property: '🏠 Property',
                 sales: '📊 Sales'
             };
-            return names[app] || app;
+            let name = names[app] || app;
+            if (app === 'pharmacy' && client.pharmacy_tier) {
+                name += ' <small>(' + client.pharmacy_tier + ')</small>';
+            }
+            return name;
         }).join('<br>');
         
         document.getElementById('viewModalContent').innerHTML = `
@@ -576,10 +595,6 @@ async function viewClient(clientId) {
                 <div class="view-item">
                     <label>Address</label>
                     <span>${client.address || '-'}</span>
-                </div>
-                <div class="view-item">
-                    <label>Subscription Tier</label>
-                    <span>${getTierBadge(client.subscription_tier)}</span>
                 </div>
                 <div class="view-item">
                     <label>Status</label>
@@ -672,13 +687,14 @@ function getStatusClass(status) {
     return classes[status] || '';
 }
 
-function getTierBadge(tier) {
-    const badges = {
-        'basic': '<span style="background: #e3f2fd; color: #1976d2; padding: 2px 8px; border-radius: 4px; font-size: 12px;">Basic</span>',
-        'standard': '<span style="background: #fff3e0; color: #f57c00; padding: 2px 8px; border-radius: 4px; font-size: 12px;">Standard</span>',
-        'premium': '<span style="background: #f3e5f5; color: #7b1fa2; padding: 2px 8px; border-radius: 4px; font-size: 12px;">Premium</span>'
+function getTierBadgeSmall(tier) {
+    const colors = {
+        'basic': '#1976d2',
+        'standard': '#f57c00',
+        'premium': '#7b1fa2'
     };
-    return badges[tier] || badges['basic'];
+    const color = colors[tier] || colors['basic'];
+    return `<sup style="font-size:9px;color:${color};margin-left:2px;">${tier[0].toUpperCase()}</sup>`;
 }
 
 function formatDate(dateStr) {
