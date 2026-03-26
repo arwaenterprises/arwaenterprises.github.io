@@ -1,11 +1,11 @@
 // Arwa Enterprises - Admin Panel JavaScript
 // Manages clients, subscriptions, and app access
 // VERSION: With App-Level Tier Support (Pharmacy)
-
 // ============== SUPABASE CONFIG ==============
 const SUPABASE_URL = 'https://kyktwzwiraipwyglkhva.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5a3R3endpcmFpcHd5Z2xraHZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTA2MTcsImV4cCI6MjA4NzU4NjYxN30.acOQWJkfE6Ew9PVyEKNeGxs7ri7QH_AarpPcoT34RBY';
 
+const { createClient } = supabase;
 let supabaseClient;
 let currentEditingClientId = null;
 let isEditMode = false;
@@ -13,7 +13,7 @@ let isEditMode = false;
 // ============== INITIALIZATION ==============
 async function initAdmin() {
     try {
-        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         const { data, error } = await supabaseClient.from('clients').select('count', { count: 'exact', head: true });
         
