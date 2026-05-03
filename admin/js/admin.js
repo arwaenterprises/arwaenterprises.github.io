@@ -345,6 +345,8 @@ async function saveClient(event) {
             ? document.getElementById('pharmacyTier').value 
             : null;
         
+        const subscriptionStatus = document.getElementById('subscriptionStatus').value;
+        
         const clientData = {
             client_code: clientCode,
             business_name: businessName,
@@ -353,11 +355,14 @@ async function saveClient(event) {
             contact_phone: document.getElementById('contactPhone').value.trim() || null,
             address: document.getElementById('address').value.trim() || null,
             logo_url: document.getElementById('logoUrl').value.trim() || null,
-            subscription_status: document.getElementById('subscriptionStatus').value,
+            subscription_status: subscriptionStatus,
             subscription_end_date: document.getElementById('subscriptionEndDate').value || null,
             subscribed_apps: selectedApps,
             pharmacy_tier: pharmacyTier,
-            is_active: true
+            is_active: subscriptionStatus !== 'expired',
+            // Sync legacy fields so nothing contradicts
+            plan: subscriptionStatus,
+            subscription_tier: pharmacyTier || 'basic'
         };
         
         console.log('Saving client data:', clientData);
@@ -449,29 +454,40 @@ async function saveClient(event) {
             // Update password if provided
             const adminPassword = document.getElementById('adminPassword').value.trim();
             if (adminPassword) {
-                const { error: pwError } = await supabaseClient
+                const { data: pwData, error: pwError } = await supabaseClient
                     .from('users')
                     .update({ password_hash: adminPassword })
                     .eq('client_id', clientId)
-                    .eq('role', 'admin');
+                    .in('role', ['admin', 'super_admin'])
+                    .select();
                 
                 if (pwError) {
                     console.error('Password update error:', pwError);
+                    alert('⚠️ Client saved but password update failed: ' + pwError.message);
+                } else if (!pwData || pwData.length === 0) {
+                    console.warn('No user found to update password for client:', clientId);
+                    alert('⚠️ Client saved but no admin user found to update password. Check users table.');
                 }
             }
             
-            // Update username (email) for admin user
-            const { error: emailError } = await supabaseClient
+            // Update username (email) and name for admin user
+            const adminName = document.getElementById('adminName').value.trim();
+            const { data: emailData, error: emailError } = await supabaseClient
                 .from('users')
                 .update({ 
                     username: contactEmail.toLowerCase(),
-                    name: document.getElementById('adminName').value.trim() || contactEmail.split('@')[0]
+                    name: adminName || contactEmail.split('@')[0]
                 })
                 .eq('client_id', clientId)
-                .eq('role', 'admin');
+                .in('role', ['admin', 'super_admin'])
+                .select();
             
             if (emailError) {
                 console.error('Email update error:', emailError);
+                alert('⚠️ Client saved but login email update failed: ' + emailError.message);
+            } else if (!emailData || emailData.length === 0) {
+                console.warn('No user found to update email for client:', clientId);
+                alert('⚠️ Client saved but no admin user found to update email. Check users table.');
             }
             
             alert('✅ Client updated successfully!');
@@ -518,13 +534,19 @@ async function confirmResetPassword() {
     }
     
     try {
-        const { error } = await supabaseClient
+        const { data, error } = await supabaseClient
             .from('users')
             .update({ password_hash: newPassword })
             .eq('client_id', currentEditingClientId)
-            .eq('role', 'admin');
+            .in('role', ['admin', 'super_admin'])
+            .select();
         
         if (error) throw error;
+        
+        if (!data || data.length === 0) {
+            alert('⚠️ No admin user found for this client. Check users table.');
+            return;
+        }
         
         const contactEmail = document.getElementById('contactEmail').value;
         const clientCode = document.getElementById('clientCode').value;
