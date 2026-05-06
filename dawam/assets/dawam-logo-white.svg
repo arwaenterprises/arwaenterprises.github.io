@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 58" width="210" height="58" role="img" aria-label="Dawam">
+  <!-- White version for use on dark/colored backgrounds (footer, CTA) -->
+
+  <!-- Outer pulse ring -->
+  <circle cx="29" cy="29" r="27" fill="none" stroke="white" stroke-width="0.6"
+          stroke-dasharray="2 4" opacity="0.3"/>
+
+  <!-- Main icon circle -->
+  <circle cx="29" cy="29" r="23" fill="rgba(255,255,255,0.08)" stroke="white" stroke-width="2" opacity="0.9"/>
+
+  <!-- Clock tick marks -->
+  <line x1="29" y1="8"  x2="29" y2="12" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+  <line x1="50" y1="29" x2="46" y2="29" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+  <line x1="29" y1="50" x2="29" y2="46" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+  <line x1="8"  y1="29" x2="12" y2="29" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Hour hand -->
+  <line x1="29" y1="29" x2="22" y2="15" stroke="white" stroke-width="2.8" stroke-linecap="round"/>
+
+  <!-- Minute hand -->
+  <line x1="29" y1="29" x2="41" y2="20" stroke="white" stroke-width="2.2" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- Center dot -->
+  <circle cx="29" cy="29" r="3" fill="white"/>
+  <circle cx="29" cy="29" r="1.2" fill="rgba(102,126,234,0.5)"/>
+
+  <!-- Divider -->
+  <line x1="62" y1="12" x2="62" y2="46" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+
+  <!-- Text: Dawam -->
+  <text x="72" y="27"
+        font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
+        font-size="20" font-weight="700"
+        fill="white" letter-spacing="-0.5">Dawam</text>
+
+  <!-- Arabic دوام -->
+  <text x="73" y="45"
+        font-family="system-ui,-apple-system,'Segoe UI',Arial,'Arabic Typesetting',sans-serif"
+        font-size="13" font-weight="600"
+        fill="rgba(255,255,255,0.7)" letter-spacing="0.5">دوام</text>
+</svg>

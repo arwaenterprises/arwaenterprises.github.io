@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 58" width="210" height="58" role="img" aria-label="Dawam">
+  <defs>
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#667eea"/>
+      <stop offset="100%" stop-color="#764ba2"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#667eea"/>
+      <stop offset="100%" stop-color="#9f7aea"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer pulse ring -->
+  <circle cx="29" cy="29" r="27" fill="none" stroke="#667eea" stroke-width="0.6"
+          stroke-dasharray="2 4" opacity="0.4"/>
+
+  <!-- Main icon circle (gradient border) -->
+  <circle cx="29" cy="29" r="23" fill="rgba(102,126,234,0.08)" stroke="url(#iconGrad)" stroke-width="2.2"/>
+
+  <!-- Clock tick marks at 12, 3, 6, 9 -->
+  <line x1="29" y1="8"  x2="29" y2="12" stroke="#667eea" stroke-width="1.8" stroke-linecap="round" opacity="0.7"/>
+  <line x1="50" y1="29" x2="46" y2="29" stroke="#667eea" stroke-width="1.8" stroke-linecap="round" opacity="0.7"/>
+  <line x1="29" y1="50" x2="29" y2="46" stroke="#764ba2" stroke-width="1.8" stroke-linecap="round" opacity="0.7"/>
+  <line x1="8"  y1="29" x2="12" y2="29" stroke="#764ba2" stroke-width="1.8" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Hour hand (pointing to ~11) -->
+  <line x1="29" y1="29" x2="22" y2="15" stroke="#667eea" stroke-width="2.8" stroke-linecap="round"/>
+
+  <!-- Minute hand (pointing to ~2) -->
+  <line x1="29" y1="29" x2="41" y2="20" stroke="#764ba2" stroke-width="2.2" stroke-linecap="round"/>
+
+  <!-- Center dot -->
+  <circle cx="29" cy="29" r="3" fill="url(#iconGrad)"/>
+  <circle cx="29" cy="29" r="1.2" fill="white" opacity="0.6"/>
+
+  <!-- Divider line -->
+  <line x1="62" y1="12" x2="62" y2="46" stroke="rgba(102,126,234,0.25)" stroke-width="1"/>
+
+  <!-- Text: Dawam (EN) -->
+  <text x="72" y="27"
+        font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
+        font-size="20" font-weight="700"
+        fill="url(#textGrad)" letter-spacing="-0.5">Dawam</text>
+
+  <!-- Text: Arabic دوام -->
+  <text x="73" y="45"
+        font-family="system-ui,-apple-system,'Segoe UI',Arial,'Arabic Typesetting',sans-serif"
+        font-size="13" font-weight="600"
+        fill="#a5b4fc" opacity="0.9" letter-spacing="0.5">دوام</text>
+</svg>
