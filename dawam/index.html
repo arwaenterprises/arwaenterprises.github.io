@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawam دوام | AI Biometric Attendance for Warehouse & Labour</title>
+    <meta name="description" content="Smart AI face recognition attendance system for 3PL warehouses and labour contractors. Geo-fenced punch, 3PL billing reports, LOP management, offline support.">
+    <link rel="icon" type="image/png" href="assets/dawam-favicon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================
+   CSS VARIABLES — Dawam App Theme
+============================================ */
+:root {
+    --bg-dark: #1a1a2e;
+    --bg-dark-2: #16213e;
+    --bg-dark-3: #0f0f23;
+    --accent-primary: #667eea;
+    --accent-purple: #764ba2;
+    --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #5a67d8 0%, #6b3fa0 100%);
+    --success: #48bb78;
+    --success-dark: #38a169;
+    --danger: #f56565;
+    --warning: #ecc94b;
+    --text-primary: #ffffff;
+    --text-muted: #a0aec0;
+    --text-faint: #718096;
+    --border: rgba(255,255,255,0.08);
+    --border-accent: rgba(102, 126, 234, 0.3);
+    --card-bg: rgba(255,255,255,0.04);
+    --card-bg-hover: rgba(102, 126, 234, 0.08);
+    --whatsapp: #25D366;
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-arabic: 'Cairo', sans-serif;
+    --section-padding: 100px;
+    --container-max: 1200px;
+}
+
+[dir="rtl"] {
+    --font-display: 'Cairo', sans-serif;
+    --font-body: 'Cairo', sans-serif;
+}
+
+/* ============================================
+   BASE
+============================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+
+.container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ============================================
+   BUTTONS
+============================================ */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.85rem 2rem;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-primary:hover {
+    background: var(--accent-gradient-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+}
+
+.btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.85rem 2rem;
+    background: var(--whatsapp);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-whatsapp:hover {
+    background: #1da851;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(37, 211, 102, 0.35);
+}
+
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-outline:hover {
+    border-color: white;
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   NAVBAR
+============================================ */
+.navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(26, 26, 46, 0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    transition: all 0.3s ease;
+}
+.navbar.scrolled {
+    background: rgba(26, 26, 46, 0.98);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+}
+.navbar-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+.logo-img {
+    height: 38px;
+    width: auto;
+}
+.logo-text {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.logo-text-fallback { display: none; }
+.logo-img[style*="display:none"] + .logo-text-fallback,
+.logo-img.hidden + .logo-text-fallback { display: block; }
+
+.back-link {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+    margin-left: 1rem;
+}
+[dir="rtl"] .back-link { margin-left: 0; margin-right: 1rem; }
+.back-link:hover { opacity: 1; color: var(--accent-primary); }
+
+.nav-links {
+    display: flex;
+    gap: 1.8rem;
+    align-items: center;
+}
+.nav-links a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+.nav-links a:hover { color: var(--accent-primary); }
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-shrink: 0;
+}
+.lang-toggle { display: flex; gap: 0.4rem; }
+.lang-btn {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+.lang-btn.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    color: white;
+}
+.btn-login {
+    padding: 0.5rem 1.2rem;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.btn-login:hover {
+    background: var(--accent-gradient-hover);
+    box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.4rem;
+    padding: 0.4rem;
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 65px; left: 0; right: 0;
+    background: var(--bg-dark-2);
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 2rem;
+    z-index: 999;
+}
+.mobile-menu.active { display: block; }
+.mobile-menu a {
+    display: block;
+    color: var(--text-muted);
+    padding: 0.85rem 0;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--accent-primary); }
+
+/* ============================================
+   HERO
+============================================ */
+.hero {
+    min-height: 100vh;
+    background: var(--bg-dark);
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 120px 2rem 80px;
+    overflow: hidden;
+}
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 15% 25%, rgba(102, 126, 234, 0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 75%, rgba(118, 75, 162, 0.18) 0%, transparent 50%);
+    pointer-events: none;
+}
+.hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(102,126,234,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(102,126,234,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+.hero-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+.hero-content { animation: fadeInUp 0.9s ease; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-logo {
+    margin-bottom: 1.5rem;
+}
+.hero-logo img {
+    height: 60px;
+    width: auto;
+}
+.hero-logo-text {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.45rem 1rem;
+    background: rgba(102,126,234,0.12);
+    border: 1px solid rgba(102,126,234,0.3);
+    border-radius: 50px;
+    color: #a5b4fc;
+    font-size: 0.82rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.15;
+    margin-bottom: 1.2rem;
+}
+.hero h1 span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 480px;
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+.hero-stat h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.hero-stat p {
+    font-size: 0.82rem;
+    color: var(--text-faint);
+}
+
+/* Punch Terminal Visual */
+.hero-visual { animation: fadeInUp 0.9s ease 0.2s both; }
+
+.punch-terminal {
+    background: #000000;
+    border-radius: 20px;
+    border: 1px solid rgba(102,126,234,0.25);
+    padding: 2rem;
+    max-width: 380px;
+    margin: 0 auto;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(102,126,234,0.1);
+    position: relative;
+    overflow: hidden;
+}
+.punch-terminal::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at center, rgba(102,126,234,0.06) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.terminal-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+}
+.terminal-dot:nth-child(1) { background: #ff5f56; }
+.terminal-dot:nth-child(2) { background: #ffbd2e; }
+.terminal-dot:nth-child(3) { background: #27ca40; }
+.terminal-title {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+    margin-left: 0.5rem;
+    font-family: monospace;
+}
+
+.face-scan-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.face-scan-ring {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background: linear-gradient(#000, #000) padding-box,
+                linear-gradient(135deg, #667eea, #764ba2) border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: pulse-ring 2.5s ease-in-out infinite;
+    margin-bottom: 0.8rem;
+}
+.face-scan-ring::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1px solid rgba(102,126,234,0.2);
+    animation: pulse-ring 2.5s ease-in-out infinite 0.4s;
+}
+.face-scan-ring::after {
+    content: '';
+    position: absolute;
+    inset: -16px;
+    border-radius: 50%;
+    border: 1px solid rgba(102,126,234,0.1);
+    animation: pulse-ring 2.5s ease-in-out infinite 0.8s;
+}
+@keyframes pulse-ring {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.04); }
+}
+.face-icon {
+    font-size: 3rem;
+    line-height: 1;
+}
+.scan-label {
+    font-size: 0.78rem;
+    color: #a5b4fc;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+.scan-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+.scan-bar-fill {
+    height: 100%;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+    animation: scan-progress 3s ease-in-out infinite;
+}
+@keyframes scan-progress {
+    0% { width: 0%; }
+    60% { width: 100%; }
+    100% { width: 100%; opacity: 0; }
+}
+
+.status-pills {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+.status-pill {
+    flex: 1;
+    padding: 0.5rem 0.4rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.pill-present { background: rgba(72,187,120,0.15); color: #68d391; border: 1px solid rgba(72,187,120,0.25); }
+.pill-absent { background: rgba(245,101,101,0.15); color: #fc8181; border: 1px solid rgba(245,101,101,0.25); }
+.pill-half { background: rgba(236,201,75,0.15); color: #f6e05e; border: 1px solid rgba(236,201,75,0.25); }
+.pill-count { font-size: 1.1rem; display: block; margin-bottom: 0.1rem; }
+
+.terminal-offline-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.4rem 0.8rem;
+    background: rgba(72,187,120,0.1);
+    border: 1px solid rgba(72,187,120,0.2);
+    border-radius: 6px;
+    font-size: 0.74rem;
+    color: #68d391;
+    font-weight: 500;
+}
+.offline-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: blink 2s ease infinite;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Stat Strip */
+.hero-stat-strip {
+    display: flex;
+    gap: 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.hero-stat-strip::-webkit-scrollbar { display: none; }
+.stat-strip-item {
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border-right: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+.stat-strip-item:last-child { border-right: none; }
+.stat-strip-item strong {
+    display: block;
+    color: #a5b4fc;
+    font-size: 0.88rem;
+    margin-bottom: 0.15rem;
+}
+
+/* ============================================
+   SECTION SHARED
+============================================ */
+section { padding: var(--section-padding) 2rem; }
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+.section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+.section-header h2 span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-header p {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   FEATURES
+============================================ */
+.features { background: var(--bg-dark-2); }
+
+.features-grid {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+}
+
+.feature-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.6rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent-gradient);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.feature-card:hover {
+    background: var(--card-bg-hover);
+    border-color: var(--border-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(102,126,234,0.15);
+}
+.feature-card:hover::before { opacity: 1; }
+
+.feature-icon-wrap {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.2) 100%);
+    border: 1px solid rgba(102,126,234,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+.feature-card h3 {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+.feature-card p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+}
+
+/* ============================================
+   SCREENSHOTS GALLERY
+============================================ */
+.screenshots { background: var(--bg-dark); }
+
+.gallery-wrapper {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    position: relative;
+}
+
+.gallery-track-outer {
+    overflow: hidden;
+    border-radius: 12px;
+    position: relative;
+}
+.gallery-track-outer::before,
+.gallery-track-outer::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+}
+.gallery-track-outer::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-dark), transparent);
+}
+.gallery-track-outer::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-dark), transparent);
+}
+
+.gallery-track {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 1rem 2rem 1.5rem;
+    -ms-overflow-style: none;
+}
+.gallery-track::-webkit-scrollbar { display: none; }
+
+.gallery-slide {
+    flex-shrink: 0;
+    width: 240px;
+    height: 430px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    background: var(--bg-dark-2);
+    transition: all 0.3s ease;
+    position: relative;
+}
+.gallery-slide:hover {
+    border-color: rgba(102,126,234,0.5);
+    box-shadow: 0 12px 40px rgba(102,126,234,0.2);
+    transform: translateY(-4px);
+}
+.gallery-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.gallery-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    color: rgba(102,126,234,0.5);
+    font-size: 0.8rem;
+}
+.gallery-placeholder span { font-size: 2rem; opacity: 0.4; }
+
+.gallery-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.gallery-arrow {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.gallery-arrow:hover {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    color: white;
+}
+.gallery-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+.gallery-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+}
+.gallery-dot.active {
+    background: var(--accent-primary);
+    width: 22px;
+    border-radius: 4px;
+}
+
+/* ============================================
+   HOW IT WORKS
+============================================ */
+.how-it-works { background: var(--bg-dark-2); }
+
+.steps {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    position: relative;
+}
+.steps::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: calc(16.67% + 30px);
+    right: calc(16.67% + 30px);
+    height: 2px;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    opacity: 0.3;
+}
+
+.step {
+    text-align: center;
+    position: relative;
+}
+.step-number {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 auto 1.2rem;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 25px rgba(102,126,234,0.35);
+}
+.step h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+}
+.step p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ============================================
+   WHO IS IT FOR
+============================================ */
+.for-who { background: var(--bg-dark); }
+
+.for-who-grid {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.for-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem 1.8rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.for-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent-gradient);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.for-card:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(102,126,234,0.12);
+}
+.for-card:hover::after { opacity: 1; }
+
+.for-card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.2rem;
+    display: block;
+}
+.for-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+.for-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-bottom: 1.2rem;
+}
+.for-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.for-tag {
+    padding: 0.25rem 0.65rem;
+    background: rgba(102,126,234,0.1);
+    border: 1px solid rgba(102,126,234,0.2);
+    border-radius: 50px;
+    font-size: 0.76rem;
+    color: #a5b4fc;
+    font-weight: 500;
+}
+
+/* ============================================
+   CTA BANNER
+============================================ */
+.cta-banner {
+    background: var(--accent-gradient);
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.cta-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(0,0,0,0.1) 0%, transparent 60%);
+    pointer-events: none;
+}
+.cta-banner-inner {
+    max-width: 620px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+.cta-banner h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+}
+.cta-banner p {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 2rem;
+}
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.cta-banner .btn-whatsapp {
+    background: white;
+    color: #25D366;
+}
+.cta-banner .btn-whatsapp:hover {
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+.cta-banner .btn-outline {
+    border-color: rgba(255,255,255,0.6);
+}
+
+/* ============================================
+   FOOTER
+============================================ */
+.footer {
+    background: var(--bg-dark-3);
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+}
+.footer-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer-logo img { height: 36px; width: auto; }
+.footer-logo-text {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.footer-links a {
+    font-size: 0.88rem;
+    color: var(--text-faint);
+    transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--accent-primary); }
+.footer-copy {
+    font-size: 0.82rem;
+    color: var(--text-faint);
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 1024px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    :root { --section-padding: 70px; }
+
+    .nav-links { display: none; }
+    .mobile-menu-btn { display: block; }
+    .back-link { display: none; }
+
+    .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    .hero-description { margin: 0 auto 2rem; }
+    .hero-buttons { justify-content: center; }
+    .hero-stats { justify-content: center; }
+
+    .hero-stat-strip {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+
+    .punch-terminal { max-width: 320px; }
+
+    .features-grid { grid-template-columns: 1fr 1fr; }
+
+    .steps {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    .steps::before { display: none; }
+
+    .for-who-grid { grid-template-columns: 1fr; }
+
+    .footer-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .features-grid { grid-template-columns: 1fr; }
+    .hero-buttons { flex-direction: column; align-items: center; }
+    .cta-buttons { flex-direction: column; align-items: center; }
+    .gallery-slide { width: 200px; height: 360px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     NAVBAR
+============================================ -->
+<nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+            <a href="/" class="back-link" data-en="← Arwa Enterprises" data-ar="← أروا للمشاريع">← Arwa Enterprises</a>
+        </div>
+
+        <a href="#" class="logo">
+            <img src="assets/dawam-logo.png" alt="Dawam" class="logo-img" id="navLogoImg" onerror="this.style.display='none';document.getElementById('navLogoText').style.display='block';">
+            <span class="logo-text" id="navLogoText" style="display:none;">دوام · Dawam</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="#features" data-en="Features" data-ar="المميزات">Features</a>
+            <a href="#screenshots" data-en="Screenshots" data-ar="لقطات الشاشة">Screenshots</a>
+            <a href="#how-it-works" data-en="How it Works" data-ar="كيف يعمل">How it Works</a>
+            <a href="#for-who" data-en="For Who" data-ar="لمن هو">For Who</a>
+        </div>
+
+        <div class="nav-right">
+            <div class="lang-toggle">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ar">عربي</button>
+            </div>
+            <a href="https://dawam.arwaenterprises.com" target="_blank" class="btn-login" data-en="Login to App" data-ar="تسجيل الدخول">Login to App</a>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#features" data-en="Features" data-ar="المميزات">Features</a>
+    <a href="#screenshots" data-en="Screenshots" data-ar="لقطات الشاشة">Screenshots</a>
+    <a href="#how-it-works" data-en="How it Works" data-ar="كيف يعمل">How it Works</a>
+    <a href="#for-who" data-en="For Who" data-ar="لمن هو">For Who</a>
+    <a href="https://dawam.arwaenterprises.com" target="_blank" data-en="Login to App →" data-ar="تسجيل الدخول →">Login to App →</a>
+</div>
+
+<!-- ============================================
+     HERO
+============================================ -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+        <div class="hero-content">
+            <!-- Logo -->
+            <div class="hero-logo">
+                <img src="assets/dawam-logo.png" alt="Dawam" id="heroLogoImg" onerror="this.style.display='none';document.getElementById('heroLogoText').style.display='block';" style="height:64px;width:auto;">
+                <span class="hero-logo-text" id="heroLogoText" style="display:none;">دوام · Dawam</span>
+            </div>
+
+            <div class="hero-badge">
+                🤖 <span data-en="AI-Powered Biometric Attendance" data-ar="حضور بيومتري بالذكاء الاصطناعي">AI-Powered Biometric Attendance</span>
+            </div>
+
+            <h1 data-en="Smart Attendance for <span>Warehouse & Labour</span> Operations" data-ar="حضور ذكي لعمليات <span>المستودعات والعمالة</span>">
+                Smart Attendance for <span>Warehouse & Labour</span> Operations
+            </h1>
+
+            <p class="hero-description" data-en="AI face recognition, geo-fenced punch, 3PL billing reports — built for logistics and contract labour teams." data-ar="التعرف على الوجه بالذكاء الاصطناعي، تسجيل الحضور بالموقع الجغرافي، وتقارير الفوترة الشهرية — مصمم لفرق اللوجستيات والعمالة.">
+                AI face recognition, geo-fenced punch, 3PL billing reports — built for logistics and contract labour teams.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="https://wa.me/917021229209?text=Hi%2C%20I%27m%20interested%20in%20Dawam%20attendance%20system" target="_blank" class="btn-whatsapp">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    <span data-en="WhatsApp Us" data-ar="تواصل عبر واتساب">WhatsApp Us</span>
+                </a>
+                <a href="https://dawam.arwaenterprises.com" target="_blank" class="btn-primary">
+                    <span data-en="Login to App →" data-ar="تسجيل الدخول ←">Login to App →</span>
+                </a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <h3 data-en="&lt;2s" data-ar="&lt;ث2">&lt;2s</h3>
+                    <p data-en="Face Punch Speed" data-ar="سرعة تسجيل الوجه">Face Punch Speed</p>
+                </div>
+                <div class="hero-stat">
+                    <h3>PWA</h3>
+                    <p data-en="Works Offline" data-ar="يعمل بدون إنترنت">Works Offline</p>
+                </div>
+                <div class="hero-stat">
+                    <h3>3PL</h3>
+                    <p data-en="Billing Reports" data-ar="تقارير الفوترة">Billing Reports</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="punch-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dot"></div>
+                    <div class="terminal-dot"></div>
+                    <div class="terminal-dot"></div>
+                    <span class="terminal-title">Dawam Punch Terminal</span>
+                </div>
+
+                <div class="face-scan-wrapper">
+                    <div class="face-scan-ring">
+                        <span class="face-icon">🤖</span>
+                    </div>
+                    <span class="scan-label" data-en="AI FACE SCAN" data-ar="مسح الوجه بالذكاء الاصطناعي">AI FACE SCAN</span>
+                </div>
+
+                <div class="scan-bar">
+                    <div class="scan-bar-fill"></div>
+                </div>
+
+                <div class="status-pills">
+                    <div class="status-pill pill-present">
+                        <span class="pill-count">48</span>
+                        <span data-en="Present" data-ar="حاضر">Present</span>
+                    </div>
+                    <div class="status-pill pill-absent">
+                        <span class="pill-count">3</span>
+                        <span data-en="Absent" data-ar="غائب">Absent</span>
+                    </div>
+                    <div class="status-pill pill-half">
+                        <span class="pill-count">2</span>
+                        <span data-en="Half Day" data-ar="نصف يوم">Half Day</span>
+                    </div>
+                </div>
+
+                <div class="terminal-offline-badge">
+                    <div class="offline-dot"></div>
+                    <span data-en="Punch Works Offline · Auto-Sync" data-ar="يعمل بدون إنترنت · مزامنة تلقائية">Punch Works Offline · Auto-Sync</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stat strip below hero -->
+    <div class="hero-stat-strip" style="position:absolute;bottom:0;left:0;right:0;margin:0;border-top:1px solid var(--border);border-bottom:none;background:rgba(22,33,62,0.8);backdrop-filter:blur(10px);">
+        <div class="stat-strip-item"><strong data-en="AI Face Punch" data-ar="بصمة الوجه">AI Face Punch</strong><span data-en="&lt;2 seconds" data-ar="أقل من ثانيتين">&lt;2 seconds</span></div>
+        <div class="stat-strip-item"><strong data-en="Geo-Fenced" data-ar="مقيّد بالموقع">Geo-Fenced</strong><span data-en="10–500m radius" data-ar="نصف قطر 10–500م">10–500m radius</span></div>
+        <div class="stat-strip-item"><strong data-en="3PL Reports" data-ar="تقارير 3PL">3PL Reports</strong><span data-en="Excel + Print" data-ar="Excel + طباعة">Excel + Print</span></div>
+        <div class="stat-strip-item"><strong data-en="Offline PWA" data-ar="تطبيق PWA">Offline PWA</strong><span data-en="Auto-syncs" data-ar="مزامنة تلقائية">Auto-syncs</span></div>
+        <div class="stat-strip-item"><strong data-en="Payroll Export" data-ar="تصدير الرواتب">Payroll Export</strong><span data-en="SAR auto-calc" data-ar="حساب تلقائي بالريال">SAR auto-calc</span></div>
+    </div>
+</section>
+
+<!-- ============================================
+     FEATURES
+============================================ -->
+<section class="features" id="features">
+    <div class="section-header">
+        <h2 data-en="Everything You Need to <span>Manage Attendance</span>" data-ar="كل ما تحتاجه <span>لإدارة الحضور</span>">Everything You Need to <span>Manage Attendance</span></h2>
+        <p data-en="Purpose-built for logistics teams, 3PL operators, and contract labour businesses." data-ar="مصمم خصيصاً لفرق اللوجستيات ومشغلي الخدمات اللوجستية وأعمال العمالة.">Purpose-built for logistics teams, 3PL operators, and contract labour businesses.</p>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon-wrap">🤖</div>
+            <h3 data-en="AI Face Recognition" data-ar="التعرف على الوجه بالذكاء الاصطناعي">AI Face Recognition</h3>
+            <p data-en="Real-time AI biometric punch with live confidence scoring. Configurable threshold, self-enrollment via secure link, admin approval workflow." data-ar="بصمة بيومترية بالذكاء الاصطناعي في الوقت الفعلي مع نسبة ثقة. تسجيل ذاتي عبر رابط آمن مع موافقة الإدارة.">Real-time AI biometric punch with live confidence scoring. Configurable threshold, self-enrollment via secure link, admin approval workflow.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">📍</div>
+            <h3 data-en="Geo-Fenced Punch" data-ar="تسجيل الحضور بالموقع الجغرافي">Geo-Fenced Punch</h3>
+            <p data-en="GPS-verified punch blocked outside the work zone. Set 10–500m radius per location. Unlimited locations per department. Works offline too." data-ar="تسجيل محدد بالموقع — يُمنع خارج منطقة العمل. نصف قطر 10–500م لكل موقع. عدد غير محدود من المواقع لكل قسم.">GPS-verified punch blocked outside the work zone. Set 10–500m radius per location. Unlimited locations per department. Works offline too.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">📊</div>
+            <h3 data-en="3PL Billing Reports" data-ar="تقارير الفوترة الشهرية">3PL Billing Reports</h3>
+            <p data-en="Daily breakdown per laborer — P/H/A/F/NH status, hours, salary (SAR), OT. Export to color-coded Excel or print landscape. Client-ready in minutes." data-ar="تفصيل يومي لكل عامل — الحالة والساعات والراتب والعمل الإضافي. تصدير Excel ملوّن أو طباعة. جاهز للعميل في دقائق.">Daily breakdown per laborer — P/H/A/F/NH status, hours, salary (SAR), OT. Export to color-coded Excel or print landscape. Client-ready in minutes.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">💰</div>
+            <h3 data-en="LOP Management" data-ar="إدارة خصم الغياب">LOP Management</h3>
+            <p data-en="Full approval workflow: Draft → Supervisor → Admin. Undo before payroll freeze. Approver name and timestamp on every record." data-ar="سير عمل موافقة كامل: مسودة → مشرف → مدير. تراجع قبل تجميد الرواتب. اسم الموافق والوقت على كل سجل.">Full approval workflow: Draft → Supervisor → Admin. Undo before payroll freeze. Approver name and timestamp on every record.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">📶</div>
+            <h3 data-en="Punch Works Offline" data-ar="يعمل بدون إنترنت">Punch Works Offline</h3>
+            <p data-en="Installable PWA — runs fully offline after first load. Punches stored locally with photos, auto-syncs when internet returns." data-ar="تطبيق PWA قابل للتثبيت — يعمل بالكامل بدون إنترنت بعد التحميل الأول. تُخزَّن السجلات محلياً وتتزامن تلقائياً.">Installable PWA — runs fully offline after first load. Punches stored locally with photos, auto-syncs when internet returns.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">⏱️</div>
+            <h3 data-en="Overtime Tracking" data-ar="تتبع العمل الإضافي">Overtime Tracking</h3>
+            <p data-en="Submit OT hours per laborer per date. Auto-calculates SAR amount by role rate. Full history and summary included in billing report." data-ar="تسجيل ساعات العمل الإضافي لكل عامل. حساب تلقائي بسعر الساعة. سجل كامل وملخص في تقرير الفوترة.">Submit OT hours per laborer per date. Auto-calculates SAR amount by role rate. Full history and summary included in billing report.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">🏢</div>
+            <h3 data-en="Multi-Department Roles" data-ar="أقسام وصلاحيات متعددة">Multi-Department Roles</h3>
+            <p data-en="Admin: full access. Supervisor: own department only, can raise LOP and submit OT. Punch Terminal: public, no password needed." data-ar="المدير: صلاحيات كاملة. المشرف: قسمه فقط، يمكنه رفع خصم الغياب. محطة الحضور: عامة بدون كلمة مرور.">Admin: full access. Supervisor: own department only, can raise LOP and submit OT. Punch Terminal: public, no password needed.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">📥</div>
+            <h3 data-en="Payroll-Ready Exports" data-ar="تصدير جاهز للرواتب">Payroll-Ready Exports</h3>
+            <p data-en="Auto-calculate: Salary = (Paid Days ÷ Total Days) × Monthly Salary. Payroll lock freezes dates from edits. Export to CSV or Excel." data-ar="حساب تلقائي: الراتب = (الأيام المدفوعة ÷ إجمالي الأيام) × الراتب الشهري. تجميد الرواتب يمنع التعديل.">Auto-calculate: Salary = (Paid Days ÷ Total Days) × Monthly Salary. Payroll lock freezes dates from edits. Export to CSV or Excel.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     SCREENSHOTS GALLERY
+============================================ -->
+<section class="screenshots" id="screenshots">
+    <div class="section-header">
+        <h2 data-en="See Dawam <span>in Action</span>" data-ar="شاهد دوام <span>في العمل</span>">See Dawam <span>in Action</span></h2>
+        <p data-en="Real screenshots from the live app — dashboard, punch terminal, reports, and more." data-ar="لقطات حقيقية من التطبيق — لوحة التحكم، محطة الحضور، التقارير، والمزيد.">Real screenshots from the live app — dashboard, punch terminal, reports, and more.</p>
+    </div>
+
+    <div class="gallery-wrapper">
+        <div class="gallery-track-outer">
+            <div class="gallery-track" id="galleryTrack">
+                <!-- Screenshots 01–15: drop images in /dawam/screenshots/ with names 01.png to 15.png -->
+                <div class="gallery-slide"><img src="screenshots/01.png" alt="Dashboard" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>📊</span>Dashboard</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/02.png" alt="Punch Terminal" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>🤖</span>Punch Terminal</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/03.png" alt="Daily Report" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>📋</span>Daily Report</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/04.png" alt="3PL Billing" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>📊</span>3PL Billing</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/05.png" alt="LOP Management" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>💰</span>LOP Management</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/06.png" alt="Overtime" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>⏱️</span>Overtime</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/07.png" alt="Labor Master" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>👥</span>Labor Master</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/08.png" alt="Offline Mode" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>📶</span>Offline Mode</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/09.png" alt="Geo-fence Setup" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>📍</span>Geo-fence Setup</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/10.png" alt="Mobile Punch" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>📱</span>Mobile Punch</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/11.png" alt="Departments" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>🏢</span>Departments</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/12.png" alt="Enrollment" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>🔐</span>Enrollment</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/13.png" alt="Payroll Export" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>📥</span>Payroll Export</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/14.png" alt="Settings" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>⚙️</span>Settings</div>'"></div>
+                <div class="gallery-slide"><img src="screenshots/15.png" alt="Self Service" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>👤</span>Self Service</div>'"></div>
+            </div>
+        </div>
+
+        <div class="gallery-controls">
+            <button class="gallery-arrow" id="galleryPrev" aria-label="Previous">&#8592;</button>
+            <div class="gallery-dots" id="galleryDots"></div>
+            <button class="gallery-arrow" id="galleryNext" aria-label="Next">&#8594;</button>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     HOW IT WORKS
+============================================ -->
+<section class="how-it-works" id="how-it-works">
+    <div class="section-header">
+        <h2 data-en="Up and Running in <span>3 Simple Steps</span>" data-ar="جاهز للعمل في <span>3 خطوات بسيطة</span>">Up and Running in <span>3 Simple Steps</span></h2>
+        <p data-en="No complex setup. Start tracking attendance from day one." data-ar="لا إعداد معقد. ابدأ تتبع الحضور من اليوم الأول.">No complex setup. Start tracking attendance from day one.</p>
+    </div>
+
+    <div class="steps" style="max-width:900px;margin:0 auto;">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3 data-en="Register Employees" data-ar="تسجيل الموظفين">Register Employees</h3>
+            <p data-en="Admin sends a secure one-time enrollment link. Employee scans their own face. Admin reviews and approves the photo before activation." data-ar="يرسل المدير رابط تسجيل آمن. يسجّل الموظف وجهه. يراجع المدير الصورة ويوافق عليها قبل التفعيل.">Admin sends a secure one-time enrollment link. Employee scans their own face. Admin reviews and approves the photo before activation.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3 data-en="Employee Punches In/Out" data-ar="تسجيل الحضور والانصراف">Employee Punches In/Out</h3>
+            <p data-en="Employee scans face at the Punch Terminal (tablet or phone). AI identifies them instantly. GPS verifies they're inside the work zone." data-ar="يسجّل الموظف حضوره عبر مسح الوجه على الجهاز. يتعرف عليه الذكاء الاصطناعي فوراً. نظام GPS يؤكد تواجده داخل منطقة العمل.">Employee scans face at the Punch Terminal (tablet or phone). AI identifies them instantly. GPS verifies they're inside the work zone.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3 data-en="Manager Reviews & Exports" data-ar="المدير يراجع ويصدّر">Manager Reviews & Exports</h3>
+            <p data-en="Approve LOP corrections, submit overtime, export the 3PL billing report to Excel — salary and OT auto-calculated. Freeze payroll when done." data-ar="يوافق على تصحيحات الغياب، يسجّل العمل الإضافي، ويصدّر تقرير الفوترة إلى Excel — الراتب محسوب تلقائياً.">Approve LOP corrections, submit overtime, export the 3PL billing report to Excel — salary and OT auto-calculated. Freeze payroll when done.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     WHO IS IT FOR
+============================================ -->
+<section class="for-who" id="for-who">
+    <div class="section-header">
+        <h2 data-en="Built for <span>Your Industry</span>" data-ar="مصمم <span>لصناعتك</span>">Built for <span>Your Industry</span></h2>
+        <p data-en="Dawam is used by companies that manage contract labour across multiple sites and need client-ready billing reports." data-ar="يُستخدم دوام من قِبَل الشركات التي تدير العمالة المتعاقدة عبر مواقع متعددة وتحتاج إلى تقارير فوترة جاهزة للعميل.">Dawam is used by companies that manage contract labour across multiple sites and need client-ready billing reports.</p>
+    </div>
+
+    <div class="for-who-grid">
+        <div class="for-card">
+            <span class="for-card-icon">🏭</span>
+            <h3 data-en="3PL & Warehouses" data-ar="المستودعات والخدمات اللوجستية">3PL & Warehouses</h3>
+            <p data-en="Generate monthly billing reports per client with full daily attendance breakdown, paid days, and OT — ready to bill your clients without manual work." data-ar="أنشئ تقارير فوترة شهرية لكل عميل مع تفصيل يومي كامل للحضور والأيام المدفوعة والعمل الإضافي — جاهز لإرسال الفاتورة فوراً.">Generate monthly billing reports per client with full daily attendance breakdown, paid days, and OT — ready to bill your clients without manual work.</p>
+            <div class="for-card-tags">
+                <span class="for-tag" data-en="3PL Reports" data-ar="تقارير 3PL">3PL Reports</span>
+                <span class="for-tag" data-en="Multi-Site" data-ar="متعدد المواقع">Multi-Site</span>
+                <span class="for-tag" data-en="Excel Export" data-ar="تصدير Excel">Excel Export</span>
+            </div>
+        </div>
+
+        <div class="for-card">
+            <span class="for-card-icon">🏗️</span>
+            <h3 data-en="Factories & Manufacturing" data-ar="المصانع والتصنيع">Factories & Manufacturing</h3>
+            <p data-en="Multi-shift, multi-department tracking. Supervisors manage their own departments. LOP approval workflow keeps payroll accurate." data-ar="تتبع متعدد الورديات والأقسام. المشرفون يديرون أقسامهم فقط. سير عمل خصم الغياب يحافظ على دقة الرواتب.">Multi-shift, multi-department tracking. Supervisors manage their own departments. LOP approval workflow keeps payroll accurate.</p>
+            <div class="for-card-tags">
+                <span class="for-tag" data-en="Multi-Shift" data-ar="متعدد الورديات">Multi-Shift</span>
+                <span class="for-tag" data-en="LOP Workflow" data-ar="سير عمل الغياب">LOP Workflow</span>
+                <span class="for-tag" data-en="Departments" data-ar="الأقسام">Departments</span>
+            </div>
+        </div>
+
+        <div class="for-card">
+            <span class="for-card-icon">👷</span>
+            <h3 data-en="Labour Contractors" data-ar="مقاولو العمالة">Labour Contractors</h3>
+            <p data-en="Supply labour to clients and send them transparent, verifiable attendance reports. Each client gets their own department and report." data-ar="قدّم العمالة للعملاء وأرسل لهم تقارير حضور شفافة وقابلة للتحقق. كل عميل لديه قسمه وتقريره الخاص.">Supply labour to clients and send them transparent, verifiable attendance reports. Each client gets their own department and report.</p>
+            <div class="for-card-tags">
+                <span class="for-tag" data-en="Client Reports" data-ar="تقارير العميل">Client Reports</span>
+                <span class="for-tag" data-en="Payroll Lock" data-ar="تجميد الرواتب">Payroll Lock</span>
+                <span class="for-tag" data-en="Photo Proof" data-ar="إثبات صوري">Photo Proof</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     CTA BANNER
+============================================ -->
+<section class="cta-banner">
+    <div class="cta-banner-inner">
+        <h2 data-en="Ready to Modernize Your Attendance?" data-ar="هل أنت مستعد لتطوير نظام الحضور؟">Ready to Modernize Your Attendance?</h2>
+        <p data-en="Talk to us on WhatsApp — we'll set up Dawam for your team and have you running the same day." data-ar="تواصل معنا عبر واتساب — سنعد دوام لفريقك وتبدأ العمل في نفس اليوم.">Talk to us on WhatsApp — we'll set up Dawam for your team and have you running the same day.</p>
+        <div class="cta-buttons">
+            <a href="https://wa.me/917021229209?text=Hi%2C%20I%27m%20interested%20in%20Dawam%20attendance%20system" target="_blank" class="btn-whatsapp">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span data-en="Chat on WhatsApp" data-ar="تواصل عبر واتساب">Chat on WhatsApp</span>
+            </a>
+            <a href="https://dawam.arwaenterprises.com" target="_blank" class="btn-outline">
+                <span data-en="Login to App →" data-ar="تسجيل الدخول ←">Login to App →</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+============================================ -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-logo">
+            <img src="assets/dawam-logo-white.png" alt="Dawam" onerror="this.style.display='none'">
+            <span class="footer-logo-text">دوام · Dawam</span>
+        </div>
+
+        <div class="footer-links">
+            <a href="/" data-en="Arwa Enterprises" data-ar="أروا للمشاريع">Arwa Enterprises</a>
+            <a href="https://wa.me/917021229209" target="_blank" data-en="WhatsApp: +91 70212 29209" data-ar="واتساب: +91 70212 29209">WhatsApp: +91 70212 29209</a>
+            <a href="https://dawam.arwaenterprises.com" target="_blank" data-en="Login to App" data-ar="تسجيل الدخول">Login to App</a>
+        </div>
+
+        <div class="footer-copy">
+            <span data-en="© 2025 Arwa Enterprises. All rights reserved." data-ar="© 2025 أروا للمشاريع. جميع الحقوق محفوظة.">© 2025 Arwa Enterprises. All rights reserved.</span>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================
+     JAVASCRIPT
+============================================ -->
+<script>
+/* Language Toggle */
+const langBtns = document.querySelectorAll('.lang-btn');
+let currentLang = 'en';
+
+function switchLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+    langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    document.querySelectorAll('[data-en]').forEach(el => {
+        const text = el.dataset[lang];
+        if (text) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = text;
+            } else {
+                el.innerHTML = text;
+            }
+        }
+    });
+}
+langBtns.forEach(btn => btn.addEventListener('click', () => switchLanguage(btn.dataset.lang)));
+
+/* Navbar scroll */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+
+/* Mobile menu */
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+mobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('active');
+    mobileMenuBtn.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+});
+mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        mobileMenuBtn.textContent = '☰';
+    });
+});
+
+/* Screenshots Gallery */
+const galleryTrack = document.getElementById('galleryTrack');
+const galleryDotsEl = document.getElementById('galleryDots');
+const slides = galleryTrack.querySelectorAll('.gallery-slide');
+const SLIDE_WIDTH = 256; // 240px + 16px gap
+const VISIBLE = Math.floor(window.innerWidth / SLIDE_WIDTH) || 1;
+const TOTAL_DOTS = Math.ceil(slides.length / 3);
+let currentDot = 0;
+let autoScrollTimer;
+
+// Build dots
+for (let i = 0; i < TOTAL_DOTS; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goToDot(i));
+    galleryDotsEl.appendChild(dot);
+}
+
+function goToDot(i) {
+    currentDot = Math.max(0, Math.min(i, TOTAL_DOTS - 1));
+    galleryTrack.scrollTo({ left: currentDot * SLIDE_WIDTH * 3, behavior: 'smooth' });
+    galleryDotsEl.querySelectorAll('.gallery-dot').forEach((d, idx) => d.classList.toggle('active', idx === currentDot));
+}
+
+document.getElementById('galleryPrev').addEventListener('click', () => {
+    goToDot(currentDot - 1);
+    resetAutoScroll();
+});
+document.getElementById('galleryNext').addEventListener('click', () => {
+    goToDot(currentDot + 1 >= TOTAL_DOTS ? 0 : currentDot + 1);
+    resetAutoScroll();
+});
+
+function startAutoScroll() {
+    autoScrollTimer = setInterval(() => {
+        goToDot(currentDot + 1 >= TOTAL_DOTS ? 0 : currentDot + 1);
+    }, 4000);
+}
+function resetAutoScroll() {
+    clearInterval(autoScrollTimer);
+    startAutoScroll();
+}
+
+galleryTrack.addEventListener('mouseenter', () => clearInterval(autoScrollTimer));
+galleryTrack.addEventListener('mouseleave', startAutoScroll);
+
+// Touch swipe
+let touchStartX = 0;
+galleryTrack.addEventListener('touchstart', e => { touchStartX = e.touches[0].pageX; });
+galleryTrack.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].pageX;
+    if (Math.abs(diff) > 50) {
+        goToDot(diff > 0 ? Math.min(currentDot + 1, TOTAL_DOTS - 1) : Math.max(currentDot - 1, 0));
+    }
+    resetAutoScroll();
+});
+
+startAutoScroll();
+</script>
+
+</body>
+</html>

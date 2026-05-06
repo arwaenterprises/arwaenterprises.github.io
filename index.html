@@ -625,6 +625,20 @@ button {
     z-index: 1;
 }
 
+.product-live-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: #48bb78;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    z-index: 2;
+    letter-spacing: 0.02em;
+}
+
 .product-card .icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -1829,11 +1843,12 @@ button {
                     <p data-en="Real-time stock tracking with low-stock alerts" data-ar="تتبع المخزون لحظياً مع تنبيهات النقص">Real-time stock tracking with low-stock alerts</p>
                 </div>
             </div>
-            <div class="product-card">
+            <div class="product-card" onclick="window.location='/dawam/'" style="position:relative;cursor:pointer;">
+                <span class="product-live-badge">● Live</span>
                 <div class="product-card-content">
-                    <div class="icon">👥</div>
-                    <h3 data-en="Attendance & Payroll" data-ar="الحضور والرواتب">Attendance & Payroll</h3>
-                    <p data-en="Biometric attendance with auto salary calculation" data-ar="حضور بالبصمة مع حساب الراتب تلقائياً">Biometric attendance with auto salary calculation</p>
+                    <div class="icon">🕐</div>
+                    <h3 data-en="Dawam · Attendance" data-ar="دوام · الحضور">Dawam · Attendance</h3>
+                    <p data-en="AI biometric attendance for 3PL & warehouses — face recognition, geo-fencing, LOP & billing reports" data-ar="حضور بيومتري ذكي للمستودعات — التعرف على الوجه والموقع وتقارير الفوترة">AI biometric attendance for 3PL & warehouses — face recognition, geo-fencing, LOP & billing reports</p>
                 </div>
             </div>
             <div class="product-card">
