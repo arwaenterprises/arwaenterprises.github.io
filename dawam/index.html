@@ -701,9 +701,10 @@ section { padding: var(--section-padding) 2rem; }
 }
 
 .gallery-track-outer {
+    overflow: hidden;
     border-radius: 12px;
     position: relative;
-    padding: 1.5rem 0;
+    padding: 28px 0;
 }
 .gallery-track-outer::before,
 .gallery-track-outer::after {
@@ -725,20 +726,15 @@ section { padding: var(--section-padding) 2rem; }
 
 .gallery-track {
     display: flex;
-    gap: 1.2rem;
-    overflow-x: auto;
-    overflow-y: visible;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    padding: 0.5rem 2rem 1rem;
-    -ms-overflow-style: none;
+    gap: 1.25rem;
+    padding: 0 2rem;
+    will-change: transform;
 }
-.gallery-track::-webkit-scrollbar { display: none; }
 
 .gallery-slide {
     flex-shrink: 0;
-    width: 560px;
-    height: 340px;
+    width: 400px;
+    height: 250px;
     border-radius: 14px;
     border: 1px solid var(--border);
     overflow: hidden;
@@ -748,11 +744,12 @@ section { padding: var(--section-padding) 2rem; }
                 border-color 0.35s ease;
     position: relative;
     z-index: 1;
+    cursor: pointer;
 }
 .gallery-slide:hover {
-    border-color: rgba(102,126,234,0.6);
-    box-shadow: 0 20px 60px rgba(102,126,234,0.3), 0 0 0 1px rgba(102,126,234,0.2);
-    transform: scale(1.06) translateY(-6px);
+    border-color: rgba(102,126,234,0.7);
+    box-shadow: 0 24px 60px rgba(102,126,234,0.35), 0 0 0 1px rgba(102,126,234,0.25);
+    transform: scale(1.07) translateY(-8px);
     z-index: 10;
 }
 .gallery-slide img {
@@ -1082,7 +1079,7 @@ section { padding: var(--section-padding) 2rem; }
 
     .features-grid { grid-template-columns: 1fr 1fr; }
 
-    .gallery-slide { width: 320px; height: 200px; }
+    .gallery-slide { width: 300px; height: 188px; }
 
     .steps {
         grid-template-columns: 1fr;
@@ -1099,7 +1096,7 @@ section { padding: var(--section-padding) 2rem; }
     .features-grid { grid-template-columns: 1fr; }
     .hero-buttons { flex-direction: column; align-items: center; }
     .cta-buttons { flex-direction: column; align-items: center; }
-    .gallery-slide { width: 280px; height: 175px; }
+    .gallery-slide { width: 250px; height: 157px; }
 }
 </style>
 </head>
@@ -1532,70 +1529,78 @@ mobileMenu.querySelectorAll('a').forEach(link => {
     });
 });
 
-/* Screenshots Gallery */
-const galleryTrack = document.getElementById('galleryTrack');
+/* Screenshots Gallery — transform-based carousel */
+const galleryTrack  = document.getElementById('galleryTrack');
 const galleryOuter  = document.querySelector('.gallery-track-outer');
 const galleryDotsEl = document.getElementById('galleryDots');
 const slides        = galleryTrack.querySelectorAll('.gallery-slide');
-const SLIDE_WIDTH   = 572; // 560px + 12px gap
-const TOTAL_DOTS    = Math.ceil(slides.length / 2);
-let currentDot      = 0;
-let autoTimer       = null;
-let rafId           = null;
-let mouseSpeed      = 0;
-let isHovering      = false;
+const SLIDE_W       = 400;
+const GAP           = 20;
+const STRIDE        = SLIDE_W + GAP;
+const TOTAL_DOTS    = 5;
+
+let offset     = 0;
+let maxOffset  = 0;
+let autoTimer  = null;
+let rafId      = null;
+let mouseSpeed = 0;
+let isHovering = false;
+
+function calcMax() {
+    const trackW = slides.length * STRIDE - GAP + 64;
+    maxOffset = Math.max(0, trackW - galleryOuter.clientWidth);
+}
+
+function moveTo(newOffset, smooth) {
+    offset = Math.max(0, Math.min(newOffset, maxOffset));
+    galleryTrack.style.transition = smooth
+        ? 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)'
+        : 'none';
+    galleryTrack.style.transform = `translateX(-${offset}px)`;
+    updateDots();
+}
+
+function updateDots() {
+    const idx = Math.round((offset / Math.max(maxOffset, 1)) * (TOTAL_DOTS - 1));
+    galleryDotsEl.querySelectorAll('.gallery-dot').forEach((d, i) =>
+        d.classList.toggle('active', i === idx));
+}
 
 // Build dots
 for (let i = 0; i < TOTAL_DOTS; i++) {
     const dot = document.createElement('button');
     dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => { scrollToDot(i); stopAuto(); startAuto(); });
+    dot.addEventListener('click', () => {
+        moveTo((maxOffset / (TOTAL_DOTS - 1)) * i, true);
+        resetAuto();
+    });
     galleryDotsEl.appendChild(dot);
 }
 
-function updateDots() {
-    const pos  = galleryTrack.scrollLeft;
-    const max  = galleryTrack.scrollWidth - galleryTrack.clientWidth;
-    currentDot = Math.round((pos / Math.max(max, 1)) * (TOTAL_DOTS - 1));
-    galleryDotsEl.querySelectorAll('.gallery-dot').forEach((d, i) => d.classList.toggle('active', i === currentDot));
-}
+// Arrows
+document.getElementById('galleryPrev').addEventListener('click', () => { moveTo(offset - STRIDE, true); resetAuto(); });
+document.getElementById('galleryNext').addEventListener('click', () => { moveTo(offset + STRIDE, true); resetAuto(); });
 
-function scrollToDot(i) {
-    currentDot = Math.max(0, Math.min(i, TOTAL_DOTS - 1));
-    galleryTrack.scrollTo({ left: currentDot * SLIDE_WIDTH * 2, behavior: 'smooth' });
-    updateDots();
-}
-
-// Arrow buttons
-document.getElementById('galleryPrev').addEventListener('click', () => scrollToDot(currentDot - 1));
-document.getElementById('galleryNext').addEventListener('click', () => scrollToDot(currentDot + 1));
-
-// Auto-scroll — advances one slide every 4s, wraps to start
+// Auto-scroll
 function startAuto() {
     autoTimer = setInterval(() => {
-        const maxScroll = galleryTrack.scrollWidth - galleryTrack.clientWidth;
-        if (galleryTrack.scrollLeft >= maxScroll - 10) {
-            galleryTrack.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-            galleryTrack.scrollBy({ left: SLIDE_WIDTH, behavior: 'smooth' });
-        }
-        setTimeout(updateDots, 400);
+        moveTo(offset >= maxOffset - 10 ? 0 : offset + STRIDE, true);
     }, 4000);
 }
-function stopAuto() { clearInterval(autoTimer); }
+function stopAuto()  { clearInterval(autoTimer); }
+function resetAuto() { stopAuto(); startAuto(); }
 
-// Mouse-position scroll via requestAnimationFrame
+// Mouse-position scroll via RAF
 function rafLoop() {
-    if (mouseSpeed !== 0) galleryTrack.scrollLeft += mouseSpeed;
+    if (mouseSpeed !== 0) moveTo(offset + mouseSpeed, false);
     if (isHovering) rafId = requestAnimationFrame(rafLoop);
 }
 
 galleryOuter.addEventListener('mousemove', (e) => {
-    const rect  = galleryOuter.getBoundingClientRect();
-    const ratio = (e.clientX - rect.left) / rect.width;
-    if (ratio < 0.2)      mouseSpeed = -(0.2 - ratio) * 28;  // left zone
-    else if (ratio > 0.8) mouseSpeed =  (ratio - 0.8) * 28;  // right zone
-    else                  mouseSpeed = 0;                       // center — pause
+    const r = (e.clientX - galleryOuter.getBoundingClientRect().left) / galleryOuter.clientWidth;
+    mouseSpeed = r < 0.2 ? -(0.2 - r) * 18
+               : r > 0.8 ?  (r - 0.8) * 18
+               : 0;
 });
 
 galleryOuter.addEventListener('mouseenter', () => {
@@ -1605,24 +1610,28 @@ galleryOuter.addEventListener('mouseenter', () => {
 });
 
 galleryOuter.addEventListener('mouseleave', () => {
-    isHovering  = false;
-    mouseSpeed  = 0;
+    isHovering = false;
+    mouseSpeed = 0;
     cancelAnimationFrame(rafId);
-    updateDots();
     startAuto();
 });
 
 // Touch swipe
-let touchStartX = 0;
-galleryTrack.addEventListener('touchstart', e => { touchStartX = e.touches[0].pageX; stopAuto(); }, { passive: true });
-galleryTrack.addEventListener('touchend', e => {
-    const diff = touchStartX - e.changedTouches[0].pageX;
-    if (Math.abs(diff) > 50) scrollToDot(diff > 0 ? currentDot + 1 : currentDot - 1);
+let txStart = 0, offsetStart = 0;
+galleryTrack.addEventListener('touchstart', e => {
+    txStart = e.touches[0].pageX; offsetStart = offset; stopAuto();
+    galleryTrack.style.transition = 'none';
+}, { passive: true });
+galleryTrack.addEventListener('touchmove', e => {
+    moveTo(offsetStart + (txStart - e.touches[0].pageX), false);
+}, { passive: true });
+galleryTrack.addEventListener('touchend', () => {
+    moveTo(Math.round(offset / STRIDE) * STRIDE, true);
     startAuto();
 });
 
-galleryTrack.addEventListener('scroll', updateDots, { passive: true });
-
+calcMax();
+window.addEventListener('resize', () => { calcMax(); moveTo(Math.min(offset, maxOffset), false); });
 startAuto();
 </script>
 
