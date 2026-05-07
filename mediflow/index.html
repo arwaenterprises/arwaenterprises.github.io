@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediFlow ميديفلو | Pharmacy Management System</title>
+    <meta name="description" content="Complete pharmacy management system — medicines, inventory, billing, customer accounts, expiry alerts and reports. Built for pharmacies in the Gulf and South Asia.">
+    <link rel="icon" type="image/svg+xml" href="assets/mediflow-favicon.svg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================
+   CSS VARIABLES — MediFlow Theme
+============================================ */
+:root {
+    --bg-dark: #0a0f1a;
+    --bg-dark-2: #0d1520;
+    --bg-dark-3: #080d14;
+    --accent-primary: #0EA5E9;
+    --accent-secondary: #06B6D4;
+    --accent-gradient: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+    --whatsapp: #25D366;
+    --text-primary: #f0f9ff;
+    --text-muted: #94a3b8;
+    --text-faint: #64748b;
+    --border: rgba(14, 165, 233, 0.1);
+    --border-accent: rgba(14, 165, 233, 0.35);
+    --card-bg: rgba(14, 165, 233, 0.05);
+    --card-bg-hover: rgba(14, 165, 233, 0.1);
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-arabic: 'Cairo', sans-serif;
+    --section-padding: 100px;
+    --container-max: 1200px;
+}
+
+[dir="rtl"] {
+    --font-display: 'Cairo', sans-serif;
+    --font-body: 'Cairo', sans-serif;
+}
+
+/* ============================================
+   BASE
+============================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+
+.container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ============================================
+   BUTTONS
+============================================ */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.85rem 2rem;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-primary:hover {
+    background: var(--accent-gradient-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(14, 165, 233, 0.4);
+}
+
+.btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.85rem 2rem;
+    background: var(--whatsapp);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-whatsapp:hover {
+    background: #1da851;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(37, 211, 102, 0.35);
+}
+
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-outline:hover {
+    border-color: white;
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   NAVBAR
+============================================ */
+.navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(10, 15, 26, 0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    transition: all 0.3s ease;
+}
+.navbar.scrolled {
+    background: rgba(10, 15, 26, 0.98);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+}
+.navbar-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+.logo-img { height: 38px; width: auto; }
+.logo-text {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.back-link {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+    margin-left: 1rem;
+}
+[dir="rtl"] .back-link { margin-left: 0; margin-right: 1rem; }
+.back-link:hover { opacity: 1; color: var(--accent-primary); }
+
+.nav-links {
+    display: flex;
+    gap: 1.8rem;
+    align-items: center;
+}
+.nav-links a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+.nav-links a:hover { color: var(--accent-primary); }
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-shrink: 0;
+}
+.lang-toggle { display: flex; gap: 0.4rem; }
+.lang-btn {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+.lang-btn.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    color: white;
+}
+.btn-launch {
+    padding: 0.5rem 1.2rem;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.btn-launch:hover {
+    background: var(--accent-gradient-hover);
+    box-shadow: 0 4px 15px rgba(14,165,233,0.4);
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.4rem;
+    padding: 0.4rem;
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 65px; left: 0; right: 0;
+    background: var(--bg-dark-2);
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 2rem;
+    z-index: 999;
+}
+.mobile-menu.active { display: block; }
+.mobile-menu a {
+    display: block;
+    color: var(--text-muted);
+    padding: 0.85rem 0;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--accent-primary); }
+
+/* ============================================
+   HERO
+============================================ */
+.hero {
+    min-height: 100vh;
+    background: var(--bg-dark);
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 120px 2rem 80px;
+    overflow: hidden;
+}
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 15% 25%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 75%, rgba(6, 182, 212, 0.12) 0%, transparent 50%);
+    pointer-events: none;
+}
+.hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(14,165,233,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14,165,233,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+.hero-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+.hero-content { animation: fadeInUp 0.9s ease; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-logo { margin-bottom: 1.5rem; }
+.hero-logo img { height: 60px; width: auto; }
+.hero-logo-text {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.45rem 1rem;
+    background: rgba(14,165,233,0.12);
+    border: 1px solid rgba(14,165,233,0.3);
+    border-radius: 50px;
+    color: #7dd3fc;
+    font-size: 0.82rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.15;
+    margin-bottom: 1.2rem;
+}
+.hero h1 span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 480px;
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+.hero-stat h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.hero-stat p {
+    font-size: 0.82rem;
+    color: var(--text-faint);
+}
+
+/* Pharmacy Visual Widget */
+.hero-visual { animation: fadeInUp 0.9s ease 0.2s both; }
+
+.pharmacy-terminal {
+    background: #060b14;
+    border-radius: 20px;
+    border: 1px solid rgba(14,165,233,0.2);
+    padding: 2rem;
+    max-width: 380px;
+    margin: 0 auto;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(14,165,233,0.08);
+    position: relative;
+    overflow: hidden;
+}
+.pharmacy-terminal::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at center, rgba(14,165,233,0.05) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+.terminal-dot:nth-child(1) { background: #ff5f56; }
+.terminal-dot:nth-child(2) { background: #ffbd2e; }
+.terminal-dot:nth-child(3) { background: #27ca40; }
+.terminal-title {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+    margin-left: 0.5rem;
+    font-family: monospace;
+}
+
+.stock-rows { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.2rem; }
+.stock-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.75rem;
+    background: rgba(14,165,233,0.06);
+    border: 1px solid rgba(14,165,233,0.12);
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+.stock-row-icon { font-size: 1.1rem; flex-shrink: 0; }
+.stock-row-name { flex: 1; color: var(--text-primary); font-weight: 500; }
+.stock-badge {
+    padding: 0.18rem 0.5rem;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+.badge-ok { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+.badge-low { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.25); }
+.badge-exp { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+
+.billing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0.75rem;
+    background: rgba(14,165,233,0.08);
+    border: 1px solid rgba(14,165,233,0.2);
+    border-radius: 10px;
+    margin-bottom: 0.8rem;
+}
+.billing-label { font-size: 0.8rem; color: var(--text-muted); }
+.billing-amount {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.blink-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #0EA5E9;
+    display: inline-block;
+    animation: blink 2s ease infinite;
+    margin-right: 6px;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+.live-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.8rem;
+    background: rgba(14,165,233,0.1);
+    border: 1px solid rgba(14,165,233,0.2);
+    border-radius: 6px;
+    font-size: 0.74rem;
+    color: #7dd3fc;
+    font-weight: 500;
+}
+
+/* Stat Strip */
+.hero-stat-strip {
+    display: flex;
+    gap: 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.hero-stat-strip::-webkit-scrollbar { display: none; }
+.stat-strip-item {
+    flex: 1;
+    min-width: 110px;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border-right: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+.stat-strip-item:last-child { border-right: none; }
+.stat-strip-item strong {
+    display: block;
+    color: #7dd3fc;
+    font-size: 0.88rem;
+    margin-bottom: 0.15rem;
+}
+
+/* ============================================
+   SECTION SHARED
+============================================ */
+section { padding: var(--section-padding) 2rem; }
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+.section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+.section-header h2 span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-header p {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   FEATURES
+============================================ */
+.features { background: var(--bg-dark-2); }
+
+.features-grid {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+}
+
+.feature-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.6rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent-gradient);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.feature-card:hover {
+    background: var(--card-bg-hover);
+    border-color: var(--border-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(14,165,233,0.12);
+}
+.feature-card:hover::before { opacity: 1; }
+
+.feature-icon-wrap {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(14,165,233,0.18) 0%, rgba(6,182,212,0.18) 100%);
+    border: 1px solid rgba(14,165,233,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+.feature-card h3 {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+.feature-card p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+}
+
+/* ============================================
+   HOW IT WORKS
+============================================ */
+.how-it-works { background: var(--bg-dark); }
+
+.steps {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    position: relative;
+}
+.steps::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: calc(16.67% + 30px);
+    right: calc(16.67% + 30px);
+    height: 2px;
+    background: linear-gradient(to right, #0EA5E9, #06B6D4);
+    opacity: 0.3;
+}
+
+.step { text-align: center; position: relative; }
+.step-number {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 auto 1.2rem;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 25px rgba(14,165,233,0.35);
+}
+.step h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+}
+.step p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ============================================
+   WHO IS IT FOR
+============================================ */
+.for-who { background: var(--bg-dark-2); }
+
+.for-who-grid {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.for-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem 1.8rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.for-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent-gradient);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.for-card:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(14,165,233,0.1);
+}
+.for-card:hover::after { opacity: 1; }
+
+.for-card-icon { font-size: 2.5rem; margin-bottom: 1.2rem; display: block; }
+.for-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+.for-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+
+/* ============================================
+   CTA BANNER
+============================================ */
+.cta-banner {
+    background: var(--accent-gradient);
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.cta-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(0,0,0,0.1) 0%, transparent 60%);
+    pointer-events: none;
+}
+.cta-banner-inner {
+    max-width: 620px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+.cta-banner h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+}
+.cta-banner p {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 2rem;
+}
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.cta-banner .btn-whatsapp {
+    background: white;
+    color: #25D366;
+}
+.cta-banner .btn-whatsapp:hover {
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+.cta-banner .btn-outline {
+    border-color: rgba(255,255,255,0.6);
+}
+
+/* ============================================
+   FOOTER
+============================================ */
+.footer {
+    background: var(--bg-dark-3);
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+}
+.footer-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+.footer-logo { display: flex; align-items: center; gap: 10px; }
+.footer-logo img { height: 36px; width: auto; }
+.footer-logo-text {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.footer-links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+.footer-links a { font-size: 0.88rem; color: var(--text-faint); transition: color 0.2s; }
+.footer-links a:hover { color: var(--accent-primary); }
+.footer-copy { font-size: 0.82rem; color: var(--text-faint); }
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 1024px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    :root { --section-padding: 70px; }
+
+    .nav-links { display: none; }
+    .mobile-menu-btn { display: block; }
+    .back-link { display: none; }
+
+    .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    .hero-description { margin: 0 auto 2rem; }
+    .hero-buttons { justify-content: center; }
+    .hero-stats { justify-content: center; }
+    .hero-stat-strip { flex-wrap: nowrap; justify-content: flex-start; }
+
+    .pharmacy-terminal { max-width: 320px; }
+
+    .features-grid { grid-template-columns: 1fr 1fr; }
+
+    .steps { grid-template-columns: 1fr; gap: 2.5rem; }
+    .steps::before { display: none; }
+
+    .for-who-grid { grid-template-columns: 1fr; }
+
+    .footer-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .features-grid { grid-template-columns: 1fr; }
+    .hero-buttons { flex-direction: column; align-items: center; }
+    .cta-buttons { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     NAVBAR
+============================================ -->
+<nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+            <a href="/" class="back-link" data-en="← Arwa Enterprises" data-ar="← أروا للمشاريع">← Arwa Enterprises</a>
+        </div>
+
+        <a href="#" class="logo">
+            <img src="assets/mediflow-logo.svg" alt="MediFlow" class="logo-img" id="navLogoImg" onerror="this.style.display='none';document.getElementById('navLogoText').style.display='block';">
+            <span class="logo-text" id="navLogoText" style="display:none;">MediFlow</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="#" data-en="Home" data-ar="الرئيسية">Home</a>
+            <a href="#features" data-en="Features" data-ar="المميزات">Features</a>
+            <a href="#contact" data-en="Contact" data-ar="تواصل">Contact</a>
+        </div>
+
+        <div class="nav-right">
+            <div class="lang-toggle">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ar">عربي</button>
+            </div>
+            <a href="https://mediflow.arwaenterprises.com" target="_blank" class="btn-launch" data-en="Launch App" data-ar="فتح التطبيق">Launch App</a>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#" data-en="Home" data-ar="الرئيسية">Home</a>
+    <a href="#features" data-en="Features" data-ar="المميزات">Features</a>
+    <a href="#contact" data-en="Contact" data-ar="تواصل">Contact</a>
+    <a href="https://mediflow.arwaenterprises.com" target="_blank" data-en="Launch App →" data-ar="فتح التطبيق ←">Launch App →</a>
+</div>
+
+<!-- ============================================
+     HERO
+============================================ -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+        <div class="hero-content">
+            <!-- Logo -->
+            <div class="hero-logo">
+                <img src="assets/mediflow-logo.svg" alt="MediFlow" id="heroLogoImg" onerror="this.style.display='none';document.getElementById('heroLogoText').style.display='block';" style="height:64px;width:auto;">
+                <span class="hero-logo-text" id="heroLogoText" style="display:none;">MediFlow</span>
+            </div>
+
+            <div class="hero-badge">
+                💊 <span data-en="Complete Pharmacy Management System" data-ar="نظام إدارة الصيدليات المتكامل">Complete Pharmacy Management System</span>
+            </div>
+
+            <h1 data-en="<span>MediFlow</span> — The Complete Pharmacy Management System" data-ar="<span>ميديفلو</span> — نظام إدارة الصيدليات المتكامل">
+                <span>MediFlow</span> — The Complete Pharmacy Management System
+            </h1>
+
+            <p class="hero-description" data-en="Manage medicines, inventory, billing and customers — all in one place. Built for pharmacies in the Gulf and South Asia." data-ar="أدِر الأدوية والمخزون والفواتير والعملاء في مكان واحد. مُصمَّم للصيدليات في الخليج وجنوب آسيا.">
+                Manage medicines, inventory, billing and customers — all in one place. Built for pharmacies in the Gulf and South Asia.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="https://mediflow.arwaenterprises.com" target="_blank" class="btn-primary">
+                    <span data-en="Launch App →" data-ar="فتح التطبيق ←">Launch App →</span>
+                </a>
+                <a href="https://wa.me/917021229209?text=Hi%2C%20I%27d%20like%20a%20demo%20of%20MediFlow%20Pharmacy%20Management" target="_blank" class="btn-whatsapp">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    <span data-en="Request Demo" data-ar="طلب تجريبي">Request Demo</span>
+                </a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <h3>6+</h3>
+                    <p data-en="Core Modules" data-ar="وحدات أساسية">Core Modules</p>
+                </div>
+                <div class="hero-stat">
+                    <h3 data-en="Live" data-ar="مباشر">Live</h3>
+                    <p data-en="App Running Now" data-ar="التطبيق يعمل الآن">App Running Now</p>
+                </div>
+                <div class="hero-stat">
+                    <h3>Excel</h3>
+                    <p data-en="Reports & Exports" data-ar="التقارير والتصدير">Reports & Exports</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="pharmacy-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dot"></div>
+                    <div class="terminal-dot"></div>
+                    <div class="terminal-dot"></div>
+                    <span class="terminal-title">MediFlow · Inventory</span>
+                </div>
+
+                <div class="stock-rows">
+                    <div class="stock-row">
+                        <span class="stock-row-icon">💊</span>
+                        <span class="stock-row-name">Paracetamol 500mg</span>
+                        <span class="stock-badge badge-ok" data-en="In Stock" data-ar="متوفر">In Stock</span>
+                    </div>
+                    <div class="stock-row">
+                        <span class="stock-row-icon">💊</span>
+                        <span class="stock-row-name">Amoxicillin 250mg</span>
+                        <span class="stock-badge badge-low" data-en="Low Stock" data-ar="مخزون منخفض">Low Stock</span>
+                    </div>
+                    <div class="stock-row">
+                        <span class="stock-row-icon">💊</span>
+                        <span class="stock-row-name">Vitamin D3 1000IU</span>
+                        <span class="stock-badge badge-exp" data-en="Expiring" data-ar="قرب الانتهاء">Expiring</span>
+                    </div>
+                    <div class="stock-row">
+                        <span class="stock-row-icon">💊</span>
+                        <span class="stock-row-name">Metformin 500mg</span>
+                        <span class="stock-badge badge-ok" data-en="In Stock" data-ar="متوفر">In Stock</span>
+                    </div>
+                </div>
+
+                <div class="billing-row">
+                    <span class="billing-label" data-en="Today's Sales" data-ar="مبيعات اليوم">Today's Sales</span>
+                    <span class="billing-amount">₹ 12,480</span>
+                </div>
+
+                <div class="live-badge">
+                    <span class="blink-dot"></span>
+                    <span data-en="Live · Expiry Alerts Active" data-ar="مباشر · تنبيهات الانتهاء فعّالة">Live · Expiry Alerts Active</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stat strip -->
+    <div class="hero-stat-strip" style="position:absolute;bottom:0;left:0;right:0;margin:0;border-top:1px solid var(--border);border-bottom:none;background:rgba(13,21,32,0.85);backdrop-filter:blur(10px);">
+        <div class="stat-strip-item"><strong data-en="Medicine Mgmt" data-ar="إدارة الأدوية">Medicine Mgmt</strong><span data-en="Batch & Expiry" data-ar="الدفعات والانتهاء">Batch & Expiry</span></div>
+        <div class="stat-strip-item"><strong data-en="Smart Stock" data-ar="مخزون ذكي">Smart Stock</strong><span data-en="Auto Alerts" data-ar="تنبيهات تلقائية">Auto Alerts</span></div>
+        <div class="stat-strip-item"><strong data-en="Billing & POS" data-ar="الفواتير">Billing & POS</strong><span data-en="Fast Checkout" data-ar="تسوية سريعة">Fast Checkout</span></div>
+        <div class="stat-strip-item"><strong data-en="Reports" data-ar="التقارير">Reports</strong><span data-en="P&L + Inventory" data-ar="الأرباح + المخزون">P&amp;L + Inventory</span></div>
+        <div class="stat-strip-item"><strong data-en="Multi-User" data-ar="متعدد المستخدمين">Multi-User</strong><span data-en="Role-Based" data-ar="صلاحيات بالدور">Role-Based</span></div>
+    </div>
+</section>
+
+<!-- ============================================
+     FEATURES
+============================================ -->
+<section class="features" id="features">
+    <div class="section-header">
+        <h2 data-en="Everything You Need to <span>Run Your Pharmacy</span>" data-ar="كل ما تحتاجه <span>لإدارة صيدليتك</span>">Everything You Need to <span>Run Your Pharmacy</span></h2>
+        <p data-en="From stock management to billing and reports — MediFlow handles it all." data-ar="من إدارة المخزون إلى الفواتير والتقارير — ميديفلو يتولى كل شيء.">From stock management to billing and reports — MediFlow handles it all.</p>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon-wrap">💊</div>
+            <h3 data-en="Medicine Management" data-ar="إدارة الأدوية">Medicine Management</h3>
+            <p data-en="Add, edit and track medicines with batch numbers, expiry dates and supplier info." data-ar="أضف وعدّل وتتبع الأدوية مع أرقام الدفعات وتواريخ الانتهاء ومعلومات الموردين.">Add, edit and track medicines with batch numbers, expiry dates and supplier info.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">📦</div>
+            <h3 data-en="Smart Inventory" data-ar="المخزون الذكي">Smart Inventory</h3>
+            <p data-en="Real-time stock levels with automatic low-stock alerts and expiry warnings." data-ar="مستويات المخزون الفورية مع تنبيهات تلقائية للمخزون المنخفض وانتهاء الصلاحية.">Real-time stock levels with automatic low-stock alerts and expiry warnings.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">🧾</div>
+            <h3 data-en="Billing & POS" data-ar="الفواتير ونقطة البيع">Billing & POS</h3>
+            <p data-en="Fast sales checkout with itemised receipts, discounts and payment tracking." data-ar="إتمام المبيعات بسرعة مع فواتير مفصّلة والخصومات وتتبع المدفوعات.">Fast sales checkout with itemised receipts, discounts and payment tracking.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">👤</div>
+            <h3 data-en="Customer Accounts" data-ar="حسابات العملاء">Customer Accounts</h3>
+            <p data-en="Credit balances, purchase history and outstanding payments per customer." data-ar="أرصدة الائتمان وسجل المشتريات والمدفوعات المستحقة لكل عميل.">Credit balances, purchase history and outstanding payments per customer.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">📊</div>
+            <h3 data-en="Reports & Analytics" data-ar="التقارير والتحليلات">Reports & Analytics</h3>
+            <p data-en="Daily sales, profit & loss, expiry tracking and inventory valuation reports." data-ar="تقارير المبيعات اليومية والأرباح والخسائر وتتبع انتهاء الصلاحية وتقييم المخزون.">Daily sales, profit & loss, expiry tracking and inventory valuation reports.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon-wrap">👥</div>
+            <h3 data-en="Multi-user Access" data-ar="وصول متعدد المستخدمين">Multi-user Access</h3>
+            <p data-en="Role-based permissions for pharmacists, cashiers and store managers." data-ar="صلاحيات تعتمد على الأدوار للصيادلة وأمناء الصندوق ومدراء المتاجر.">Role-based permissions for pharmacists, cashiers and store managers.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     HOW IT WORKS
+============================================ -->
+<section class="how-it-works" id="how-it-works">
+    <div class="section-header">
+        <h2 data-en="Up and Running in <span>3 Simple Steps</span>" data-ar="جاهز للعمل في <span>3 خطوات بسيطة</span>">Up and Running in <span>3 Simple Steps</span></h2>
+        <p data-en="No complex setup. Start managing your pharmacy from day one." data-ar="لا إعداد معقد. ابدأ إدارة صيدليتك من اليوم الأول.">No complex setup. Start managing your pharmacy from day one.</p>
+    </div>
+
+    <div class="steps">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3 data-en="Add Your Medicines" data-ar="أضف أدويتك">Add Your Medicines</h3>
+            <p data-en="Enter your medicine catalogue with batch numbers, suppliers and expiry dates. Import existing inventory in bulk or add one by one." data-ar="أدخل كتالوج أدويتك مع أرقام الدفعات والموردين وتواريخ الانتهاء. استورد المخزون الحالي دفعة واحدة أو أضف بشكل فردي.">Enter your medicine catalogue with batch numbers, suppliers and expiry dates. Import existing inventory in bulk or add one by one.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3 data-en="Sell & Track" data-ar="بِع وتتبّع">Sell & Track</h3>
+            <p data-en="Process sales at the POS counter — stock deducts automatically. Low-stock and expiry alerts trigger as thresholds are crossed." data-ar="معالجة المبيعات عند نقطة البيع — يُخصم المخزون تلقائياً. تُطلق تنبيهات المخزون المنخفض وانتهاء الصلاحية عند تجاوز الحدود.">Process sales at the POS counter — stock deducts automatically. Low-stock and expiry alerts trigger as thresholds are crossed.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3 data-en="Review & Export" data-ar="راجِع وصدِّر">Review & Export</h3>
+            <p data-en="Pull daily sales summaries, profit reports and inventory valuations. Export to Excel for accounting or share with your owner." data-ar="احصل على ملخصات المبيعات اليومية وتقارير الأرباح وتقييمات المخزون. صدّر إلى Excel للمحاسبة أو شارك مع المالك.">Pull daily sales summaries, profit reports and inventory valuations. Export to Excel for accounting or share with your owner.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     WHO IS IT FOR
+============================================ -->
+<section class="for-who" id="for-who">
+    <div class="section-header">
+        <h2 data-en="Built for <span>Your Pharmacy</span>" data-ar="مصمم <span>لصيدليتك</span>">Built for <span>Your Pharmacy</span></h2>
+        <p data-en="MediFlow fits any pharmacy size — from a single counter to a multi-branch chain." data-ar="ميديفلو يناسب أي حجم صيدلية — من كاونتر واحد إلى سلسلة متعددة الفروع.">MediFlow fits any pharmacy size — from a single counter to a multi-branch chain.</p>
+    </div>
+
+    <div class="for-who-grid">
+        <div class="for-card">
+            <span class="for-card-icon">🏥</span>
+            <h3 data-en="Retail Pharmacies" data-ar="صيدليات التجزئة">Retail Pharmacies</h3>
+            <p data-en="Handle daily sales, track cash and credit customers, manage expiry alerts, and run end-of-day reports — all from a single screen." data-ar="إدارة المبيعات اليومية وتتبع العملاء النقديين والائتمانيين وتنبيهات الانتهاء وتقارير نهاية اليوم — كل ذلك من شاشة واحدة.">Handle daily sales, track cash and credit customers, manage expiry alerts, and run end-of-day reports — all from a single screen.</p>
+        </div>
+
+        <div class="for-card">
+            <span class="for-card-icon">🏨</span>
+            <h3 data-en="Hospital Pharmacies" data-ar="صيدليات المستشفيات">Hospital Pharmacies</h3>
+            <p data-en="Multi-user access for pharmacists and cashiers, detailed dispensing records, and fast billing linked to patient accounts." data-ar="وصول متعدد المستخدمين للصيادلة وأمناء الصندوق، وسجلات صرف تفصيلية، وفوترة سريعة مرتبطة بحسابات المرضى.">Multi-user access for pharmacists and cashiers, detailed dispensing records, and fast billing linked to patient accounts.</p>
+        </div>
+
+        <div class="for-card">
+            <span class="for-card-icon">🏪</span>
+            <h3 data-en="Medical Stores" data-ar="المخازن الطبية">Medical Stores</h3>
+            <p data-en="Manage bulk supplier purchases, track batch-level inventory, and generate profit & loss reports for your owner or accountant." data-ar="إدارة مشتريات الموردين بالجملة وتتبع المخزون على مستوى الدفعات وإنشاء تقارير الأرباح والخسائر للمالك أو المحاسب.">Manage bulk supplier purchases, track batch-level inventory, and generate profit & loss reports for your owner or accountant.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     CTA BANNER
+============================================ -->
+<section class="cta-banner" id="contact">
+    <div class="cta-banner-inner">
+        <h2 data-en="Ready to Modernize Your Pharmacy?" data-ar="هل أنت مستعد لتطوير صيدليتك؟">Ready to Modernize Your Pharmacy?</h2>
+        <p data-en="Launch the app now or talk to us on WhatsApp — we'll get you set up and running the same day." data-ar="افتح التطبيق الآن أو تحدث معنا عبر واتساب — سنساعدك في الإعداد والتشغيل في نفس اليوم.">Launch the app now or talk to us on WhatsApp — we'll get you set up and running the same day.</p>
+        <div class="cta-buttons">
+            <a href="https://wa.me/917021229209?text=Hi%2C%20I%27d%20like%20a%20demo%20of%20MediFlow%20Pharmacy%20Management" target="_blank" class="btn-whatsapp">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span data-en="Request Demo" data-ar="طلب تجريبي">Request Demo</span>
+            </a>
+            <a href="https://mediflow.arwaenterprises.com" target="_blank" class="btn-outline">
+                <span data-en="Launch App →" data-ar="فتح التطبيق ←">Launch App →</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+============================================ -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-logo">
+            <img src="assets/mediflow-logo-white.svg" alt="MediFlow" onerror="this.style.display='none'">
+            <span class="footer-logo-text">ميديفلو · MediFlow</span>
+        </div>
+
+        <div class="footer-links">
+            <a href="/" data-en="Arwa Enterprises" data-ar="أروا للمشاريع">Arwa Enterprises</a>
+            <a href="https://wa.me/917021229209" target="_blank" data-en="WhatsApp: +91 70212 29209" data-ar="واتساب: +91 70212 29209">WhatsApp: +91 70212 29209</a>
+            <a href="https://mediflow.arwaenterprises.com" target="_blank" data-en="Launch App" data-ar="فتح التطبيق">Launch App</a>
+        </div>
+
+        <div class="footer-copy">
+            <span data-en="© 2025 Arwa Enterprises · MediFlow Pharmacy Management" data-ar="© 2025 أروا للمشاريع · ميديفلو لإدارة الصيدليات">© 2025 Arwa Enterprises · MediFlow Pharmacy Management</span>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================
+     JAVASCRIPT
+============================================ -->
+<script>
+/* Language Toggle */
+const langBtns = document.querySelectorAll('.lang-btn');
+let currentLang = 'en';
+
+function switchLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+    langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    document.querySelectorAll('[data-en]').forEach(el => {
+        const text = el.dataset[lang];
+        if (text) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = text;
+            } else {
+                el.innerHTML = text;
+            }
+        }
+    });
+}
+langBtns.forEach(btn => btn.addEventListener('click', () => switchLanguage(btn.dataset.lang)));
+
+/* Navbar scroll */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+
+/* Mobile menu */
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+mobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('active');
+    mobileMenuBtn.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+});
+mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        mobileMenuBtn.textContent = '☰';
+    });
+});
+
+/* Animate feature cards on scroll */
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card, .for-card, .step').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+});
+</script>
+
+</body>
+</html>

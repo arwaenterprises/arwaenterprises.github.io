@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="MediFlow">
+  <defs>
+    <linearGradient id="fg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0EA5E9"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="15" fill="url(#fg)"/>
+
+  <!-- Pill capsule shape (horizontal) -->
+  <rect x="6" y="11" width="20" height="10" rx="5" ry="5" fill="none" stroke="white" stroke-width="1.5" opacity="0.9"/>
+
+  <!-- Divider line in middle of pill -->
+  <line x1="16" y1="11" x2="16" y2="21" stroke="white" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- Plus sign on left half -->
+  <line x1="11" y1="16" x2="14" y2="16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="12.5" y1="14.5" x2="12.5" y2="17.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

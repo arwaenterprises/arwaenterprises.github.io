@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 58" width="220" height="58" role="img" aria-label="MediFlow">
+  <!-- White version for dark backgrounds -->
+
+  <!-- Outer pulse ring -->
+  <circle cx="29" cy="29" r="27" fill="none" stroke="white" stroke-width="0.6"
+          stroke-dasharray="2 4" opacity="0.3"/>
+
+  <!-- Main icon circle -->
+  <circle cx="29" cy="29" r="23" fill="rgba(255,255,255,0.08)" stroke="white" stroke-width="2" opacity="0.9"/>
+
+  <!-- Pill capsule -->
+  <rect x="11" y="22" width="36" height="14" rx="7" ry="7" fill="none" stroke="white" stroke-width="2" opacity="0.9"/>
+
+  <!-- Divider -->
+  <line x1="29" y1="22" x2="29" y2="36" stroke="white" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- Plus sign -->
+  <line x1="18" y1="29" x2="23" y2="29" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <line x1="20.5" y1="26.5" x2="20.5" y2="31.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Divider line -->
+  <line x1="64" y1="12" x2="64" y2="46" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+
+  <!-- Text: MediFlow -->
+  <text x="74" y="27"
+        font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
+        font-size="19" font-weight="700"
+        fill="white" letter-spacing="-0.5">MediFlow</text>
+
+  <!-- Arabic ميديفلو -->
+  <text x="75" y="45"
+        font-family="system-ui,-apple-system,'Segoe UI',Arial,'Arabic Typesetting',sans-serif"
+        font-size="13" font-weight="600"
+        fill="rgba(255,255,255,0.7)" letter-spacing="0.5">ميديفلو</text>
+</svg>
