@@ -701,9 +701,9 @@ section { padding: var(--section-padding) 2rem; }
 }
 
 .gallery-track-outer {
-    overflow: hidden;
     border-radius: 12px;
     position: relative;
+    padding: 1.5rem 0;
 }
 .gallery-track-outer::before,
 .gallery-track-outer::after {
@@ -725,30 +725,35 @@ section { padding: var(--section-padding) 2rem; }
 
 .gallery-track {
     display: flex;
-    gap: 1rem;
+    gap: 1.2rem;
     overflow-x: auto;
+    overflow-y: visible;
     scroll-behavior: smooth;
     scrollbar-width: none;
-    padding: 1rem 2rem 1.5rem;
+    padding: 0.5rem 2rem 1rem;
     -ms-overflow-style: none;
 }
 .gallery-track::-webkit-scrollbar { display: none; }
 
 .gallery-slide {
     flex-shrink: 0;
-    width: 240px;
-    height: 430px;
+    width: 560px;
+    height: 340px;
     border-radius: 14px;
     border: 1px solid var(--border);
     overflow: hidden;
     background: var(--bg-dark-2);
-    transition: all 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
     position: relative;
+    z-index: 1;
 }
 .gallery-slide:hover {
-    border-color: rgba(102,126,234,0.5);
-    box-shadow: 0 12px 40px rgba(102,126,234,0.2);
-    transform: translateY(-4px);
+    border-color: rgba(102,126,234,0.6);
+    box-shadow: 0 20px 60px rgba(102,126,234,0.3), 0 0 0 1px rgba(102,126,234,0.2);
+    transform: scale(1.06) translateY(-6px);
+    z-index: 10;
 }
 .gallery-slide img {
     width: 100%;
@@ -759,16 +764,16 @@ section { padding: var(--section-padding) 2rem; }
 .gallery-placeholder {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+    background: linear-gradient(135deg, rgba(102,126,234,0.08) 0%, rgba(118,75,162,0.08) 100%);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
-    color: rgba(102,126,234,0.5);
-    font-size: 0.8rem;
+    gap: 1rem;
+    color: rgba(102,126,234,0.4);
+    font-size: 0.85rem;
 }
-.gallery-placeholder span { font-size: 2rem; opacity: 0.4; }
+.gallery-placeholder span { font-size: 2.5rem; opacity: 0.35; }
 
 .gallery-controls {
     display: flex;
@@ -1077,6 +1082,8 @@ section { padding: var(--section-padding) 2rem; }
 
     .features-grid { grid-template-columns: 1fr 1fr; }
 
+    .gallery-slide { width: 320px; height: 200px; }
+
     .steps {
         grid-template-columns: 1fr;
         gap: 2.5rem;
@@ -1092,7 +1099,7 @@ section { padding: var(--section-padding) 2rem; }
     .features-grid { grid-template-columns: 1fr; }
     .hero-buttons { flex-direction: column; align-items: center; }
     .cta-buttons { flex-direction: column; align-items: center; }
-    .gallery-slide { width: 200px; height: 360px; }
+    .gallery-slide { width: 280px; height: 175px; }
 }
 </style>
 </head>
@@ -1202,7 +1209,29 @@ section { padding: var(--section-padding) 2rem; }
 
                 <div class="face-scan-wrapper">
                     <div class="face-scan-ring">
-                        <span class="face-icon">🤖</span>
+                        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Corner bracket TL -->
+                            <path d="M10 22 L10 10 L22 10" stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <!-- Corner bracket TR -->
+                            <path d="M48 10 L60 10 L60 22" stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <!-- Corner bracket BL -->
+                            <path d="M10 48 L10 60 L22 60" stroke="#764ba2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <!-- Corner bracket BR -->
+                            <path d="M48 60 L60 60 L60 48" stroke="#764ba2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <!-- Face outline (subtle) -->
+                            <ellipse cx="35" cy="33" rx="13" ry="15" stroke="rgba(102,126,234,0.25)" stroke-width="1.2" stroke-dasharray="3 3"/>
+                            <!-- Left eye dot -->
+                            <circle cx="29" cy="29" r="2" fill="#667eea" opacity="0.85"/>
+                            <!-- Right eye dot -->
+                            <circle cx="41" cy="29" r="2" fill="#667eea" opacity="0.85"/>
+                            <!-- Nose dot -->
+                            <circle cx="35" cy="35" r="1.2" fill="#a5b4fc" opacity="0.6"/>
+                            <!-- Mouth line -->
+                            <path d="M30 41 Q35 44.5 40 41" stroke="#764ba2" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+                            <!-- Neural dot accents -->
+                            <circle cx="35" cy="16" r="1.5" fill="#667eea" opacity="0.5"/>
+                            <circle cx="35" cy="54" r="1.5" fill="#764ba2" opacity="0.5"/>
+                        </svg>
                     </div>
                     <span class="scan-label" data-en="AI FACE SCAN" data-ar="مسح الوجه بالذكاء الاصطناعي">AI FACE SCAN</span>
                 </div>
@@ -1505,62 +1534,96 @@ mobileMenu.querySelectorAll('a').forEach(link => {
 
 /* Screenshots Gallery */
 const galleryTrack = document.getElementById('galleryTrack');
+const galleryOuter  = document.querySelector('.gallery-track-outer');
 const galleryDotsEl = document.getElementById('galleryDots');
-const slides = galleryTrack.querySelectorAll('.gallery-slide');
-const SLIDE_WIDTH = 256; // 240px + 16px gap
-const VISIBLE = Math.floor(window.innerWidth / SLIDE_WIDTH) || 1;
-const TOTAL_DOTS = Math.ceil(slides.length / 3);
-let currentDot = 0;
-let autoScrollTimer;
+const slides        = galleryTrack.querySelectorAll('.gallery-slide');
+const SLIDE_WIDTH   = 572; // 560px + 12px gap
+const TOTAL_DOTS    = Math.ceil(slides.length / 2);
+let currentDot      = 0;
+let autoTimer       = null;
+let rafId           = null;
+let mouseSpeed      = 0;
+let isHovering      = false;
 
 // Build dots
 for (let i = 0; i < TOTAL_DOTS; i++) {
     const dot = document.createElement('button');
     dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => goToDot(i));
+    dot.addEventListener('click', () => { scrollToDot(i); stopAuto(); startAuto(); });
     galleryDotsEl.appendChild(dot);
 }
 
-function goToDot(i) {
-    currentDot = Math.max(0, Math.min(i, TOTAL_DOTS - 1));
-    galleryTrack.scrollTo({ left: currentDot * SLIDE_WIDTH * 3, behavior: 'smooth' });
-    galleryDotsEl.querySelectorAll('.gallery-dot').forEach((d, idx) => d.classList.toggle('active', idx === currentDot));
+function updateDots() {
+    const pos  = galleryTrack.scrollLeft;
+    const max  = galleryTrack.scrollWidth - galleryTrack.clientWidth;
+    currentDot = Math.round((pos / Math.max(max, 1)) * (TOTAL_DOTS - 1));
+    galleryDotsEl.querySelectorAll('.gallery-dot').forEach((d, i) => d.classList.toggle('active', i === currentDot));
 }
 
-document.getElementById('galleryPrev').addEventListener('click', () => {
-    goToDot(currentDot - 1);
-    resetAutoScroll();
-});
-document.getElementById('galleryNext').addEventListener('click', () => {
-    goToDot(currentDot + 1 >= TOTAL_DOTS ? 0 : currentDot + 1);
-    resetAutoScroll();
-});
+function scrollToDot(i) {
+    currentDot = Math.max(0, Math.min(i, TOTAL_DOTS - 1));
+    galleryTrack.scrollTo({ left: currentDot * SLIDE_WIDTH * 2, behavior: 'smooth' });
+    updateDots();
+}
 
-function startAutoScroll() {
-    autoScrollTimer = setInterval(() => {
-        goToDot(currentDot + 1 >= TOTAL_DOTS ? 0 : currentDot + 1);
+// Arrow buttons
+document.getElementById('galleryPrev').addEventListener('click', () => scrollToDot(currentDot - 1));
+document.getElementById('galleryNext').addEventListener('click', () => scrollToDot(currentDot + 1));
+
+// Auto-scroll — advances one slide every 4s, wraps to start
+function startAuto() {
+    autoTimer = setInterval(() => {
+        const maxScroll = galleryTrack.scrollWidth - galleryTrack.clientWidth;
+        if (galleryTrack.scrollLeft >= maxScroll - 10) {
+            galleryTrack.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            galleryTrack.scrollBy({ left: SLIDE_WIDTH, behavior: 'smooth' });
+        }
+        setTimeout(updateDots, 400);
     }, 4000);
 }
-function resetAutoScroll() {
-    clearInterval(autoScrollTimer);
-    startAutoScroll();
+function stopAuto() { clearInterval(autoTimer); }
+
+// Mouse-position scroll via requestAnimationFrame
+function rafLoop() {
+    if (mouseSpeed !== 0) galleryTrack.scrollLeft += mouseSpeed;
+    if (isHovering) rafId = requestAnimationFrame(rafLoop);
 }
 
-galleryTrack.addEventListener('mouseenter', () => clearInterval(autoScrollTimer));
-galleryTrack.addEventListener('mouseleave', startAutoScroll);
+galleryOuter.addEventListener('mousemove', (e) => {
+    const rect  = galleryOuter.getBoundingClientRect();
+    const ratio = (e.clientX - rect.left) / rect.width;
+    if (ratio < 0.2)      mouseSpeed = -(0.2 - ratio) * 28;  // left zone
+    else if (ratio > 0.8) mouseSpeed =  (ratio - 0.8) * 28;  // right zone
+    else                  mouseSpeed = 0;                       // center — pause
+});
+
+galleryOuter.addEventListener('mouseenter', () => {
+    isHovering = true;
+    stopAuto();
+    rafId = requestAnimationFrame(rafLoop);
+});
+
+galleryOuter.addEventListener('mouseleave', () => {
+    isHovering  = false;
+    mouseSpeed  = 0;
+    cancelAnimationFrame(rafId);
+    updateDots();
+    startAuto();
+});
 
 // Touch swipe
 let touchStartX = 0;
-galleryTrack.addEventListener('touchstart', e => { touchStartX = e.touches[0].pageX; });
+galleryTrack.addEventListener('touchstart', e => { touchStartX = e.touches[0].pageX; stopAuto(); }, { passive: true });
 galleryTrack.addEventListener('touchend', e => {
     const diff = touchStartX - e.changedTouches[0].pageX;
-    if (Math.abs(diff) > 50) {
-        goToDot(diff > 0 ? Math.min(currentDot + 1, TOTAL_DOTS - 1) : Math.max(currentDot - 1, 0));
-    }
-    resetAutoScroll();
+    if (Math.abs(diff) > 50) scrollToDot(diff > 0 ? currentDot + 1 : currentDot - 1);
+    startAuto();
 });
 
-startAutoScroll();
+galleryTrack.addEventListener('scroll', updateDots, { passive: true });
+
+startAuto();
 </script>
 
 </body>
