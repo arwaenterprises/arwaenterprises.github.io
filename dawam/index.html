@@ -1098,6 +1098,115 @@ section { padding: var(--section-padding) 2rem; }
     .cta-buttons { flex-direction: column; align-items: center; }
     .gallery-slide { width: 250px; height: 157px; }
 }
+/* ============================================
+   GALLERY HOVER PREVIEW
+============================================ */
+.gallery-preview {
+    position: fixed;
+    z-index: 800;
+    background: var(--bg-dark-2);
+    border: 1px solid rgba(102,126,234,0.5);
+    border-radius: 16px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(102,126,234,0.2),
+                0 0 60px rgba(102,126,234,0.15);
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.88) translateY(8px);
+    transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1);
+    will-change: opacity, transform;
+}
+.gallery-preview.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+.gallery-preview img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+}
+
+/* ============================================
+   LIGHTBOX
+============================================ */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.93);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(6px);
+}
+.lightbox.open {
+    opacity: 1;
+    pointer-events: all;
+}
+.lb-img-wrap {
+    position: relative;
+    max-width: 92vw;
+    max-height: 88vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lb-img {
+    max-width: 92vw;
+    max-height: 88vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+    display: block;
+    transition: opacity 0.2s ease;
+}
+.lb-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(102,126,234,0.2);
+    border: 1px solid rgba(102,126,234,0.4);
+    color: white;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    z-index: 1001;
+}
+.lb-btn:hover {
+    background: rgba(102,126,234,0.5);
+    transform: translateY(-50%) scale(1.1);
+}
+.lb-prev { left: 20px; }
+.lb-next { right: 20px; }
+.lb-close {
+    position: fixed;
+    top: 20px; right: 24px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    z-index: 1001;
+}
+.lb-close:hover { background: rgba(255,255,255,0.2); }
+.lb-counter {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
 </style>
 </head>
 <body>
@@ -1598,8 +1707,8 @@ function rafLoop() {
 
 galleryOuter.addEventListener('mousemove', (e) => {
     const r = (e.clientX - galleryOuter.getBoundingClientRect().left) / galleryOuter.clientWidth;
-    mouseSpeed = r < 0.2 ? -(0.2 - r) * 18
-               : r > 0.8 ?  (r - 0.8) * 18
+    mouseSpeed = r < 0.2 ? -(0.2 - r) * 50
+               : r > 0.8 ?  (r - 0.8) * 50
                : 0;
 });
 
@@ -1633,6 +1742,127 @@ galleryTrack.addEventListener('touchend', () => {
 calcMax();
 window.addEventListener('resize', () => { calcMax(); moveTo(Math.min(offset, maxOffset), false); });
 startAuto();
+
+/* ============================================
+   HOVER PREVIEW
+============================================ */
+const preview = document.createElement('div');
+preview.className = 'gallery-preview';
+preview.innerHTML = '<img src="" alt="Preview">';
+document.body.appendChild(preview);
+const previewImg = preview.querySelector('img');
+let previewHideTimer;
+
+slides.forEach((slide, idx) => {
+    slide.addEventListener('mouseenter', () => {
+        const img = slide.querySelector('img');
+        if (!img || !img.complete || img.naturalWidth === 0) return;
+
+        clearTimeout(previewHideTimer);
+        previewImg.src = img.src;
+
+        // Size: 50vw wide, 16:10 ratio, max 860×538
+        const pw = Math.min(window.innerWidth * 0.5, 860);
+        const ph = pw * 0.625;
+        preview.style.width  = pw + 'px';
+        preview.style.height = ph + 'px';
+
+        // Horizontal: center on hovered card, clamped to viewport
+        const rect = slide.getBoundingClientRect();
+        // Account for the card's fixed transform position
+        const cardCX = rect.left + rect.width / 2;
+        let left = cardCX - pw / 2;
+        left = Math.max(16, Math.min(left, window.innerWidth - pw - 16));
+
+        // Vertical: above the card if enough room, otherwise below, else center
+        const aboveTop = rect.top - ph - 16;
+        const belowTop = rect.bottom + 16;
+        let top;
+        if (aboveTop >= 10) top = aboveTop;
+        else if (belowTop + ph <= window.innerHeight - 10) top = belowTop;
+        else top = Math.max(10, (window.innerHeight - ph) / 2);
+
+        preview.style.left = left + 'px';
+        preview.style.top  = top + 'px';
+        preview.classList.add('visible');
+    });
+
+    slide.addEventListener('mouseleave', () => {
+        previewHideTimer = setTimeout(() => preview.classList.remove('visible'), 80);
+    });
+
+    slide.addEventListener('click', () => openLightbox(idx));
+});
+
+/* ============================================
+   LIGHTBOX
+============================================ */
+const lb = document.createElement('div');
+lb.innerHTML = `
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <button class="lb-btn lb-prev" id="lbPrev">&#8592;</button>
+  <div class="lb-img-wrap"><img class="lb-img" id="lbImg" src="" alt=""></div>
+  <button class="lb-btn lb-next" id="lbNext">&#8594;</button>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>`;
+document.body.appendChild(lb);
+
+const lightbox  = document.getElementById('lightbox');
+const lbImg     = document.getElementById('lbImg');
+const lbCounter = document.getElementById('lbCounter');
+
+// Collect only slides that have real loaded images
+function getLoadedSlides() {
+    return Array.from(slides).map(s => s.querySelector('img'))
+                             .filter(i => i && i.complete && i.naturalWidth > 0);
+}
+
+let lbIndex = 0;
+
+function openLightbox(slideIdx) {
+    const loaded = getLoadedSlides();
+    if (!loaded.length) return;
+    // Map slideIdx to loaded index
+    const allImgs = Array.from(slides).map(s => s.querySelector('img'));
+    const realImg = allImgs[slideIdx];
+    lbIndex = loaded.indexOf(realImg);
+    if (lbIndex < 0) lbIndex = 0;
+    showLbSlide(loaded);
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    preview.classList.remove('visible');
+}
+
+function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function showLbSlide(loaded) {
+    loaded = loaded || getLoadedSlides();
+    if (!loaded.length) return;
+    lbIndex = ((lbIndex % loaded.length) + loaded.length) % loaded.length;
+    lbImg.style.opacity = '0';
+    setTimeout(() => {
+        lbImg.src = loaded[lbIndex].src;
+        lbImg.onload = () => { lbImg.style.opacity = '1'; };
+        lbCounter.textContent = (lbIndex + 1) + ' / ' + loaded.length;
+    }, 150);
+}
+
+document.getElementById('lbClose').addEventListener('click', closeLightbox);
+document.getElementById('lbPrev').addEventListener('click', () => { lbIndex--; showLbSlide(); });
+document.getElementById('lbNext').addEventListener('click', () => { lbIndex++; showLbSlide(); });
+
+lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape')      closeLightbox();
+    if (e.key === 'ArrowLeft')  { lbIndex--; showLbSlide(); }
+    if (e.key === 'ArrowRight') { lbIndex++; showLbSlide(); }
+});
 </script>
 
 </body>
