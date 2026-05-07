@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overtime Tracking — Dawam</title>
+<meta name="description" content="Submit OT hours per laborer, auto-calculate SAR amounts by role rate, full history in billing report.">
+<link rel="icon" type="image/svg+xml" href="/dawam/assets/dawam-favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg-dark:#1a1a2e;--bg-dark-2:#16213e;--accent-primary:#667eea;--accent-gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--text-primary:#ffffff;--text-muted:#a0aec0;--border:rgba(255,255,255,0.08);--border-accent:rgba(102,126,234,0.3);--card-bg:rgba(255,255,255,0.04);--whatsapp:#25D366;--font-display:'Space Grotesk',sans-serif;--font-body:'Inter',sans-serif;}
+[dir="rtl"]{--font-display:'Cairo',sans-serif;--font-body:'Cairo',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg-dark);color:var(--text-primary);line-height:1.6;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}button{font-family:inherit;cursor:pointer;}
+.container{max-width:900px;margin:0 auto;padding:0 2rem;}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,26,46,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 2rem;}
+.navbar-inner{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
+.logo-wrap{display:flex;align-items:center;gap:0.6rem;}.logo-img{height:34px;width:auto;}.logo-text{font-family:var(--font-display);font-size:1.1rem;font-weight:700;background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.back-link{font-size:0.85rem;color:var(--text-muted);opacity:0.8;transition:opacity 0.2s;}.back-link:hover{opacity:1;color:var(--accent-primary);}
+.lang-toggle{display:flex;gap:0.4rem;}.lang-btn{padding:0.3rem 0.7rem;border:1px solid var(--border);background:transparent;color:var(--text-muted);border-radius:6px;font-size:0.78rem;transition:all 0.2s;}.lang-btn.active{background:var(--accent-gradient);border-color:transparent;color:white;}
+.nav-right{display:flex;align-items:center;gap:0.8rem;}
+.feature-hero{padding:130px 2rem 70px;text-align:center;position:relative;overflow:hidden;}
+.feature-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(102,126,234,0.15) 0%,transparent 60%);}
+.feature-icon-big{font-size:4rem;margin-bottom:1.2rem;display:block;}
+.feature-hero h1{font-family:var(--font-display);font-size:2.6rem;font-weight:700;margin-bottom:0.8rem;}
+.feature-hero h1 span{background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.tagline{font-size:1.1rem;color:var(--text-muted);max-width:600px;margin:0 auto 2rem;}
+@media(max-width:600px){.feature-hero h1{font-size:1.8rem;}.feature-icon-big{font-size:3rem;}}
+.video-section{padding:60px 2rem;}.section-label{font-size:0.75rem;font-weight:700;letter-spacing:0.12em;color:var(--accent-primary);text-transform:uppercase;margin-bottom:0.6rem;}
+.section-title{font-family:var(--font-display);font-size:1.7rem;font-weight:700;margin-bottom:2rem;}
+.video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:var(--bg-dark-2);border-radius:16px;overflow:hidden;border:1px solid var(--border-accent);}
+.video-wrap video{width:100%;height:100%;object-fit:contain;}
+.video-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:linear-gradient(135deg,rgba(102,126,234,0.08),rgba(118,75,162,0.08));}
+.video-placeholder-icon{font-size:3.5rem;opacity:0.4;}.video-placeholder p{color:var(--text-muted);font-size:0.95rem;}.video-placeholder strong{color:var(--accent-primary);display:block;font-size:1.1rem;margin-bottom:0.3rem;}
+.how-section{padding:60px 2rem;background:var(--bg-dark-2);}
+.steps{display:flex;flex-direction:column;gap:2rem;margin-top:1.5rem;}
+.step{display:flex;gap:1.5rem;align-items:flex-start;}
+.step-num{min-width:44px;height:44px;border-radius:50%;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0;}
+.step-body h3{font-size:1.05rem;font-weight:600;margin-bottom:0.3rem;}.step-body p{color:var(--text-muted);font-size:0.92rem;}
+.benefits-section{padding:60px 2rem;}
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:1.5rem;}
+.benefit-card{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:1.4rem;transition:border-color 0.2s;}.benefit-card:hover{border-color:var(--border-accent);}
+.benefit-icon{font-size:1.8rem;margin-bottom:0.7rem;}.benefit-card h4{font-size:0.95rem;font-weight:600;margin-bottom:0.4rem;}.benefit-card p{font-size:0.85rem;color:var(--text-muted);}
+.cta-section{padding:60px 2rem;text-align:center;background:var(--accent-gradient);}
+.cta-section h2{font-family:var(--font-display);font-size:1.8rem;font-weight:700;margin-bottom:0.6rem;}.cta-section p{opacity:0.85;margin-bottom:2rem;}
+.cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-wa{display:inline-flex;align-items:center;gap:8px;padding:0.85rem 2rem;background:var(--whatsapp);color:white;border-radius:10px;font-weight:600;font-size:0.95rem;transition:all 0.3s;}.btn-wa:hover{background:#1da851;transform:translateY(-2px);}
+.btn-email{display:inline-flex;align-items:center;gap:8px;padding:0.85rem 2rem;background:rgba(255,255,255,0.15);color:white;border:2px solid rgba(255,255,255,0.5);border-radius:10px;font-weight:600;font-size:0.95rem;transition:all 0.3s;}.btn-email:hover{background:rgba(255,255,255,0.25);transform:translateY(-2px);}
+.page-footer{padding:2rem;text-align:center;border-top:1px solid var(--border);color:var(--text-muted);font-size:0.85rem;}
+</style>
+</head>
+<body>
+<nav class="navbar"><div class="navbar-inner">
+  <div class="logo-wrap">
+    <img src="/dawam/assets/dawam-logo.png" alt="Dawam" class="logo-img" onerror="this.style.display='none'">
+    <span class="logo-text">Dawam</span>
+    <a href="/dawam/" class="back-link" data-en="← Back to Dawam" data-ar="← العودة إلى دوام">← Back to Dawam</a>
+  </div>
+  <div class="nav-right"><div class="lang-toggle">
+    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="ar">عربي</button>
+  </div></div>
+</div></nav>
+
+<section class="feature-hero">
+  <span class="feature-icon-big">⏱️</span>
+  <h1 data-en="<span>Overtime Tracking</span>" data-ar="<span>تتبع العمل الإضافي</span>"><span>Overtime Tracking</span></h1>
+  <p class="tagline" data-en="Log OT hours per laborer, auto-calculate SAR amounts, and include in billing reports." data-ar="سجّل ساعات العمل الإضافي لكل عامل، احسب مبالغ SAR تلقائياً، وضمّنها في تقارير الفوترة.">Log OT hours per laborer, auto-calculate SAR amounts, and include in billing reports.</p>
+</section>
+
+<section class="video-section"><div class="container">
+  <p class="section-label" data-en="Watch it work" data-ar="شاهد كيف يعمل">Watch it work</p>
+  <h2 class="section-title" data-en="Overtime Tracking in Action" data-ar="تتبع العمل الإضافي في العمل">Overtime Tracking in Action</h2>
+  <div class="video-wrap">
+    <video controls src="/dawam/assets/videos/overtime-tracking.mp4" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"></video>
+    <div class="video-placeholder" id="vph">
+      <div class="video-placeholder-icon">🎬</div>
+      <div><strong data-en="Video Coming Soon" data-ar="الفيديو قريباً">Video Coming Soon</strong>
+      <p data-en="Upload overtime-tracking.mp4 to /dawam/assets/videos/" data-ar="ارفع الفيديو إلى مجلد الأصول">Upload overtime-tracking.mp4 to /dawam/assets/videos/</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="how-section"><div class="container">
+  <p class="section-label" data-en="How it works" data-ar="كيف يعمل">How it works</p>
+  <h2 class="section-title" data-en="From Hours Worked to SAR Calculated" data-ar="من الساعات المعملة إلى SAR المحسوبة">From Hours Worked to SAR Calculated</h2>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body">
+      <h3 data-en="Supervisor Submits OT" data-ar="المشرف يسجل العمل الإضافي">Supervisor Submits OT</h3>
+      <p data-en="For any date, supervisor selects employee and enters OT hours worked. Each role has a pre-configured hourly OT rate (SAR)." data-ar="لأي تاريخ، يختار المشرف الموظف ويدخل ساعات العمل الإضافي. لكل دور معدل ساعي مسبق الضبط (SAR).">For any date, supervisor selects employee and enters OT hours. Each role has a pre-configured hourly OT rate in SAR.</p>
+    </div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body">
+      <h3 data-en="SAR Amount Auto-Calculated" data-ar="حساب مبلغ SAR تلقائياً">SAR Amount Auto-Calculated</h3>
+      <p data-en="Dawam multiplies hours × role OT rate to give the SAR amount instantly. Supervisor sees the total before confirming." data-ar="يضرب دوام الساعات × معدل العمل الإضافي للدور لإعطاء مبلغ SAR فوراً. يرى المشرف الإجمالي قبل التأكيد.">Dawam multiplies hours × role OT rate to give the SAR amount instantly. Supervisor sees the total before confirming.</p>
+    </div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body">
+      <h3 data-en="Included in Billing Report" data-ar="مدرج في تقرير الفوترة">Included in Billing Report</h3>
+      <p data-en="All OT entries for the month appear as a dedicated OT column in the 3PL billing report. Summary row shows total OT SAR for the client." data-ar="تظهر جميع إدخالات العمل الإضافي للشهر كعمود مخصص في تقرير الفوترة. يُظهر صف الملخص إجمالي SAR للعمل الإضافي للعميل.">All OT entries appear as a dedicated column in the 3PL billing report. Summary shows total OT SAR per client.</p>
+    </div></div>
+  </div>
+</div></section>
+
+<section class="benefits-section"><div class="container">
+  <p class="section-label" data-en="Key benefits" data-ar="الفوائد الرئيسية">Key benefits</p>
+  <h2 class="section-title" data-en="Accurate OT, Zero Spreadsheet Work" data-ar="عمل إضافي دقيق، بدون عمل على جداول البيانات">Accurate OT, Zero Spreadsheet Work</h2>
+  <div class="benefits-grid">
+    <div class="benefit-card"><div class="benefit-icon">🧮</div>
+      <h4 data-en="Auto SAR Calculation" data-ar="حساب SAR تلقائي">Auto SAR Calculation</h4>
+      <p data-en="Hours × role rate = SAR amount. No manual calculator, no formula errors." data-ar="الساعات × معدل الدور = مبلغ SAR. لا آلة حاسبة يدوية، لا أخطاء في الصيغ.">Hours × role rate = SAR amount. No manual calculator, no formula errors.</p>
+    </div>
+    <div class="benefit-card"><div class="benefit-icon">📋</div>
+      <h4 data-en="Full OT History" data-ar="سجل كامل للعمل الإضافي">Full OT History</h4>
+      <p data-en="Every OT entry is stored with date, employee, hours, amount, and submitter." data-ar="كل إدخال عمل إضافي محفوظ مع التاريخ والموظف والساعات والمبلغ والمُدخِل.">Every OT entry stored with date, employee, hours, amount, and who submitted it.</p>
+    </div>
+    <div class="benefit-card"><div class="benefit-icon">📊</div>
+      <h4 data-en="In Billing Report" data-ar="في تقرير الفوترة">In Billing Report</h4>
+      <p data-en="OT amounts automatically appear in the Excel export — clients see the breakdown clearly." data-ar="تظهر مبالغ العمل الإضافي تلقائياً في تصدير Excel — يرى العملاء التفاصيل بوضوح.">OT amounts automatically appear in the Excel export — clients see the breakdown clearly.</p>
+    </div>
+    <div class="benefit-card"><div class="benefit-icon">👔</div>
+      <h4 data-en="Role-Based Rates" data-ar="معدلات حسب الدور">Role-Based Rates</h4>
+      <p data-en="Different OT rates for different roles (loader, supervisor, driver). Configured once by admin." data-ar="معدلات عمل إضافي مختلفة لأدوار مختلفة. يضبطها المدير مرة واحدة.">Different OT rates for different roles. Configured once by admin, applied automatically.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="cta-section"><div class="container">
+  <h2 data-en="Stop Calculating OT Manually" data-ar="توقف عن حساب العمل الإضافي يدوياً">Stop Calculating OT Manually</h2>
+  <p data-en="Dawam handles OT calculation and billing integration automatically." data-ar="يتولى دوام حساب العمل الإضافي والتكامل مع الفوترة تلقائياً.">Dawam handles OT calculation and billing integration automatically.</p>
+  <div class="cta-buttons">
+    <a href="https://wa.me/917021229209?text=Hi%2C%20I%27m%20interested%20in%20Dawam%20Overtime%20Tracking" target="_blank" class="btn-wa">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span data-en="WhatsApp Us" data-ar="تواصل عبر واتساب">WhatsApp Us</span>
+    </a>
+    <a href="mailto:connect.arwaenterprises@gmail.com?subject=Dawam%20Access%20Request" class="btn-email">
+      <span data-en="Request Access" data-ar="طلب الوصول">Request Access</span>
+    </a>
+  </div>
+</div></section>
+<footer class="page-footer">© 2025 Arwa Enterprises · <a href="/dawam/" style="color:var(--accent-primary)">← Back to Dawam</a></footer>
+<script>
+const langBtns=document.querySelectorAll('.lang-btn');
+function switchLanguage(lang){document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.documentElement.lang=lang;langBtns.forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));document.querySelectorAll('[data-en]').forEach(el=>{const t=el.dataset[lang];if(t)el.innerHTML=t;});}
+langBtns.forEach(btn=>btn.addEventListener('click',()=>switchLanguage(btn.dataset.lang)));
+const vid=document.querySelector('video'),vph=document.getElementById('vph');
+if(vid){vid.addEventListener('error',()=>{vid.style.display='none';vph.style.display='flex';});fetch(vid.src,{method:'HEAD'}).then(r=>{if(!r.ok){vid.style.display='none';vph.style.display='flex';}}).catch(()=>{vid.style.display='none';vph.style.display='flex';});}
+</script>
+</body></html>

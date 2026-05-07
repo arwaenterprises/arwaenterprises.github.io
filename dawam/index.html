@@ -647,6 +647,8 @@ section { padding: var(--section-padding) 2rem; }
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 .feature-card::before {
     content: '';
@@ -664,6 +666,17 @@ section { padding: var(--section-padding) 2rem; }
     box-shadow: 0 16px 40px rgba(102,126,234,0.15);
 }
 .feature-card:hover::before { opacity: 1; }
+.feature-card { cursor: pointer; }
+.feature-learn-more {
+    margin-top: auto;
+    padding-top: 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.feature-card:hover .feature-learn-more { opacity: 1; }
 
 .feature-icon-wrap {
     width: 48px; height: 48px;
@@ -1099,33 +1112,6 @@ section { padding: var(--section-padding) 2rem; }
     .gallery-slide { width: 250px; height: 157px; }
 }
 /* ============================================
-   GALLERY HOVER PREVIEW
-============================================ */
-.gallery-preview {
-    position: fixed;
-    z-index: 800;
-    background: var(--bg-dark-2);
-    border: 1px solid rgba(102,126,234,0.5);
-    border-radius: 16px;
-    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(102,126,234,0.2),
-                0 0 60px rgba(102,126,234,0.15);
-    overflow: hidden;
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(0.88) translateY(8px);
-    transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1);
-    will-change: opacity, transform;
-}
-.gallery-preview.visible {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-}
-.gallery-preview img {
-    width: 100%; height: 100%;
-    object-fit: cover; display: block;
-}
-
-/* ============================================
    LIGHTBOX
 ============================================ */
 .lightbox {
@@ -1237,7 +1223,7 @@ section { padding: var(--section-padding) 2rem; }
                 <button class="lang-btn active" data-lang="en">EN</button>
                 <button class="lang-btn" data-lang="ar">عربي</button>
             </div>
-            <a href="https://dawam.arwaenterprises.com" target="_blank" class="btn-login" data-en="Login to App" data-ar="تسجيل الدخول">Login to App</a>
+            <a href="mailto:connect.arwaenterprises@gmail.com?subject=Dawam%20Access%20Request" class="btn-login" data-en="Request Access" data-ar="طلب الوصول">Request Access</a>
         </div>
 
         <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
@@ -1250,7 +1236,7 @@ section { padding: var(--section-padding) 2rem; }
     <a href="#screenshots" data-en="Screenshots" data-ar="لقطات الشاشة">Screenshots</a>
     <a href="#how-it-works" data-en="How it Works" data-ar="كيف يعمل">How it Works</a>
     <a href="#for-who" data-en="For Who" data-ar="لمن هو">For Who</a>
-    <a href="https://dawam.arwaenterprises.com" target="_blank" data-en="Login to App →" data-ar="تسجيل الدخول →">Login to App →</a>
+    <a href="mailto:connect.arwaenterprises@gmail.com?subject=Dawam%20Access%20Request" data-en="Request Access →" data-ar="طلب الوصول →">Request Access →</a>
 </div>
 
 <!-- ============================================
@@ -1283,8 +1269,8 @@ section { padding: var(--section-padding) 2rem; }
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     <span data-en="WhatsApp Us" data-ar="تواصل عبر واتساب">WhatsApp Us</span>
                 </a>
-                <a href="https://dawam.arwaenterprises.com" target="_blank" class="btn-primary">
-                    <span data-en="Login to App →" data-ar="تسجيل الدخول ←">Login to App →</span>
+                <a href="mailto:connect.arwaenterprises@gmail.com?subject=Dawam%20Access%20Request" class="btn-primary">
+                    <span data-en="Request Access →" data-ar="طلب الوصول ←">Request Access →</span>
                 </a>
             </div>
 
@@ -1389,52 +1375,60 @@ section { padding: var(--section-padding) 2rem; }
     </div>
 
     <div class="features-grid">
-        <div class="feature-card">
+        <div class="feature-card" onclick="window.location='/dawam/features/ai-face-recognition/'">
             <div class="feature-icon-wrap">🤖</div>
             <h3 data-en="AI Face Recognition" data-ar="التعرف على الوجه بالذكاء الاصطناعي">AI Face Recognition</h3>
             <p data-en="Real-time AI biometric punch with live confidence scoring. Configurable threshold, self-enrollment via secure link, admin approval workflow." data-ar="بصمة بيومترية بالذكاء الاصطناعي في الوقت الفعلي مع نسبة ثقة. تسجيل ذاتي عبر رابط آمن مع موافقة الإدارة.">Real-time AI biometric punch with live confidence scoring. Configurable threshold, self-enrollment via secure link, admin approval workflow.</p>
+            <div class="feature-learn-more" data-en="Learn more →" data-ar="← اعرف المزيد">Learn more →</div>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card" onclick="window.location='/dawam/features/geo-fenced-punch/'">
             <div class="feature-icon-wrap">📍</div>
             <h3 data-en="Geo-Fenced Punch" data-ar="تسجيل الحضور بالموقع الجغرافي">Geo-Fenced Punch</h3>
             <p data-en="GPS-verified punch blocked outside the work zone. Set 10–500m radius per location. Unlimited locations per department. Works offline too." data-ar="تسجيل محدد بالموقع — يُمنع خارج منطقة العمل. نصف قطر 10–500م لكل موقع. عدد غير محدود من المواقع لكل قسم.">GPS-verified punch blocked outside the work zone. Set 10–500m radius per location. Unlimited locations per department. Works offline too.</p>
+            <div class="feature-learn-more" data-en="Learn more →" data-ar="← اعرف المزيد">Learn more →</div>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card" onclick="window.location='/dawam/features/3pl-billing-reports/'">
             <div class="feature-icon-wrap">📊</div>
             <h3 data-en="3PL Billing Reports" data-ar="تقارير الفوترة الشهرية">3PL Billing Reports</h3>
             <p data-en="Daily breakdown per laborer — P/H/A/F/NH status, hours, salary (SAR), OT. Export to color-coded Excel or print landscape. Client-ready in minutes." data-ar="تفصيل يومي لكل عامل — الحالة والساعات والراتب والعمل الإضافي. تصدير Excel ملوّن أو طباعة. جاهز للعميل في دقائق.">Daily breakdown per laborer — P/H/A/F/NH status, hours, salary (SAR), OT. Export to color-coded Excel or print landscape. Client-ready in minutes.</p>
+            <div class="feature-learn-more" data-en="Learn more →" data-ar="← اعرف المزيد">Learn more →</div>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card" onclick="window.location='/dawam/features/lop-management/'">
             <div class="feature-icon-wrap">💰</div>
             <h3 data-en="LOP Management" data-ar="إدارة خصم الغياب">LOP Management</h3>
             <p data-en="Full approval workflow: Draft → Supervisor → Admin. Undo before payroll freeze. Approver name and timestamp on every record." data-ar="سير عمل موافقة كامل: مسودة → مشرف → مدير. تراجع قبل تجميد الرواتب. اسم الموافق والوقت على كل سجل.">Full approval workflow: Draft → Supervisor → Admin. Undo before payroll freeze. Approver name and timestamp on every record.</p>
+            <div class="feature-learn-more" data-en="Learn more →" data-ar="← اعرف المزيد">Learn more →</div>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card" onclick="window.location='/dawam/features/punch-works-offline/'">
             <div class="feature-icon-wrap">📶</div>
             <h3 data-en="Punch Works Offline" data-ar="يعمل بدون إنترنت">Punch Works Offline</h3>
             <p data-en="Installable PWA — runs fully offline after first load. Punches stored locally with photos, auto-syncs when internet returns." data-ar="تطبيق PWA قابل للتثبيت — يعمل بالكامل بدون إنترنت بعد التحميل الأول. تُخزَّن السجلات محلياً وتتزامن تلقائياً.">Installable PWA — runs fully offline after first load. Punches stored locally with photos, auto-syncs when internet returns.</p>
+            <div class="feature-learn-more" data-en="Learn more →" data-ar="← اعرف المزيد">Learn more →</div>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card" onclick="window.location='/dawam/features/overtime-tracking/'">
             <div class="feature-icon-wrap">⏱️</div>
             <h3 data-en="Overtime Tracking" data-ar="تتبع العمل الإضافي">Overtime Tracking</h3>
             <p data-en="Submit OT hours per laborer per date. Auto-calculates SAR amount by role rate. Full history and summary included in billing report." data-ar="تسجيل ساعات العمل الإضافي لكل عامل. حساب تلقائي بسعر الساعة. سجل كامل وملخص في تقرير الفوترة.">Submit OT hours per laborer per date. Auto-calculates SAR amount by role rate. Full history and summary included in billing report.</p>
+            <div class="feature-learn-more" data-en="Learn more →" data-ar="← اعرف المزيد">Learn more →</div>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card" onclick="window.location='/dawam/features/multi-department-roles/'">
             <div class="feature-icon-wrap">🏢</div>
             <h3 data-en="Multi-Department Roles" data-ar="أقسام وصلاحيات متعددة">Multi-Department Roles</h3>
             <p data-en="Admin: full access. Supervisor: own department only, can raise LOP and submit OT. Punch Terminal: public, no password needed." data-ar="المدير: صلاحيات كاملة. المشرف: قسمه فقط، يمكنه رفع خصم الغياب. محطة الحضور: عامة بدون كلمة مرور.">Admin: full access. Supervisor: own department only, can raise LOP and submit OT. Punch Terminal: public, no password needed.</p>
+            <div class="feature-learn-more" data-en="Learn more →" data-ar="← اعرف المزيد">Learn more →</div>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card" onclick="window.location='/dawam/features/payroll-exports/'">
             <div class="feature-icon-wrap">📥</div>
             <h3 data-en="Payroll-Ready Exports" data-ar="تصدير جاهز للرواتب">Payroll-Ready Exports</h3>
             <p data-en="Auto-calculate: Salary = (Paid Days ÷ Total Days) × Monthly Salary. Payroll lock freezes dates from edits. Export to CSV or Excel." data-ar="حساب تلقائي: الراتب = (الأيام المدفوعة ÷ إجمالي الأيام) × الراتب الشهري. تجميد الرواتب يمنع التعديل.">Auto-calculate: Salary = (Paid Days ÷ Total Days) × Monthly Salary. Payroll lock freezes dates from edits. Export to CSV or Excel.</p>
+            <div class="feature-learn-more" data-en="Learn more →" data-ar="← اعرف المزيد">Learn more →</div>
         </div>
     </div>
 </section>
@@ -1565,8 +1559,8 @@ section { padding: var(--section-padding) 2rem; }
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 <span data-en="Chat on WhatsApp" data-ar="تواصل عبر واتساب">Chat on WhatsApp</span>
             </a>
-            <a href="https://dawam.arwaenterprises.com" target="_blank" class="btn-outline">
-                <span data-en="Login to App →" data-ar="تسجيل الدخول ←">Login to App →</span>
+            <a href="mailto:connect.arwaenterprises@gmail.com?subject=Dawam%20Access%20Request" class="btn-outline">
+                <span data-en="Request Access →" data-ar="طلب الوصول ←">Request Access →</span>
             </a>
         </div>
     </div>
@@ -1585,7 +1579,7 @@ section { padding: var(--section-padding) 2rem; }
         <div class="footer-links">
             <a href="/" data-en="Arwa Enterprises" data-ar="أروا للمشاريع">Arwa Enterprises</a>
             <a href="https://wa.me/917021229209" target="_blank" data-en="WhatsApp: +91 70212 29209" data-ar="واتساب: +91 70212 29209">WhatsApp: +91 70212 29209</a>
-            <a href="https://dawam.arwaenterprises.com" target="_blank" data-en="Login to App" data-ar="تسجيل الدخول">Login to App</a>
+            <a href="mailto:connect.arwaenterprises@gmail.com?subject=Dawam%20Access%20Request" data-en="Request Access" data-ar="طلب الوصول">Request Access</a>
         </div>
 
         <div class="footer-copy">
@@ -1743,55 +1737,9 @@ calcMax();
 window.addEventListener('resize', () => { calcMax(); moveTo(Math.min(offset, maxOffset), false); });
 startAuto();
 
-/* ============================================
-   HOVER PREVIEW
-============================================ */
-const preview = document.createElement('div');
-preview.className = 'gallery-preview';
-preview.innerHTML = '<img src="" alt="Preview">';
-document.body.appendChild(preview);
-const previewImg = preview.querySelector('img');
-let previewHideTimer;
-
 slides.forEach((slide, idx) => {
-    slide.addEventListener('mouseenter', () => {
-        const img = slide.querySelector('img');
-        if (!img || !img.complete || img.naturalWidth === 0) return;
-
-        clearTimeout(previewHideTimer);
-        previewImg.src = img.src;
-
-        // Size: 50vw wide, 16:10 ratio, max 860×538
-        const pw = Math.min(window.innerWidth * 0.5, 860);
-        const ph = pw * 0.625;
-        preview.style.width  = pw + 'px';
-        preview.style.height = ph + 'px';
-
-        // Horizontal: center on hovered card, clamped to viewport
-        const rect = slide.getBoundingClientRect();
-        // Account for the card's fixed transform position
-        const cardCX = rect.left + rect.width / 2;
-        let left = cardCX - pw / 2;
-        left = Math.max(16, Math.min(left, window.innerWidth - pw - 16));
-
-        // Vertical: above the card if enough room, otherwise below, else center
-        const aboveTop = rect.top - ph - 16;
-        const belowTop = rect.bottom + 16;
-        let top;
-        if (aboveTop >= 10) top = aboveTop;
-        else if (belowTop + ph <= window.innerHeight - 10) top = belowTop;
-        else top = Math.max(10, (window.innerHeight - ph) / 2);
-
-        preview.style.left = left + 'px';
-        preview.style.top  = top + 'px';
-        preview.classList.add('visible');
-    });
-
-    slide.addEventListener('mouseleave', () => {
-        previewHideTimer = setTimeout(() => preview.classList.remove('visible'), 80);
-    });
-
     slide.addEventListener('click', () => openLightbox(idx));
+    slide.style.cursor = 'pointer';
 });
 
 /* ============================================
@@ -1831,7 +1779,6 @@ function openLightbox(slideIdx) {
     showLbSlide(loaded);
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
-    preview.classList.remove('visible');
 }
 
 function closeLightbox() {

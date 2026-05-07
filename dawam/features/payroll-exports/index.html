@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payroll-Ready Exports — Dawam</title>
+<meta name="description" content="Auto-calculate salary from attendance, payroll lock to freeze records, export to CSV or Excel — ready to process.">
+<link rel="icon" type="image/svg+xml" href="/dawam/assets/dawam-favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg-dark:#1a1a2e;--bg-dark-2:#16213e;--accent-primary:#667eea;--accent-gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--text-primary:#ffffff;--text-muted:#a0aec0;--border:rgba(255,255,255,0.08);--border-accent:rgba(102,126,234,0.3);--card-bg:rgba(255,255,255,0.04);--whatsapp:#25D366;--font-display:'Space Grotesk',sans-serif;--font-body:'Inter',sans-serif;}
+[dir="rtl"]{--font-display:'Cairo',sans-serif;--font-body:'Cairo',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg-dark);color:var(--text-primary);line-height:1.6;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}button{font-family:inherit;cursor:pointer;}
+.container{max-width:900px;margin:0 auto;padding:0 2rem;}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,26,46,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 2rem;}
+.navbar-inner{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
+.logo-wrap{display:flex;align-items:center;gap:0.6rem;}.logo-img{height:34px;width:auto;}.logo-text{font-family:var(--font-display);font-size:1.1rem;font-weight:700;background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.back-link{font-size:0.85rem;color:var(--text-muted);opacity:0.8;transition:opacity 0.2s;}.back-link:hover{opacity:1;color:var(--accent-primary);}
+.lang-toggle{display:flex;gap:0.4rem;}.lang-btn{padding:0.3rem 0.7rem;border:1px solid var(--border);background:transparent;color:var(--text-muted);border-radius:6px;font-size:0.78rem;transition:all 0.2s;}.lang-btn.active{background:var(--accent-gradient);border-color:transparent;color:white;}
+.nav-right{display:flex;align-items:center;gap:0.8rem;}
+.feature-hero{padding:130px 2rem 70px;text-align:center;position:relative;overflow:hidden;}
+.feature-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(102,126,234,0.15) 0%,transparent 60%);}
+.feature-icon-big{font-size:4rem;margin-bottom:1.2rem;display:block;}
+.feature-hero h1{font-family:var(--font-display);font-size:2.6rem;font-weight:700;margin-bottom:0.8rem;}
+.feature-hero h1 span{background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.tagline{font-size:1.1rem;color:var(--text-muted);max-width:600px;margin:0 auto 2rem;}
+@media(max-width:600px){.feature-hero h1{font-size:1.8rem;}.feature-icon-big{font-size:3rem;}}
+.video-section{padding:60px 2rem;}.section-label{font-size:0.75rem;font-weight:700;letter-spacing:0.12em;color:var(--accent-primary);text-transform:uppercase;margin-bottom:0.6rem;}
+.section-title{font-family:var(--font-display);font-size:1.7rem;font-weight:700;margin-bottom:2rem;}
+.video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:var(--bg-dark-2);border-radius:16px;overflow:hidden;border:1px solid var(--border-accent);}
+.video-wrap video{width:100%;height:100%;object-fit:contain;}
+.video-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:linear-gradient(135deg,rgba(102,126,234,0.08),rgba(118,75,162,0.08));}
+.video-placeholder-icon{font-size:3.5rem;opacity:0.4;}.video-placeholder p{color:var(--text-muted);font-size:0.95rem;}.video-placeholder strong{color:var(--accent-primary);display:block;font-size:1.1rem;margin-bottom:0.3rem;}
+.how-section{padding:60px 2rem;background:var(--bg-dark-2);}
+.steps{display:flex;flex-direction:column;gap:2rem;margin-top:1.5rem;}
+.step{display:flex;gap:1.5rem;align-items:flex-start;}
+.step-num{min-width:44px;height:44px;border-radius:50%;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0;}
+.step-body h3{font-size:1.05rem;font-weight:600;margin-bottom:0.3rem;}.step-body p{color:var(--text-muted);font-size:0.92rem;}
+.formula-box{background:rgba(102,126,234,0.1);border:1px solid var(--border-accent);border-radius:12px;padding:1.2rem 1.6rem;margin-top:1.5rem;font-family:monospace;font-size:1rem;color:var(--accent-primary);text-align:center;}
+.benefits-section{padding:60px 2rem;}
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:1.5rem;}
+.benefit-card{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:1.4rem;transition:border-color 0.2s;}.benefit-card:hover{border-color:var(--border-accent);}
+.benefit-icon{font-size:1.8rem;margin-bottom:0.7rem;}.benefit-card h4{font-size:0.95rem;font-weight:600;margin-bottom:0.4rem;}.benefit-card p{font-size:0.85rem;color:var(--text-muted);}
+.cta-section{padding:60px 2rem;text-align:center;background:var(--accent-gradient);}
+.cta-section h2{font-family:var(--font-display);font-size:1.8rem;font-weight:700;margin-bottom:0.6rem;}.cta-section p{opacity:0.85;margin-bottom:2rem;}
+.cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-wa{display:inline-flex;align-items:center;gap:8px;padding:0.85rem 2rem;background:var(--whatsapp);color:white;border-radius:10px;font-weight:600;font-size:0.95rem;transition:all 0.3s;}.btn-wa:hover{background:#1da851;transform:translateY(-2px);}
+.btn-email{display:inline-flex;align-items:center;gap:8px;padding:0.85rem 2rem;background:rgba(255,255,255,0.15);color:white;border:2px solid rgba(255,255,255,0.5);border-radius:10px;font-weight:600;font-size:0.95rem;transition:all 0.3s;}.btn-email:hover{background:rgba(255,255,255,0.25);transform:translateY(-2px);}
+.page-footer{padding:2rem;text-align:center;border-top:1px solid var(--border);color:var(--text-muted);font-size:0.85rem;}
+</style>
+</head>
+<body>
+<nav class="navbar"><div class="navbar-inner">
+  <div class="logo-wrap">
+    <img src="/dawam/assets/dawam-logo.png" alt="Dawam" class="logo-img" onerror="this.style.display='none'">
+    <span class="logo-text">Dawam</span>
+    <a href="/dawam/" class="back-link" data-en="← Back to Dawam" data-ar="← العودة إلى دوام">← Back to Dawam</a>
+  </div>
+  <div class="nav-right"><div class="lang-toggle">
+    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="ar">عربي</button>
+  </div></div>
+</div></nav>
+
+<section class="feature-hero">
+  <span class="feature-icon-big">📥</span>
+  <h1 data-en="<span>Payroll-Ready Exports</span>" data-ar="<span>تصدير جاهز للرواتب</span>"><span>Payroll-Ready Exports</span></h1>
+  <p class="tagline" data-en="Auto-calculated salaries, frozen payroll periods, and Excel export — ready to hand to finance." data-ar="رواتب محسوبة تلقائياً وفترات رواتب مجمدة وتصدير Excel — جاهز للتسليم للمالية.">Auto-calculated salaries, frozen payroll periods, and Excel export — ready to hand to finance.</p>
+</section>
+
+<section class="video-section"><div class="container">
+  <p class="section-label" data-en="Watch it work" data-ar="شاهد كيف يعمل">Watch it work</p>
+  <h2 class="section-title" data-en="Payroll Export in Action" data-ar="تصدير الرواتب في العمل">Payroll Export in Action</h2>
+  <div class="video-wrap">
+    <video controls src="/dawam/assets/videos/payroll-exports.mp4" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"></video>
+    <div class="video-placeholder" id="vph">
+      <div class="video-placeholder-icon">🎬</div>
+      <div><strong data-en="Video Coming Soon" data-ar="الفيديو قريباً">Video Coming Soon</strong>
+      <p data-en="Upload payroll-exports.mp4 to /dawam/assets/videos/" data-ar="ارفع الفيديو إلى مجلد الأصول">Upload payroll-exports.mp4 to /dawam/assets/videos/</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="how-section"><div class="container">
+  <p class="section-label" data-en="How it works" data-ar="كيف يعمل">How it works</p>
+  <h2 class="section-title" data-en="From Attendance to Payroll in One Click" data-ar="من الحضور إلى الرواتب بنقرة واحدة">From Attendance to Payroll in One Click</h2>
+  <div class="formula-box" data-en="Salary = (Paid Days ÷ Total Days in Month) × Monthly Salary" data-ar="الراتب = (الأيام المدفوعة ÷ إجمالي أيام الشهر) × الراتب الشهري">Salary = (Paid Days ÷ Total Days in Month) × Monthly Salary</div>
+  <div class="steps" style="margin-top:2rem;">
+    <div class="step"><div class="step-num">1</div><div class="step-body">
+      <h3 data-en="Attendance Drives the Calculation" data-ar="الحضور يقود الحساب">Attendance Drives the Calculation</h3>
+      <p data-en="Present days (P) and Half Days (H = 0.5) are counted. LOP-approved absent days reduce the count. The formula runs automatically — no spreadsheet needed." data-ar="تُحسب أيام الحضور (P) ونصف الأيام (H = 0.5). تقلل أيام الغياب المعتمدة للخصم من العدد. تعمل الصيغة تلقائياً — لا حاجة لجداول بيانات.">Present days (P) and Half Days (H = 0.5) are counted. LOP-approved absences reduce the count. Formula runs automatically.</p>
+    </div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body">
+      <h3 data-en="Freeze the Payroll Period" data-ar="تجميد فترة الرواتب">Freeze the Payroll Period</h3>
+      <p data-en="Once admin freezes a month, no supervisor can edit attendance or LOP for that period. Freeze date is logged. Protects payroll integrity for audits." data-ar="بمجرد تجميد المدير لشهر، لا يمكن لأي مشرف تعديل الحضور أو خصم الغياب لتلك الفترة. يُسجَّل تاريخ التجميد. يحمي سلامة الرواتب للتدقيق.">Once admin freezes a month, no edits are possible. Freeze date is logged. Protects payroll integrity for audits.</p>
+    </div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body">
+      <h3 data-en="Export CSV or Excel" data-ar="تصدير CSV أو Excel">Export CSV or Excel</h3>
+      <p data-en="One click exports all employees with: name, department, paid days, total days, salary (SAR), OT amount, and final payable. Hand directly to your finance team or payroll software." data-ar="نقرة واحدة تصدر جميع الموظفين مع: الاسم والقسم والأيام المدفوعة وإجمالي الأيام والراتب (SAR) ومبلغ العمل الإضافي والمبلغ النهائي المستحق.">One click exports all employees with name, department, paid days, salary, OT, and final payable. Ready for finance or payroll software.</p>
+    </div></div>
+  </div>
+</div></section>
+
+<section class="benefits-section"><div class="container">
+  <p class="section-label" data-en="Key benefits" data-ar="الفوائد الرئيسية">Key benefits</p>
+  <h2 class="section-title" data-en="Finance-Ready Every Month" data-ar="جاهز للمالية كل شهر">Finance-Ready Every Month</h2>
+  <div class="benefits-grid">
+    <div class="benefit-card"><div class="benefit-icon">🧮</div>
+      <h4 data-en="Zero Manual Calc" data-ar="صفر حسابات يدوية">Zero Manual Calc</h4>
+      <p data-en="Salary, OT, and deductions all computed automatically from live attendance data." data-ar="الراتب والعمل الإضافي والخصومات كلها محسوبة تلقائياً من بيانات الحضور الحية.">Salary, OT, and deductions all computed automatically from live attendance data.</p>
+    </div>
+    <div class="benefit-card"><div class="benefit-icon">🔒</div>
+      <h4 data-en="Payroll Lock" data-ar="قفل الرواتب">Payroll Lock</h4>
+      <p data-en="Freeze completed months to prevent any retroactive changes. Audit-safe." data-ar="جمّد الأشهر المكتملة لمنع أي تغييرات بأثر رجعي. آمن للتدقيق.">Freeze completed months to prevent any retroactive changes. Audit-safe.</p>
+    </div>
+    <div class="benefit-card"><div class="benefit-icon">📊</div>
+      <h4 data-en="Excel or CSV" data-ar="Excel أو CSV">Excel or CSV</h4>
+      <p data-en="Compatible with any payroll software or can be handed directly to your HR/finance team." data-ar="متوافق مع أي برنامج رواتب أو يمكن تسليمه مباشرة لفريق الموارد البشرية/المالية.">Compatible with any payroll software or hand directly to HR/finance team.</p>
+    </div>
+    <div class="benefit-card"><div class="benefit-icon">📅</div>
+      <h4 data-en="Monthly Cycle" data-ar="الدورة الشهرية">Monthly Cycle</h4>
+      <p data-en="Clear monthly periods — generate, freeze, export, done. Repeat every month with one click." data-ar="فترات شهرية واضحة — أنشئ، جمّد، صدّر، انتهى. كرر كل شهر بنقرة واحدة.">Clear monthly periods — generate, freeze, export, done. One click every month.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="cta-section"><div class="container">
+  <h2 data-en="Close Payroll in Minutes, Not Days" data-ar="أغلق الرواتب في دقائق، لا أيام">Close Payroll in Minutes, Not Days</h2>
+  <p data-en="Attendance → salary calculation → export → done." data-ar="الحضور → حساب الراتب → التصدير → انتهى.">Attendance → salary calculation → export → done.</p>
+  <div class="cta-buttons">
+    <a href="https://wa.me/917021229209?text=Hi%2C%20I%27m%20interested%20in%20Dawam%20Payroll%20Exports" target="_blank" class="btn-wa">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span data-en="WhatsApp Us" data-ar="تواصل عبر واتساب">WhatsApp Us</span>
+    </a>
+    <a href="mailto:connect.arwaenterprises@gmail.com?subject=Dawam%20Access%20Request" class="btn-email">
+      <span data-en="Request Access" data-ar="طلب الوصول">Request Access</span>
+    </a>
+  </div>
+</div></section>
+<footer class="page-footer">© 2025 Arwa Enterprises · <a href="/dawam/" style="color:var(--accent-primary)">← Back to Dawam</a></footer>
+<script>
+const langBtns=document.querySelectorAll('.lang-btn');
+function switchLanguage(lang){document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.documentElement.lang=lang;langBtns.forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));document.querySelectorAll('[data-en]').forEach(el=>{const t=el.dataset[lang];if(t)el.innerHTML=t;});}
+langBtns.forEach(btn=>btn.addEventListener('click',()=>switchLanguage(btn.dataset.lang)));
+const vid=document.querySelector('video'),vph=document.getElementById('vph');
+if(vid){vid.addEventListener('error',()=>{vid.style.display='none';vph.style.display='flex';});fetch(vid.src,{method:'HEAD'}).then(r=>{if(!r.ok){vid.style.display='none';vph.style.display='flex';}}).catch(()=>{vid.style.display='none';vph.style.display='flex';});}
+</script>
+</body></html>
