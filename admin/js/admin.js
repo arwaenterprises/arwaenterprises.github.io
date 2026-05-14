@@ -484,26 +484,25 @@ async function saveClient(event) {
                     alert('⚠️ Client saved but user update failed: ' + updateUserError.message);
                 }
             } else {
-                // No user found — create one
+                // No user found for this client — upsert by username
+                // (avoids 409 when username exists in another row due to RLS hiding it)
                 if (!adminPassword) {
                     alert('⚠️ Client saved but no admin user exists yet.\nEnter a password and save again to create the admin user.');
                 } else {
-                    const { error: createUserError } = await supabaseClient
+                    const { error: upsertError } = await supabaseClient
                         .from('users')
-                        .insert({
+                        .upsert({
                             username: contactEmail.toLowerCase(),
                             password_hash: adminPassword,
                             name: adminName || contactEmail.split('@')[0],
                             role: 'admin',
                             status: 'active',
                             client_id: clientId
-                        });
+                        }, { onConflict: 'username' });
 
-                    if (createUserError) {
-                        console.error('User creation error:', createUserError);
-                        alert('⚠️ Client saved but admin user creation failed: ' + createUserError.message);
-                    } else {
-                        alert('✅ Client saved and missing admin user was created.\n\nUsername: ' + contactEmail + '\nPassword: ' + adminPassword);
+                    if (upsertError) {
+                        console.error('User upsert error:', upsertError);
+                        alert('⚠️ Client saved but admin user setup failed: ' + upsertError.message);
                     }
                 }
             }
