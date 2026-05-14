@@ -86,7 +86,8 @@ async function loadClients() {
                     inventory: '📦',
                     billing: '💰',
                     property: '🏠',
-                    sales: '📊'
+                    sales: '📊',
+                    logigate: '🛡️'
                 };
                 // Add tier badge for pharmacy
                 let icon = icons[app] || app;
@@ -588,7 +589,8 @@ async function viewClient(clientId) {
                 inventory: '📦 Inventory',
                 billing: '💰 Billing',
                 property: '🏠 Property',
-                sales: '📊 Sales'
+                sales: '📊 Sales',
+                logigate: '🛡️ LogiGate'
             };
             let name = names[app] || app;
             if (app === 'pharmacy' && client.pharmacy_tier) {
