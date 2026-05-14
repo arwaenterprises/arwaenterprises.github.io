@@ -452,45 +452,62 @@ async function saveClient(event) {
                 throw updateError;
             }
             
-            // Update password if provided
+            // Handle admin user — update if exists, create if missing
             const adminPassword = document.getElementById('adminPassword').value.trim();
-            if (adminPassword) {
-                const { data: pwData, error: pwError } = await supabaseClient
-                    .from('users')
-                    .update({ password_hash: adminPassword })
-                    .eq('client_id', clientId)
-                    .in('role', ['admin', 'super_admin'])
-                    .select();
-                
-                if (pwError) {
-                    console.error('Password update error:', pwError);
-                    alert('⚠️ Client saved but password update failed: ' + pwError.message);
-                } else if (!pwData || pwData.length === 0) {
-                    console.warn('No user found to update password for client:', clientId);
-                    alert('⚠️ Client saved but no admin user found to update password. Check users table.');
-                }
-            }
-            
-            // Update username (email) and name for admin user
             const adminName = document.getElementById('adminName').value.trim();
-            const { data: emailData, error: emailError } = await supabaseClient
+
+            const { data: existingUsers, error: findError } = await supabaseClient
                 .from('users')
-                .update({ 
+                .select('id')
+                .eq('client_id', clientId)
+                .in('role', ['admin', 'super_admin']);
+
+            if (findError) {
+                console.error('User lookup error:', findError);
+                alert('⚠️ Client saved but could not check admin user: ' + findError.message);
+            } else if (existingUsers && existingUsers.length > 0) {
+                // User found — update fields
+                const updateData = {
                     username: contactEmail.toLowerCase(),
                     name: adminName || contactEmail.split('@')[0]
-                })
-                .eq('client_id', clientId)
-                .in('role', ['admin', 'super_admin'])
-                .select();
-            
-            if (emailError) {
-                console.error('Email update error:', emailError);
-                alert('⚠️ Client saved but login email update failed: ' + emailError.message);
-            } else if (!emailData || emailData.length === 0) {
-                console.warn('No user found to update email for client:', clientId);
-                alert('⚠️ Client saved but no admin user found to update email. Check users table.');
+                };
+                if (adminPassword) updateData.password_hash = adminPassword;
+
+                const { error: updateUserError } = await supabaseClient
+                    .from('users')
+                    .update(updateData)
+                    .eq('client_id', clientId)
+                    .in('role', ['admin', 'super_admin']);
+
+                if (updateUserError) {
+                    console.error('User update error:', updateUserError);
+                    alert('⚠️ Client saved but user update failed: ' + updateUserError.message);
+                }
+            } else {
+                // No user found — create one
+                if (!adminPassword) {
+                    alert('⚠️ Client saved but no admin user exists yet.\nEnter a password and save again to create the admin user.');
+                } else {
+                    const { error: createUserError } = await supabaseClient
+                        .from('users')
+                        .insert({
+                            username: contactEmail.toLowerCase(),
+                            password_hash: adminPassword,
+                            name: adminName || contactEmail.split('@')[0],
+                            role: 'admin',
+                            status: 'active',
+                            client_id: clientId
+                        });
+
+                    if (createUserError) {
+                        console.error('User creation error:', createUserError);
+                        alert('⚠️ Client saved but admin user creation failed: ' + createUserError.message);
+                    } else {
+                        alert('✅ Client saved and missing admin user was created.\n\nUsername: ' + contactEmail + '\nPassword: ' + adminPassword);
+                    }
+                }
             }
-            
+
             alert('✅ Client updated successfully!');
         }
         
